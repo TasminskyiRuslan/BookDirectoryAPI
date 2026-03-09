@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 class UserSeeder extends Seeder
 {
     /**
-     * This seeder populates the users table.
+     * Seed the users table.
      */
     public function run(): void
     {

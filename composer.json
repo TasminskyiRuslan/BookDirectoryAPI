@@ -16,7 +16,8 @@
         "ramsey/uuid": "^4.9",
         "spatie/laravel-data": "^4.20",
         "spatie/laravel-permission": "^7.2",
-        "spatie/laravel-query-builder": "^6.4"
+        "spatie/laravel-query-builder": "^6.4",
+        "spatie/laravel-sluggable": "^3.8"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.6",
