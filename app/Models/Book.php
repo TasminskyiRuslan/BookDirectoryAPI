@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-use Database\Factories\AuthorFactory;
+use Database\Factories\BookFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class Author extends Model
+class Book extends Model
 {
-    /** @use HasFactory<AuthorFactory> */
-    use HasFactory, HasSlug;
+    /** @use HasFactory<BookFactory> */
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -20,11 +19,24 @@ class Author extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'last_name',
-        'first_name',
-        'patronymic',
+        'title',
         'slug',
+        'description',
+        'image_path',
+        'publication_date',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'publication_date' => 'datetime',
+        ];
+    }
 
     /**
      * Get the route key name for the model.
@@ -44,19 +56,19 @@ class Author extends Model
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom(['last_name', 'first_name', 'patronymic'])
+            ->generateSlugsFrom('title')
             ->saveSlugsTo('slug')
             ->generateSlugsOnCreate()
             ->doNotGenerateSlugsOnUpdate();
     }
 
     /**
-     * Get the books associated with the author.
+     * Get the authors associated with the book.
      *
      * @return BelongsToMany
      */
-    public function books(): BelongsToMany
+    public function authors(): BelongsToMany
     {
-        return $this->belongsToMany(Book::class);
+        return $this->belongsToMany(Author::class);
     }
 }

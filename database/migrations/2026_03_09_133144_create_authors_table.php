@@ -25,7 +25,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations of author table.
+     * Reverse the migrations of the author table.
      */
     public function down(): void
     {

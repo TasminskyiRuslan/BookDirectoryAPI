@@ -12,7 +12,7 @@ use Str;
 class AuthorFactory extends Factory
 {
     /**
-     * Define the author model's default state.
+     * Define the Author model's default state.
      *
      * @return array<string, mixed>
      */
