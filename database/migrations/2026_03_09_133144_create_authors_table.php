@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations of the authors table.
+     * Run the migrations of the authors table creation.
      */
     public function up(): void
     {
@@ -25,7 +25,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations of the author table.
+     * Reverse the migrations of the author table creation.
      */
     public function down(): void
     {

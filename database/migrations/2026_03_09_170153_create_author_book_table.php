@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations of the author_book pivot table.
+     * Run the migrations of the author_book pivot table creation.
      */
     public function up(): void
     {
@@ -20,7 +20,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations of the author_book pivot table.
+     * Reverse the migrations of the author_book pivot table creation.
      */
     public function down(): void
     {

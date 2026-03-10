@@ -24,7 +24,23 @@ class Author extends Model
         'first_name',
         'patronymic',
         'slug',
+        'birth_date',
+        'death_date',
+        'biography',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'birth_date' => 'date',
+            'death_date' => 'date',
+        ];
+    }
 
     /**
      * Get the route key name for the model.
