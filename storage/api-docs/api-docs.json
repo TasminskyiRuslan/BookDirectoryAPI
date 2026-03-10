@@ -12,6 +12,46 @@
         }
     ],
     "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Authenticate user",
+                "description": "Authenticate a user using email and password and issue an access token.",
+                "operationId": "8e026335d25c3df3f6f6cf1f683ac7b8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User authenticated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/AuthResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid credentials or validation error."
+                    }
+                }
+            }
+        },
         "/auth/register": {
             "post": {
                 "tags": [
@@ -55,6 +95,30 @@
     },
     "components": {
         "schemas": {
+            "LoginUserRequest": {
+                "title": "Login User Request",
+                "description": "Request payload for authenticating a user.",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "description": "User email address.",
+                        "type": "string",
+                        "format": "email",
+                        "example": "john@example.com",
+                        "maxLength": 255
+                    },
+                    "password": {
+                        "description": "User account password.",
+                        "type": "string",
+                        "format": "password",
+                        "example": "password123"
+                    }
+                },
+                "type": "object"
+            },
             "RegisterUserRequest": {
                 "title": "Register User Request",
                 "description": "Request payload for registering a new user.",

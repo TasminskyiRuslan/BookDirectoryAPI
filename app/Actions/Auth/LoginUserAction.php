@@ -32,7 +32,7 @@ class LoginUserAction
         $user = User::whereEmail($userData->email)->first();
         if (!$user || !Hash::check($userData->password, $user->password)) {
             throw ValidationException::withMessages([
-                'email' => ['auth.failed'],
+                'email' => [__('auth.failed')],
             ]);
         }
 
