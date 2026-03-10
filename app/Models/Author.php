@@ -3,12 +3,45 @@
 namespace App\Models;
 
 use Database\Factories\AuthorFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
+/**
+ * @property int $id
+ * @property string $last_name
+ * @property string $first_name
+ * @property string|null $patronymic
+ * @property string $slug
+ * @property Carbon|null $birth_date
+ * @property Carbon|null $death_date
+ * @property string|null $biography
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, Book> $books
+ * @property-read int|null $books_count
+ * @method static AuthorFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Author newModelQuery()
+ * @method static Builder<static>|Author newQuery()
+ * @method static Builder<static>|Author query()
+ * @method static Builder<static>|Author whereBiography($value)
+ * @method static Builder<static>|Author whereBirthDate($value)
+ * @method static Builder<static>|Author whereCreatedAt($value)
+ * @method static Builder<static>|Author whereDeathDate($value)
+ * @method static Builder<static>|Author whereFirstName($value)
+ * @method static Builder<static>|Author whereId($value)
+ * @method static Builder<static>|Author whereLastName($value)
+ * @method static Builder<static>|Author wherePatronymic($value)
+ * @method static Builder<static>|Author whereSlug($value)
+ * @method static Builder<static>|Author whereUpdatedAt($value)
+ * @mixin Eloquent
+ */
 class Author extends Model
 {
     /** @use HasFactory<AuthorFactory> */

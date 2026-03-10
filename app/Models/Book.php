@@ -3,12 +3,41 @@
 namespace App\Models;
 
 use Database\Factories\BookFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property string $slug
+ * @property string|null $description
+ * @property string|null $image_path
+ * @property Carbon|null $publication_date
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, Author> $authors
+ * @property-read int|null $authors_count
+ * @method static BookFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Book newModelQuery()
+ * @method static Builder<static>|Book newQuery()
+ * @method static Builder<static>|Book query()
+ * @method static Builder<static>|Book whereCreatedAt($value)
+ * @method static Builder<static>|Book whereDescription($value)
+ * @method static Builder<static>|Book whereId($value)
+ * @method static Builder<static>|Book whereImagePath($value)
+ * @method static Builder<static>|Book wherePublicationDate($value)
+ * @method static Builder<static>|Book whereSlug($value)
+ * @method static Builder<static>|Book whereTitle($value)
+ * @method static Builder<static>|Book whereUpdatedAt($value)
+ * @mixin Eloquent
+ */
 class Book extends Model
 {
     /** @use HasFactory<BookFactory> */
