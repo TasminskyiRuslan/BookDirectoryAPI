@@ -1,8 +1,15 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+/*
+|--------------------------------------------------------------------------
+| Authentication actions
+|--------------------------------------------------------------------------
+*/
+Route::prefix('auth')->group(callback: function () {
+    // Register action
+    Route::post('/register', RegisterController::class)
+        ->name('auth.register');
+});

@@ -45,3 +45,57 @@ function something()
 {
     // ..
 }
+
+/*
+|--------------------------------------------------------------------------
+| payloads
+|--------------------------------------------------------------------------
+*/
+
+/**
+ * Generate a registration payload with optional overrides.
+ *
+ * @param array $overrides Key-value pairs to override default payload values.
+ * @return array The generated registration payload.
+ */
+function registrationPayload(array $overrides = []): array
+{
+    return array_merge([
+        'name'     => fake()->name(),
+        'email'    => fake()->unique()->safeEmail(),
+        'password' => 'password123',
+        'password_confirmation' => 'password123',
+    ], $overrides);
+}
+
+/*
+|--------------------------------------------------------------------------
+| json structures
+|--------------------------------------------------------------------------
+*/
+
+/**
+ * Get the expected JSON structure for a user object.
+ *
+ * @return array The expected JSON structure for a user.
+ */
+function userJsonStructure(): array {
+    return [
+        'id',
+        'name',
+        'email',
+    ];
+}
+
+/**
+ * Get the expected JSON structure for an authentication response.
+ *
+ * @return array The expected JSON structure for an authentication response.
+ */
+function authJsonStructure(): array {
+    return [
+        'user' => userJsonStructure(),
+        'access_token',
+        'token_type',
+    ];
+}
