@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Http\Resources\Auth;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+/**
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read string $email
+ */
+class UserResource extends JsonResource
+{
+    /**
+     * Transform the user resource into an array.
+     *
+     * @param Request $request
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+        ];
+    }
+}
