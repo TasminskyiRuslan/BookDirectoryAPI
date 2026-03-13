@@ -149,6 +149,86 @@
                     }
                 }
             }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get the list of users.",
+                "description": "Returns the list of users",
+                "operationId": "bda0424acf687003f1427ea721f28c1b",
+                "parameters": [
+                    {
+                        "name": "filter[search]",
+                        "in": "query",
+                        "description": "Search users by name or email",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[role]",
+                        "in": "query",
+                        "description": "Filter users by role",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort users by field. Use \"-\" prefix for descending order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "created_at",
+                                "-created_at",
+                                "name",
+                                "-name"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/UserResponse"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -267,6 +347,17 @@
                         "type": "string",
                         "format": "email",
                         "example": "john@example.com"
+                    },
+                    "role": {
+                        "description": "Role of the user.",
+                        "type": "string",
+                        "example": "viewer",
+                        "enum": [
+                            "viewer",
+                            "editor",
+                            "admin",
+                            "super-admin"
+                        ]
                     }
                 },
                 "type": "object"
@@ -287,6 +378,10 @@
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
         }
     ]
 }

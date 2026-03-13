@@ -9,11 +9,67 @@ use App\Queries\UserListQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use OpenApi\Attributes as OA;
 
 class UserController extends Controller
 {
     use AuthorizesRequests;
 
+    #[OA\Get(
+        path: '/users',
+        description: 'Returns the list of users',
+        summary: 'Get the list of users.',
+        security: [['sanctum' => []]],
+        tags: ['Users'],
+        parameters: [
+            new OA\Parameter(
+                name: 'filter[search]',
+                description: 'Search users by name or email',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+            ),
+            new OA\Parameter(
+                name: 'filter[role]',
+                description: 'Filter users by role',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+            ),
+            new OA\Parameter(
+                name: 'sort',
+                description: 'Sort users by field. Use "-" prefix for descending order',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'string',
+                    enum: ['created_at', '-created_at', 'name', '-name']
+                ),
+            ),
+            new OA\Parameter(
+                name: 'page',
+                description: 'Page number for pagination',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer', minimum: 1),
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_OK,
+                description: 'List of users',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/UserResponse')
+                        )
+                    ]
+                )
+            )
+        ]
+    )]
     /**
      * Get a paginated list of users.
      *

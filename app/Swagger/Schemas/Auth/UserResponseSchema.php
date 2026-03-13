@@ -2,6 +2,7 @@
 
 namespace App\Swagger\Schemas\Auth;
 
+use App\Enums\UserRole;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
@@ -28,6 +29,13 @@ use OpenApi\Attributes as OA;
             type: 'string',
             format: 'email',
             example: 'john@example.com'
+        ),
+        new OA\Property(
+            property: 'role',
+            description: 'Role of the user.',
+            type: 'string',
+            example: UserRole::VIEWER->value,
+            enum: [UserRole::VIEWER->value, UserRole::EDITOR->value, UserRole::ADMIN->value, UserRole::SUPER_ADMIN->value]
         )
     ],
     type: 'object'
