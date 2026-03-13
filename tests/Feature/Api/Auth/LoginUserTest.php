@@ -1,12 +1,17 @@
 <?php
 
 use App\Models\User;
+use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);
 
 describe('LoginController', function () {
+
+    beforeEach(function () {
+        $this->seed(RolesAndPermissionsSeeder::class);
+    });
 
     /*
     |--------------------------------------------------------------------------

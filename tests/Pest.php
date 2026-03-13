@@ -84,6 +84,7 @@ function userJsonStructure(): array {
         'id',
         'name',
         'email',
+        'role',
     ];
 }
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\getJson;
@@ -8,6 +9,11 @@ use function Pest\Laravel\getJson;
 uses(RefreshDatabase::class);
 
 describe('MeController', function () {
+
+    beforeEach(function () {
+        $this->seed(RolesAndPermissionsSeeder::class);
+    });
+
     /*
     |--------------------------------------------------------------------------
     | success

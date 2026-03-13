@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use function Pest\Laravel\postJson;
@@ -8,6 +9,10 @@ use function Pest\Laravel\postJson;
 uses(RefreshDatabase::class);
 
 describe('RegisterController', function () {
+
+    beforeEach(function () {
+        $this->seed(RolesAndPermissionsSeeder::class);
+    });
 
     /*
     |--------------------------------------------------------------------------

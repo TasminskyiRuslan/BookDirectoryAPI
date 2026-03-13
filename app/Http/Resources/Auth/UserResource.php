@@ -9,6 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property-read int $id
  * @property-read string $name
  * @property-read string $email
+ * @property mixed $roles
  */
 class UserResource extends JsonResource
 {
@@ -24,6 +25,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'role' => $this->roles->first()?->name,
         ];
     }
 }

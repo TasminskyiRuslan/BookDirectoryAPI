@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\deleteJson;
@@ -8,6 +9,10 @@ use function Pest\Laravel\deleteJson;
 uses(RefreshDatabase::class);
 
 describe('LogoutController', function () {
+
+    beforeEach(function () {
+        $this->seed(RolesAndPermissionsSeeder::class);
+    });
 
     /*
     |--------------------------------------------------------------------------

@@ -7,16 +7,16 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class AdminUserSeeder extends Seeder
+class SuperAdminUserSeeder extends Seeder
 {
     /**
-     * Seed the admin user.
+     * Seed the super admin user.
      */
     public function run(): void
     {
-        $name = config('admin.name');
-        $email = config('admin.email');
-        $password = config('admin.password');
+        $name = config('super-admin.name');
+        $email = config('super-admin.email');
+        $password = config('super-admin.password');
         $admin = User::updateOrCreate(
             ['email' => $email],
             [
@@ -24,7 +24,7 @@ class AdminUserSeeder extends Seeder
                 'password' => Hash::make($password),
             ]
         );
-        $admin->assignRole(UserRole::ADMIN);
-        $this->command->info("Admin user '{$admin->email}' created/updated successfully.");
+        $admin->assignRole(UserRole::SUPER_ADMIN->value);
+        $this->command->info("Super admin user '{$admin->email}' created/updated successfully.");
     }
 }
