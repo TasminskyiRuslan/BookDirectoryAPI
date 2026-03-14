@@ -15,6 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -44,19 +45,19 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @property mixed $roles
+ * @property-read Collection<int, Permission> $permissions
+ * @property-read int|null $permissions_count
+ * @property-read int|null $roles_count
+ * @method static Builder<static>|User permission($permissions, bool $without = false)
+ * @method static Builder<static>|User role($roles, ?string $guard = null, bool $without = false)
+ * @method static Builder<static>|User withoutPermission($permissions)
+ * @method static Builder<static>|User withoutRole($roles, ?string $guard = null)
  * @mixin Eloquent
  */
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens, HasRoles;
-
-    /**
-     * The guard name for Spatie Permissions.
-     *
-     * @var string
-     */
-    protected string $guard_name = 'api';
 
     /**
      * The attributes that are mass assignable.
@@ -90,5 +91,16 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+    /**
+     * Return the guard name for roles/permissions.
+     *
+     * @return string
+     */
+    public function guardName(): string
+    {
+        return 'api';
     }
 }

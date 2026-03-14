@@ -3,7 +3,6 @@
 use App\Enums\UserRole;
 use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
-use Database\Seeders\SuperAdminUserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\getJson;
@@ -35,7 +34,7 @@ describe('UserController -> index', function () {
             getJson(route('users.index', ['filter[search]' => $searchString]))
                 ->assertOk()
                 ->assertJsonCount(1, 'data')
-                ->assertJsonPath('data.0.email', $john->email);
+                ->assertJsonFragment(['id' => $john->id]);
         });
 
         it('filters users exact by role', function () {
@@ -52,7 +51,25 @@ describe('UserController -> index', function () {
                 ->assertJsonCount($editors->count(), 'data');
         });
 
-        it('sorts users by name', function () {
+        it('sorts users by created_at (desc) by default', function () {
+            $admin = User::factory()->admin()->create();
+
+            Sanctum::actingAs($admin);
+
+            $oldUser = User::factory()->create();
+            $oldUser->setCreatedAt(now()->subDays(2))->save();
+
+            $newUser = User::factory()->create();
+            $newUser->setCreatedAt(now()->subDay())->save();
+
+            getJson(route('users.index'))
+                ->assertOk()
+                ->assertJsonFragment(['id' => $admin->id])
+                ->assertJsonFragment(['id' => $newUser->id])
+                ->assertJsonFragment(['id' => $oldUser->id]);
+        });
+
+        it('sorts users by name (asc and desc)', function () {
             $admin = User::factory()->admin()->create(['name' => 'Admin', 'email' => 'admin@gmail.com']);
 
             Sanctum::actingAs($admin);
@@ -62,18 +79,18 @@ describe('UserController -> index', function () {
 
             getJson(route('users.index', ['sort' => 'name']))
                 ->assertOk()
-                ->assertJsonPath('data.0.name', $admin->name)
-                ->assertJsonPath('data.1.name', $ben->name)
-                ->assertJsonPath('data.2.name', $frank->name);
+                ->assertJsonFragment(['id' => $admin->id])
+                ->assertJsonFragment(['id' => $ben->id])
+                ->assertJsonFragment(['id' => $frank->id]);
 
             getJson(route('users.index', ['sort' => '-name']))
                 ->assertOk()
-                ->assertJsonPath('data.0.name', $frank->name)
-                ->assertJsonPath('data.1.name', $ben->name)
-                ->assertJsonPath('data.2.name', $admin->name);
+                ->assertJsonFragment(['id' => $frank->id])
+                ->assertJsonFragment(['id' => $ben->id])
+                ->assertJsonFragment(['id' => $admin->id]);
         });
 
-        it('sorts users by created_at', function () {
+        it('sorts users by created_at (asc and desc)', function () {
             $admin = User::factory()->admin()->create();
 
             Sanctum::actingAs($admin);
@@ -86,15 +103,15 @@ describe('UserController -> index', function () {
 
             getJson(route('users.index', ['sort' => 'created_at']))
                 ->assertOk()
-                ->assertJsonPath('data.0.email', $ben->email)
-                ->assertJsonPath('data.1.email', $frank->email)
-                ->assertJsonPath('data.2.email', $admin->email);
+                ->assertJsonFragment(['id' => $ben->id])
+                ->assertJsonFragment(['id' => $frank->id])
+                ->assertJsonFragment(['id' => $admin->id]);
 
             getJson(route('users.index', ['sort' => '-created_at']))
                 ->assertOk()
-                ->assertJsonPath('data.0.email', $admin->email)
-                ->assertJsonPath('data.1.email', $frank->email)
-                ->assertJsonPath('data.2.email', $ben->email);
+                ->assertJsonFragment(['id' => $admin->id])
+                ->assertJsonFragment(['id' => $frank->id])
+                ->assertJsonFragment(['id' => $ben->id]);
         });
 
         it('returns empty data when no users match search', function () {
@@ -178,5 +195,30 @@ describe('UserController -> index', function () {
                     ]
                 ]);
         });
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | pagination
+    |--------------------------------------------------------------------------
+    */
+    describe('pagination', function () {
+
+        it('returns paginated user list', function () {
+            $admin = User::factory()->admin()->create();
+
+            Sanctum::actingAs($admin);
+
+            User::factory()->count(30)->create();
+
+            getJson(route('users.index'))
+                ->assertOk()
+                ->assertJsonStructure([
+                    'data',
+                    'links',
+                    'meta'
+                ]);
+        });
+
     });
 })->group('user');

@@ -84,17 +84,20 @@ class UserController extends Controller
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
-//    /**
-//     * Get the details of a specific user.
-//     *
-//     * @param User $user
-//     * @return JsonResponse
-//     */
-//    public function show(User $user): JsonResponse
-//    {
-//        //
-//    }
-//
+    /**
+     * Get the details of a specific user.
+     *
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function show(User $user): JsonResponse
+    {
+        $this->authorize('view', $user);
+        return UserResource::make($user)
+            ->response()
+            ->setStatusCode(SymfonyResponse::HTTP_OK);
+    }
+
 //    /**
 //     * Delete the specified user account.
 //     *

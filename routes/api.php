@@ -44,4 +44,8 @@ Route::prefix('users')->middleware('auth:sanctum')->group(callback: function () 
         ->middleware('can:' . UserPermission::USER_INDEX->value)
         ->name('users.index');
 
+    // Show user action
+    Route::get('/{user}', [UserController::class, 'show'])
+        ->middleware('can:' . UserPermission::USER_SHOW->value)
+        ->name('users.show');
 });
