@@ -8,8 +8,8 @@ use App\Models\User;
 use App\Queries\UserListQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class UserController extends Controller
 {
@@ -17,8 +17,8 @@ class UserController extends Controller
 
     #[OA\Get(
         path: '/users',
-        description: 'Returns the list of users',
-        summary: 'Get the list of users.',
+        description: 'Get a paginated list of users.',
+        summary: 'Get the list of users',
         security: [['sanctum' => []]],
         tags: ['Users'],
         parameters: [
@@ -84,6 +84,40 @@ class UserController extends Controller
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
+    #[OA\Get(
+        path: '/users/{user}',
+        description: 'Get the details of a specific user.',
+        summary: 'Get a specific user',
+        security: [['sanctum' => []]],
+        tags: ['Users'],
+        parameters: [
+            new OA\Parameter(
+                name: 'user',
+                description: 'User identifier (id)',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'integer'),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_OK,
+                description: 'User details',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/UserResponse'
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NOT_FOUND,
+                description: 'Course not found'
+            )
+        ]
+    )]
     /**
      * Get the details of a specific user.
      *
