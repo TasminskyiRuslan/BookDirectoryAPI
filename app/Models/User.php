@@ -57,7 +57,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -81,6 +81,13 @@ class User extends Authenticatable
     ];
 
     /**
+     * The guard name used for Spatie permissions.
+     *
+     * @var string
+     */
+    protected string $guard_name = 'api';
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -93,17 +100,6 @@ class User extends Authenticatable
         ];
     }
 
-
-    /**
-     * Return the guard name for roles/permissions.
-     *
-     * @return string
-     */
-    public function guardName(): string
-    {
-        return 'api';
-    }
-
     /**
      * The "booted" method of the model.
      * Registers a deleting event to automatically delete user tokens.
@@ -113,7 +109,7 @@ class User extends Authenticatable
     protected static function booted(): void
     {
         static::deleting(function (User $user) {
-            $user->tokens()->delete();
+            $user->tokens()?->delete();
         });
     }
 }

@@ -32,7 +32,7 @@ class MeController extends Controller
             ),
             new OA\Response(
                 response: SymfonyResponse::HTTP_UNAUTHORIZED,
-                description: 'Unauthenticated.'
+                description: 'User is unauthenticated.'
             )
         ]
     )]
@@ -44,7 +44,7 @@ class MeController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        return UserResource::make(auth()->user())
+        return UserResource::make($request->user())
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }

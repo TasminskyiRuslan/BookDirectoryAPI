@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | Authentication actions
 |--------------------------------------------------------------------------
 */
-Route::prefix('auth')->group(callback: function () {
+Route::prefix('auth')->group(function () {
     // Register action
     Route::post('/register', RegisterController::class)
         ->name('auth.register');
@@ -38,7 +38,7 @@ Route::prefix('auth')->group(callback: function () {
 | Users actions
 |--------------------------------------------------------------------------
 */
-Route::prefix('users')->middleware('auth:sanctum')->group(callback: function () {
+Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     // Get users list action
     Route::get('/', [UserController::class, 'index'])
         ->middleware('can:' . UserPermission::USER_INDEX->value)

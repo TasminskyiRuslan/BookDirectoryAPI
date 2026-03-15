@@ -14,17 +14,13 @@ class SuperAdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $name = config('super-admin.name');
-        $email = config('super-admin.email');
-        $password = config('super-admin.password');
         $admin = User::updateOrCreate(
-            ['email' => $email],
+            ['email' => config('super-admin.email')],
             [
-                'name' => $name,
-                'password' => Hash::make($password),
+                'name' => config('super-admin.name'),
+                'password' => Hash::make(config('super-admin.password')),
             ]
         );
         $admin->assignRole(UserRole::SUPER_ADMIN->value);
-        $this->command->info("Super admin user '{$admin->email}' created/updated successfully.");
     }
 }

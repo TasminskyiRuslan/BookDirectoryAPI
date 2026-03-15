@@ -24,7 +24,7 @@ class LogoutController extends Controller
             ),
             new OA\Response(
                 response: SymfonyResponse::HTTP_UNAUTHORIZED,
-                description: 'Unauthenticated.'
+                description: 'User is unauthenticated.'
             )
         ]
     )]
@@ -37,7 +37,7 @@ class LogoutController extends Controller
      */
     public function __invoke(Request $request, RevokeCurrentTokenAction $revokeCurrentTokenAction): Response
     {
-        $revokeCurrentTokenAction->handle(auth()->user());
+        $revokeCurrentTokenAction->handle($request->user('sanctum'));
         return response()->noContent();
     }
 }

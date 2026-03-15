@@ -19,28 +19,28 @@ class UserController extends Controller
 
     #[OA\Get(
         path: '/users',
-        description: 'Get a paginated list of users.',
-        summary: 'Get the list of users',
+        description: 'Retrieve a paginated list of users with filters and sorting.',
+        summary: 'Get list of users',
         security: [['sanctum' => []]],
         tags: ['Users'],
         parameters: [
             new OA\Parameter(
                 name: 'filter[search]',
-                description: 'Search users by name or email',
+                description: 'Search by name or email.',
                 in: 'query',
                 required: false,
                 schema: new OA\Schema(type: 'string'),
             ),
             new OA\Parameter(
                 name: 'filter[role]',
-                description: 'Filter users by role',
+                description: 'Filter by user role.',
                 in: 'query',
                 required: false,
                 schema: new OA\Schema(type: 'string'),
             ),
             new OA\Parameter(
                 name: 'sort',
-                description: 'Sort users by field. Use "-" prefix for descending order',
+                description: 'Sort by user fields.',
                 in: 'query',
                 required: false,
                 schema: new OA\Schema(
@@ -59,7 +59,7 @@ class UserController extends Controller
         responses: [
             new OA\Response(
                 response: SymfonyResponse::HTTP_OK,
-                description: 'List of users',
+                description: 'User list retrieved successfully.',
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
@@ -69,7 +69,11 @@ class UserController extends Controller
                         )
                     ]
                 )
-            )
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
         ]
     )]
     /**
@@ -88,8 +92,8 @@ class UserController extends Controller
 
     #[OA\Get(
         path: '/users/{user}',
-        description: 'Get the details of a specific user.',
-        summary: 'Get a specific user',
+        description: 'Retrieve detailed information for a specific user.',
+        summary: 'Get user details',
         security: [['sanctum' => []]],
         tags: ['Users'],
         parameters: [
@@ -104,7 +108,7 @@ class UserController extends Controller
         responses: [
             new OA\Response(
                 response: SymfonyResponse::HTTP_OK,
-                description: 'User details',
+                description: 'User details retrieved successfully.',
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
@@ -115,8 +119,12 @@ class UserController extends Controller
                 )
             ),
             new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
+            new OA\Response(
                 response: SymfonyResponse::HTTP_NOT_FOUND,
-                description: 'Course not found'
+                description: 'User not found.'
             )
         ]
     )]
@@ -134,8 +142,38 @@ class UserController extends Controller
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
+    #[OA\Delete(
+        path: '/users/{user}',
+        description: 'Permanently remove the specified user from the database.',
+        summary: 'Delete user',
+        security: [['sanctum' => []]],
+        tags: ['Users'],
+        parameters: [
+            new OA\Parameter(
+                name: 'user',
+                description: 'User identifier (id)',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'integer'),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NO_CONTENT,
+                description: 'User deleted successfully.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NOT_FOUND,
+                description: 'User not found.'
+            )
+        ]
+    )]
     /**
-     * Delete the specified user account.
+     * Delete the specified user.
      *
      * @param User $user
      * @param DeleteUserAction $deleteUserAction
