@@ -30,7 +30,7 @@ describe('UserController -> show', function () {
                 ->assertUnauthorized();
         });
 
-        it('fails if user does not have user.show permission (viewer)', function () {
+        it('fails if a viewer tries to view user details', function () {
             $viewer = User::factory()->viewer()->create();
 
             Sanctum::actingAs($viewer);
@@ -41,7 +41,7 @@ describe('UserController -> show', function () {
                 ->assertForbidden();
         });
 
-        it('fails if user does not have user.show permission (editor)', function () {
+        it('fails if an editor tries to view user details', function () {
             $editor = User::factory()->editor()->create();
 
             Sanctum::actingAs($editor);
@@ -52,7 +52,7 @@ describe('UserController -> show', function () {
                 ->assertForbidden();
         });
 
-        it('allows if user has user.show permission (admin)', function () {
+        it('allows an admin to view user details', function () {
             $admin = User::factory()->admin()->create();
 
             Sanctum::actingAs($admin);
@@ -67,7 +67,7 @@ describe('UserController -> show', function () {
                 ->assertJsonFragment(['id' => $targetUser->id]);
         });
 
-        it('allows if user has user.show permission (super-admin)', function () {
+        it('allows an super-admin to view user details', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),

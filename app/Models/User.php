@@ -103,4 +103,17 @@ class User extends Authenticatable
     {
         return 'api';
     }
+
+    /**
+     * The "booted" method of the model.
+     * Registers a deleting event to automatically delete user tokens.
+     *
+     * @return void
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (User $user) {
+            $user->tokens()->delete();
+        });
+    }
 }

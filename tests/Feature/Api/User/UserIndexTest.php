@@ -139,7 +139,7 @@ describe('UserController -> index', function () {
                 ->assertUnauthorized();
         });
 
-        it('fails if user does not have user.index permission (viewer)', function () {
+        it('fails if a viewer tries to get a list of users', function () {
             $viewer = User::factory()->viewer()->create();
 
             Sanctum::actingAs($viewer);
@@ -148,7 +148,7 @@ describe('UserController -> index', function () {
                 ->assertForbidden();
         });
 
-        it('fails if user does not have user.index permission (editor)', function () {
+        it('fails if an editor tries to get a list of users', function () {
             $editor = User::factory()->editor()->create();
 
             Sanctum::actingAs($editor);
@@ -157,7 +157,7 @@ describe('UserController -> index', function () {
                 ->assertForbidden();
         });
 
-        it('allows if user has user.index permission (admin)', function () {
+        it('allows an admin to get a list of users', function () {
             $admin = User::factory()->admin()->create();
 
             Sanctum::actingAs($admin);
@@ -173,7 +173,7 @@ describe('UserController -> index', function () {
                 ]);
         });
 
-        it('allows if user has user.index permission (super-admin)', function () {
+        it('allows if a super-admin to get a list of users', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -204,7 +204,7 @@ describe('UserController -> index', function () {
     */
     describe('pagination', function () {
 
-        it('returns paginated user list', function () {
+        it('returns paginated a list of users', function () {
             $admin = User::factory()->admin()->create();
 
             Sanctum::actingAs($admin);

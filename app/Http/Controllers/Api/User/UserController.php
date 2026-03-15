@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Actions\User\DeleteUserAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Auth\UserResource;
 use App\Models\User;
 use App\Queries\UserListQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
@@ -132,14 +134,17 @@ class UserController extends Controller
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
-//    /**
-//     * Delete the specified user account.
-//     *
-//     * @param User $user
-//     * @return JsonResponse
-//     */
-//    public function destroy(User $user): JsonResponse
-//    {
-//        //
-//    }
+    /**
+     * Delete the specified user account.
+     *
+     * @param User $user
+     * @param DeleteUserAction $deleteUserAction
+     * @return Response
+     */
+    public function destroy(User $user, DeleteUserAction $deleteUserAction): Response
+    {
+        $this->authorize('delete', $user);
+        $deleteUserAction->handle($user);
+        return response()->noContent();
+    }
 }

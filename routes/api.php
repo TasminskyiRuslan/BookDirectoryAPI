@@ -48,4 +48,9 @@ Route::prefix('users')->middleware('auth:sanctum')->group(callback: function () 
     Route::get('/{user}', [UserController::class, 'show'])
         ->middleware('can:' . UserPermission::USER_SHOW->value)
         ->name('users.show');
+
+    // Delete user action
+    Route::delete('/{user}', [UserController::class, 'destroy'])
+        ->middleware('can:' . UserPermission::USER_DESTROY->value)
+        ->name('users.destroy');
 });
