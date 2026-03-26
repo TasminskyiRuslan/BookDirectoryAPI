@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\MeController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\User\UpdateUserRoleController;
 use App\Http\Controllers\Api\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,4 +54,9 @@ Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     Route::delete('/{user}', [UserController::class, 'destroy'])
         ->middleware('can:' . UserPermission::USER_DESTROY->value)
         ->name('users.destroy');
+
+    // Update user role action
+    Route::put('/{user}/role', UpdateUserRoleController::class)
+        ->middleware('can:' . UserPermission::USER_ROLE_UPDATE->value)
+        ->name('users.role.update');
 });

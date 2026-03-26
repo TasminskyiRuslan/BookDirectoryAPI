@@ -54,6 +54,8 @@ class UserPolicy
      */
     public function updateRole(User $user, User $target): bool
     {
-        return $user->id !== $target->id && $user->hasPermissionTo(UserPermission::USER_ROLE_UPDATE->value) && !$target->hasAnyRole([UserRole::ADMIN->value, UserRole::SUPER_ADMIN->value]);
+        return $user->id !== $target->id
+            && $user->hasPermissionTo(UserPermission::USER_ROLE_UPDATE->value)
+            && !$target->hasAnyRole([UserRole::ADMIN->value, UserRole::SUPER_ADMIN->value]);
     }
 }
