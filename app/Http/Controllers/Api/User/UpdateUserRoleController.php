@@ -72,7 +72,7 @@ class UpdateUserRoleController extends Controller
      */
     public function __invoke(UpdateUserRoleData $userRoleData, User $user, UpdateUserRoleAction $updateUserRoleAction): JsonResponse
     {
-        $this->authorize('updateRole', $user);
+        $this->authorize('update-role', $user);
         $updateUserRoleAction->handle($userRoleData, $user);
         return UserResource::make($user->fresh('roles'))
             ->response()

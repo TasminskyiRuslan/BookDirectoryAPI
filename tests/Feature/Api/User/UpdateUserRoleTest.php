@@ -26,7 +26,7 @@ describe('UpdateUserRoleController', function () {
         it('fails if an acting user is not authenticated', function () {
             $targetUser = User::factory()->viewer()->create();
 
-            putJson(route('users.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
+            putJson(route('user.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
                 ->assertUnauthorized();
         });
 
@@ -37,7 +37,7 @@ describe('UpdateUserRoleController', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            putJson(route('users.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
+            putJson(route('user.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
                 ->assertForbidden();
         });
 
@@ -48,7 +48,7 @@ describe('UpdateUserRoleController', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            putJson(route('users.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
+            putJson(route('user.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
                 ->assertForbidden();
         });
 
@@ -59,7 +59,7 @@ describe('UpdateUserRoleController', function () {
 
             $targetUser = User::factory()->admin()->create();
 
-            putJson(route('users.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
+            putJson(route('user.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
                 ->assertForbidden();
         });
 
@@ -76,7 +76,7 @@ describe('UpdateUserRoleController', function () {
 
             $targetUser->assignRole(UserRole::SUPER_ADMIN->value);
 
-            putJson(route('users.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
+            putJson(route('user.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
                 ->assertForbidden();
         });
 
@@ -85,7 +85,7 @@ describe('UpdateUserRoleController', function () {
 
             Sanctum::actingAs($admin);
 
-            putJson(route('users.role.update', $admin), ['role' => UserRole::EDITOR->value])
+            putJson(route('user.role.update', $admin), ['role' => UserRole::EDITOR->value])
                 ->assertForbidden();
         });
 
@@ -96,7 +96,7 @@ describe('UpdateUserRoleController', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            putJson(route('users.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
+            putJson(route('user.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
                 ->assertOk()
                 ->assertJsonStructure(['data' => userJsonStructure()]);
 
@@ -111,7 +111,7 @@ describe('UpdateUserRoleController', function () {
 
             $targetUser = User::factory()->editor()->create();
 
-            putJson(route('users.role.update', $targetUser), ['role' => UserRole::ADMIN->value])
+            putJson(route('user.role.update', $targetUser), ['role' => UserRole::ADMIN->value])
                 ->assertOk()
                 ->assertJsonStructure(['data' => userJsonStructure()]);
 
@@ -132,7 +132,7 @@ describe('UpdateUserRoleController', function () {
 
             $targetUser = User::factory()->admin()->create();
 
-            putJson(route('users.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
+            putJson(route('user.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
                 ->assertOk()
                 ->assertJsonStructure(['data' => userJsonStructure()]);
 
@@ -155,7 +155,7 @@ describe('UpdateUserRoleController', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            putJson(route('users.role.update', $targetUser), [])
+            putJson(route('user.role.update', $targetUser), [])
                 ->assertUnprocessable();
         });
 
@@ -166,7 +166,7 @@ describe('UpdateUserRoleController', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            putJson(route('users.role.update', $targetUser), ['role' => 'invalid-role'])
+            putJson(route('user.role.update', $targetUser), ['role' => 'invalid-role'])
                 ->assertUnprocessable();
         });
 
@@ -177,7 +177,7 @@ describe('UpdateUserRoleController', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            putJson(route('users.role.update', $targetUser), ['role' => UserRole::SUPER_ADMIN->value])
+            putJson(route('user.role.update', $targetUser), ['role' => UserRole::SUPER_ADMIN->value])
                 ->assertUnprocessable();
         });
 
@@ -186,7 +186,7 @@ describe('UpdateUserRoleController', function () {
 
             Sanctum::actingAs($admin);
 
-            putJson(route('users.role.update', 99999), ['role' => UserRole::EDITOR->value])
+            putJson(route('user.role.update', 99999), ['role' => UserRole::EDITOR->value])
                 ->assertNotFound();
         });
     });
@@ -205,7 +205,7 @@ describe('UpdateUserRoleController', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            putJson(route('users.role.update', $targetUser), ['role' => UserRole::VIEWER->value])
+            putJson(route('user.role.update', $targetUser), ['role' => UserRole::VIEWER->value])
                 ->assertOk()
                 ->assertJsonStructure(['data' => userJsonStructure()]);
 

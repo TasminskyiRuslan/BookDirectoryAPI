@@ -26,7 +26,7 @@ describe('UserController -> show', function () {
         it('fails if user is not authenticated', function () {
             $targetUser = User::factory()->viewer()->create();
 
-            getJson(route('users.show', $targetUser))
+            getJson(route('user.show', $targetUser))
                 ->assertUnauthorized();
         });
 
@@ -37,7 +37,7 @@ describe('UserController -> show', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            getJson(route('users.show', $targetUser))
+            getJson(route('user.show', $targetUser))
                 ->assertForbidden();
         });
 
@@ -48,7 +48,7 @@ describe('UserController -> show', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            getJson(route('users.show', $targetUser))
+            getJson(route('user.show', $targetUser))
                 ->assertForbidden();
         });
 
@@ -59,7 +59,7 @@ describe('UserController -> show', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            getJson(route('users.show', $targetUser))
+            getJson(route('user.show', $targetUser))
                 ->assertOk()
                 ->assertJsonStructure([
                     'data' =>  userJsonStructure()
@@ -80,7 +80,7 @@ describe('UserController -> show', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            getJson(route('users.show', $targetUser))
+            getJson(route('user.show', $targetUser))
                 ->assertOk()
                 ->assertJsonStructure([
                     'data' =>  userJsonStructure()
@@ -101,7 +101,7 @@ describe('UserController -> show', function () {
 
             Sanctum::actingAs($admin);
 
-            getJson(route('users.show', 999))
+            getJson(route('user.show', 999))
                 ->assertNotFound();
         });
 

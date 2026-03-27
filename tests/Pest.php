@@ -100,3 +100,21 @@ function authJsonStructure(): array {
         'token_type',
     ];
 }
+
+/**
+ * Get the expected JSON structure for an authentication response.
+ *
+ * @return array The expected JSON structure for an authentication response.
+ */
+function authorJsonStructure(): array {
+    return [
+        'id',
+        'last_name',
+        'first_name',
+        'patronymic',
+        'slug',
+        'birth_date',
+        'death_date',
+        'biography',
+    ];
+}

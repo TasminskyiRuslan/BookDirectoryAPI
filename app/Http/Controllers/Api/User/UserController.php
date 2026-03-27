@@ -6,7 +6,7 @@ use App\Actions\User\DeleteUserAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Auth\UserResource;
 use App\Models\User;
-use App\Queries\UserListQuery;
+use App\Queries\User\UserListQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -84,7 +84,7 @@ class UserController extends Controller
      */
     public function index(UserListQuery $userListQuery): JsonResponse
     {
-        $this->authorize('viewAny', User::class);
+        $this->authorize('view-any', User::class);
         return UserResource::collection($userListQuery->handle())
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);

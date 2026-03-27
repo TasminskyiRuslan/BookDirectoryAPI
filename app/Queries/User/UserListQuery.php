@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Queries;
+namespace App\Queries\User;
 
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -35,7 +35,6 @@ class UserListQuery
                     'name',
                 ])
                 ->defaultSort('-created_at')
-                ->paginate(config('pagination.user_per_page'))
-                ->appends(request()->query());
+                ->paginate(config('pagination.user_per_page'));
     }
 }

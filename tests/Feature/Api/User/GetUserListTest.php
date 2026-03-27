@@ -31,7 +31,7 @@ describe('UserController -> index', function () {
             $jane = User::factory()->create(['name' => 'Jane Smith', 'email' => 'jane@yahoo.com']);
 
             $searchString = substr($john->name, 5);
-            getJson(route('users.index', ['filter[search]' => $searchString]))
+            getJson(route('user.index', ['filter[search]' => $searchString]))
                 ->assertOk()
                 ->assertJsonCount(1, 'data')
                 ->assertJsonFragment(['id' => $john->id]);
@@ -46,7 +46,7 @@ describe('UserController -> index', function () {
             $editors = User::factory()->editor()->count(3)->create();
             $admins = User::factory()->admin()->count(2)->create();
 
-            getJson(route('users.index', ['filter[role]' => UserRole::EDITOR->value]))
+            getJson(route('user.index', ['filter[role]' => UserRole::EDITOR->value]))
                 ->assertOk()
                 ->assertJsonCount($editors->count(), 'data');
         });
@@ -62,7 +62,7 @@ describe('UserController -> index', function () {
             $newUser = User::factory()->create();
             $newUser->setCreatedAt(now()->subDay())->save();
 
-            getJson(route('users.index'))
+            getJson(route('user.index'))
                 ->assertOk()
                 ->assertJsonFragment(['id' => $admin->id])
                 ->assertJsonFragment(['id' => $newUser->id])
@@ -77,13 +77,13 @@ describe('UserController -> index', function () {
             $ben = User::factory()->create(['name' => 'Ben', 'email' => 'ben@gmail.com']);
             $frank = User::factory()->create(['name' => 'Frank', 'email' => 'frank@gmail.com']);
 
-            getJson(route('users.index', ['sort' => 'name']))
+            getJson(route('user.index', ['sort' => 'name']))
                 ->assertOk()
                 ->assertJsonFragment(['id' => $admin->id])
                 ->assertJsonFragment(['id' => $ben->id])
                 ->assertJsonFragment(['id' => $frank->id]);
 
-            getJson(route('users.index', ['sort' => '-name']))
+            getJson(route('user.index', ['sort' => '-name']))
                 ->assertOk()
                 ->assertJsonFragment(['id' => $frank->id])
                 ->assertJsonFragment(['id' => $ben->id])
@@ -101,13 +101,13 @@ describe('UserController -> index', function () {
             $frank = User::factory()->create(['name' => 'Frank', 'email' => 'frank@gmail.com']);
             $frank->setCreatedAt(now()->subDay())->save();
 
-            getJson(route('users.index', ['sort' => 'created_at']))
+            getJson(route('user.index', ['sort' => 'created_at']))
                 ->assertOk()
                 ->assertJsonFragment(['id' => $ben->id])
                 ->assertJsonFragment(['id' => $frank->id])
                 ->assertJsonFragment(['id' => $admin->id]);
 
-            getJson(route('users.index', ['sort' => '-created_at']))
+            getJson(route('user.index', ['sort' => '-created_at']))
                 ->assertOk()
                 ->assertJsonFragment(['id' => $admin->id])
                 ->assertJsonFragment(['id' => $frank->id])
@@ -121,7 +121,7 @@ describe('UserController -> index', function () {
 
             $users = User::factory()->count(7)->create();
 
-            getJson(route('users.index', ['filter[search]' => 'non-existent-name-123']))
+            getJson(route('user.index', ['filter[search]' => 'non-existent-name-123']))
                 ->assertOk()
                 ->assertJsonCount(0, 'data');
         });
@@ -135,7 +135,7 @@ describe('UserController -> index', function () {
     describe('permissions', function () {
 
         it('fails if user is not authenticated', function () {
-             getJson(route('users.index'))
+             getJson(route('user.index'))
                 ->assertUnauthorized();
         });
 
@@ -144,7 +144,7 @@ describe('UserController -> index', function () {
 
             Sanctum::actingAs($viewer);
 
-            getJson(route('users.index'))
+            getJson(route('user.index'))
                 ->assertForbidden();
         });
 
@@ -153,7 +153,7 @@ describe('UserController -> index', function () {
 
             Sanctum::actingAs($editor);
 
-            getJson(route('users.index'))
+            getJson(route('user.index'))
                 ->assertForbidden();
         });
 
@@ -164,13 +164,14 @@ describe('UserController -> index', function () {
 
             $users = User::factory()->count(7)->create();
 
-            getJson(route('users.index'))
+            getJson(route('user.index'))
                 ->assertOk()
                 ->assertJsonStructure([
                     'data' => [
                         '*' => userJsonStructure()
                     ]
-                ]);
+                ])
+                ->assertJsonCount($users->count() + 1, 'data');
         });
 
         it('allows if a super-admin to get a list of users', function () {
@@ -187,13 +188,14 @@ describe('UserController -> index', function () {
 
             $users = User::factory()->count(7)->create();
 
-            getJson(route('users.index'))
+            getJson(route('user.index'))
                 ->assertOk()
                 ->assertJsonStructure([
                     'data' => [
                         '*' => userJsonStructure()
                     ]
-                ]);
+                ])
+                ->assertJsonCount($users->count() + 1, 'data');
         });
     });
 
@@ -211,7 +213,7 @@ describe('UserController -> index', function () {
 
             User::factory()->count(30)->create();
 
-            getJson(route('users.index'))
+            getJson(route('user.index'))
                 ->assertOk()
                 ->assertJsonStructure([
                     'data',

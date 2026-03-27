@@ -20,7 +20,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can view a specific user's details.
+     * Determine whether the user can view the specific user's details.
      *
      * @param User $user
      * @param User $target
@@ -46,7 +46,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can update role the target user.
+     * Determine whether the user can update the target user's role.
      *
      * @param User $user
      * @param User $target

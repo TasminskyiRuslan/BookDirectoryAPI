@@ -25,7 +25,7 @@ describe('UserController -> destroy', function () {
         it('fails if a user is not authenticated', function () {
             $targetUser = User::factory()->viewer()->create();
 
-            deleteJson(route('users.destroy', $targetUser))
+            deleteJson(route('user.destroy', $targetUser))
                 ->assertUnauthorized();
         });
 
@@ -36,7 +36,7 @@ describe('UserController -> destroy', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            deleteJson(route('users.destroy', $targetUser))
+            deleteJson(route('user.destroy', $targetUser))
                 ->assertForbidden();
         });
 
@@ -47,7 +47,7 @@ describe('UserController -> destroy', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            deleteJson(route('users.destroy', $targetUser))
+            deleteJson(route('user.destroy', $targetUser))
                 ->assertForbidden();
         });
 
@@ -58,7 +58,7 @@ describe('UserController -> destroy', function () {
 
             $targetUser = User::factory()->admin()->create();
 
-            deleteJson(route('users.destroy', $targetUser))
+            deleteJson(route('user.destroy', $targetUser))
                 ->assertForbidden();
         });
 
@@ -75,7 +75,7 @@ describe('UserController -> destroy', function () {
 
             $targetUser->assignRole(UserRole::SUPER_ADMIN->value);
 
-            deleteJson(route('users.destroy', $targetUser))
+            deleteJson(route('user.destroy', $targetUser))
                 ->assertForbidden();
         });
 
@@ -84,7 +84,7 @@ describe('UserController -> destroy', function () {
 
             Sanctum::actingAs($admin);
 
-            deleteJson(route('users.destroy', $admin))
+            deleteJson(route('user.destroy', $admin))
                 ->assertForbidden();
         });
 
@@ -95,7 +95,7 @@ describe('UserController -> destroy', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            deleteJson(route('users.destroy', $targetUser))
+            deleteJson(route('user.destroy', $targetUser))
                 ->assertNoContent();
 
             $this->assertDatabaseMissing('users', [
@@ -116,7 +116,7 @@ describe('UserController -> destroy', function () {
 
             $targetUser = User::factory()->viewer()->create();
 
-            deleteJson(route('users.destroy', $targetUser))
+            deleteJson(route('user.destroy', $targetUser))
                 ->assertNoContent();
 
             $this->assertDatabaseMissing('users', [
@@ -137,7 +137,7 @@ describe('UserController -> destroy', function () {
 
             $targetUser = User::factory()->admin()->create();
 
-            deleteJson(route('users.destroy', $targetUser))
+            deleteJson(route('user.destroy', $targetUser))
                 ->assertNoContent();
 
             $this->assertDatabaseMissing('users', [
@@ -154,7 +154,7 @@ describe('UserController -> destroy', function () {
 
             $targetUser->createToken('access_token');
 
-            deleteJson(route('users.destroy', $targetUser))
+            deleteJson(route('user.destroy', $targetUser))
                 ->assertNoContent();
 
             $this->assertDatabaseMissing('personal_access_tokens', [
@@ -175,7 +175,7 @@ describe('UserController -> destroy', function () {
 
             Sanctum::actingAs($admin);
 
-            deleteJson(route('users.destroy', 999))
+            deleteJson(route('user.destroy', 999))
                 ->assertNotFound();
         });
     });

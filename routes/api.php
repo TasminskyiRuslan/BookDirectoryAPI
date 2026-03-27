@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\MeController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\Author\AuthorController;
 use App\Http\Controllers\Api\User\UpdateUserRoleController;
 use App\Http\Controllers\Api\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -36,27 +37,50 @@ Route::prefix('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Users actions
+| User actions
 |--------------------------------------------------------------------------
 */
 Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     // Get users list action
     Route::get('/', [UserController::class, 'index'])
-        ->middleware('can:' . UserPermission::USER_INDEX->value)
-        ->name('users.index');
+        ->name('user.index');
 
     // Show user action
     Route::get('/{user}', [UserController::class, 'show'])
-        ->middleware('can:' . UserPermission::USER_SHOW->value)
-        ->name('users.show');
+        ->name('user.show');
 
     // Delete user action
     Route::delete('/{user}', [UserController::class, 'destroy'])
-        ->middleware('can:' . UserPermission::USER_DESTROY->value)
-        ->name('users.destroy');
+        ->name('user.destroy');
 
     // Update user role action
     Route::put('/{user}/role', UpdateUserRoleController::class)
-        ->middleware('can:' . UserPermission::USER_ROLE_UPDATE->value)
-        ->name('users.role.update');
+        ->name('user.role.update');
+});
+
+/*
+|--------------------------------------------------------------------------
+| User actions
+|--------------------------------------------------------------------------
+*/
+Route::prefix('authors')->group(function () {
+    // Get authors list action
+    Route::get('/', [AuthorController::class, 'index'])
+        ->name('author.index');
+
+    // Create author action
+    Route::post('/', [AuthorController::class, 'store'])
+        ->name('author.store');
+
+    // Show author action
+    Route::get('/{author}', [AuthorController::class, 'show'])
+        ->name('author.show');
+
+    // Update author action
+    Route::patch('/{author}', [AuthorController::class, 'update'])
+        ->name('author.update');
+
+    // Delete author action
+    Route::delete('/{author}', [AuthorController::class, 'destroy'])
+        ->name('author.destroy');
 });
