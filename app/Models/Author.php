@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\AuthorObserver;
 use Database\Factories\AuthorFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -96,6 +97,16 @@ class Author extends Model
             ->generateSlugsFrom(['last_name', 'first_name', 'patronymic'])
             ->saveSlugsTo('slug')
             ->doNotGenerateSlugsOnUpdate();
+    }
+
+    /**
+     * Bootstrap any model events and attach the observer.
+     *
+     * @return void
+     */
+    protected static function booted(): void
+    {
+        static::observe(AuthorObserver::class);
     }
 
     /**

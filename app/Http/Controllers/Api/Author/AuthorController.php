@@ -9,6 +9,7 @@ use App\Queries\Author\AuthorListQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use OpenApi\Attributes as OA;
 
@@ -73,7 +74,10 @@ class AuthorController extends Controller
     public function index(AuthorListQuery $authorListQuery)
     {
         $this->authorize('view-any', Author::class);
-        return AuthorResource::collection($authorListQuery->handle())
+        $authors = Cache::tags(['author'])->remember('authors:' . md5(json_encode(request()->only(['page', 'filter', 'sort']))), config('cache.ttl.authors'), function () use ($authorListQuery) {
+            return $authorListQuery->handle();
+        });
+        return AuthorResource::collection($authors)
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }

@@ -1,11 +1,12 @@
 <?php
 
 use App\Enums\UserRole;
+use App\Models\Author;
 use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
-use App\Models\Author;
+use Spatie\Permission\PermissionRegistrar;
 use function Pest\Laravel\getJson;
 
 uses(RefreshDatabase::class);
@@ -13,6 +14,8 @@ uses(RefreshDatabase::class);
 describe('AuthorController -> index', function () {
 
     beforeEach(function () {
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+        Cache::flush();
         $this->seed(RolesAndPermissionsSeeder::class);
     });
 
@@ -253,6 +256,41 @@ describe('AuthorController -> index', function () {
                     ]
                 ])
                 ->assertJsonCount($authors->count(), 'data');
+        });
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | caching
+    |--------------------------------------------------------------------------
+    */
+    describe('caching', function () {
+        it('stores the author list in cache after the first request', function () {
+            Cache::spy();
+
+            $viewer = User::factory()->viewer()->create();
+            Sanctum::actingAs($viewer);
+
+            getJson(route('author.index'))->assertOk();
+
+            Cache::shouldHaveReceived('tags')
+                ->with(['author'])
+                ->once();
+        });
+
+        it('returns data from cache instead of database on subsequent requests', function () {
+            $oldLastname = 'Shevchenko';
+            Author::factory()->create(['last_name' => $oldLastname]);
+
+            getJson(route('author.index'))->assertOk();
+
+            $newLastname = 'Franko';
+            DB::table('authors')->update(['last_name' => $newLastname]);
+
+            getJson(route('author.index'))
+                ->assertOk()
+                ->assertJsonFragment(['last_name' => $oldLastname])
+                ->assertJsonMissing(['last_name' => $newLastname]);
         });
     });
 
