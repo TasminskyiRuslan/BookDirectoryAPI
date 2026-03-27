@@ -10,11 +10,60 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use OpenApi\Attributes as OA;
 
 class AuthorController extends Controller
 {
     use AuthorizesRequests;
 
+    #[OA\Get(
+        path: '/authors',
+        description: 'Retrieve a paginated list of authors with filters and sorting.',
+        summary: 'Get list of authors',
+        security: [['sanctum' => []], []],
+        tags: ['Authors'],
+        parameters: [
+            new OA\Parameter(
+                name: 'filter[search]',
+                description: 'Search by last_name, first_name, patronymic or biography.',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string'),
+            ),
+            new OA\Parameter(
+                name: 'sort',
+                description: 'Sort by author fields.',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'string',
+                    enum: ['created_at', '-created_at', 'full_name', '-full_name', 'birth_date', '-birth_date', 'death_date', '-death_date']
+                ),
+            ),
+            new OA\Parameter(
+                name: 'page',
+                description: 'Page number for pagination',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer', minimum: 1),
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_OK,
+                description: 'Author list retrieved successfully.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/AuthorResponse')
+                        )
+                    ]
+                )
+            ),
+        ]
+    )]
     /**
      * Get a paginated list of authors.
      *

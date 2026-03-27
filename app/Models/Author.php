@@ -95,7 +95,6 @@ class Author extends Model
         return SlugOptions::create()
             ->generateSlugsFrom(['last_name', 'first_name', 'patronymic'])
             ->saveSlugsTo('slug')
-//            ->generateSlugsOnCreate()
             ->doNotGenerateSlugsOnUpdate();
     }
 

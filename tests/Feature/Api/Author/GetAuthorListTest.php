@@ -28,10 +28,10 @@ describe('AuthorController -> index', function () {
 
             Sanctum::actingAs($viewer);
 
-            $author1 = Author::factory()->create(['last_name' => 'Шевченко', 'first_name' => 'Тарас', 'patronymic' => 'Григорович']);
-            $author2 = Author::factory()->create(['last_name' => 'Бондар', 'first_name' => 'Анрі']);
+            $author1 = Author::factory()->create(['last_name' => 'Shevchenko', 'first_name' => 'Taras', 'patronymic' => 'Grigorovich']);
+            $author2 = Author::factory()->create(['last_name' => 'Bondar', 'first_name' => 'Andrii']);
 
-            $searchString = mb_substr($author1->last_name, 3);
+            $searchString = substr($author1->last_name, 3);
             getJson(route('author.index', ['filter[search]' => $searchString]))
                 ->assertOk()
                 ->assertJsonCount(1, 'data')
@@ -60,9 +60,9 @@ describe('AuthorController -> index', function () {
 
             Sanctum::actingAs($viewer);
 
-            $author1 = Author::factory()->create(['last_name' => 'Шевченко', 'first_name' => 'Тарас', 'patronymic' => 'Григорович']);
-            $author2 = Author::factory()->create(['last_name' => 'Бондар', 'first_name' => 'Анрі']);
-            $author3 = Author::factory()->create(['last_name' => 'Шевченко', 'first_name' => 'Наталія']);
+            $author1 = Author::factory()->create(['last_name' => 'Shevchenko', 'first_name' => 'Taras', 'patronymic' => 'Grigorovich']);
+            $author2 = Author::factory()->create(['last_name' => 'Bondar', 'first_name' => 'Andrii']);
+            $author3 = Author::factory()->create(['last_name' => 'Shevchenko', 'first_name' => 'Natalia']);
 
             getJson(route('author.index', ['sort' => 'full_name']))
                 ->assertOk()

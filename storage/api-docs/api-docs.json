@@ -150,6 +150,82 @@
                 }
             }
         },
+        "/authors": {
+            "get": {
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Get list of authors",
+                "description": "Retrieve a paginated list of authors with filters and sorting.",
+                "operationId": "6e791cab4f6d9bd496a9d5ddd05fdb24",
+                "parameters": [
+                    {
+                        "name": "filter[search]",
+                        "in": "query",
+                        "description": "Search by last_name, first_name, patronymic or biography.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort by author fields.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "created_at",
+                                "-created_at",
+                                "full_name",
+                                "-full_name",
+                                "birth_date",
+                                "-birth_date",
+                                "death_date",
+                                "-death_date"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Author list retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AuthorResponse"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    },
+                    {}
+                ]
+            }
+        },
         "/users/{user}/role": {
             "put": {
                 "tags": [
@@ -494,7 +570,7 @@
             },
             "UserResponse": {
                 "title": "User Response",
-                "description": "Data for a user.",
+                "description": "Data of a specific user.",
                 "required": [
                     "id",
                     "name",
@@ -530,6 +606,65 @@
                     }
                 },
                 "type": "object"
+            },
+            "AuthorResponse": {
+                "title": "Author Response",
+                "description": "Data of a specific author.",
+                "required": [
+                    "id",
+                    "last_name",
+                    "first_name",
+                    "slug"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Unique identifier of the author.",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_name": {
+                        "description": "Lastname of the author.",
+                        "type": "string",
+                        "example": "Shevchenko"
+                    },
+                    "first_name": {
+                        "description": "Firstname of the author.",
+                        "type": "string",
+                        "example": "Taras"
+                    },
+                    "patronymic": {
+                        "description": "Patronymic of the author.",
+                        "type": "string",
+                        "example": "Grigorievich",
+                        "nullable": true
+                    },
+                    "slug": {
+                        "description": "Slug of the author.",
+                        "type": "string",
+                        "example": "shevchenko-taras-grigorievich"
+                    },
+                    "birth_date": {
+                        "description": "Birth date of the author.",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1814-03-09",
+                        "nullable": true
+                    },
+                    "death_date": {
+                        "description": "Death date of the author.",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1861-03-10",
+                        "nullable": true
+                    },
+                    "biography": {
+                        "description": "Biography of the author.",
+                        "type": "string",
+                        "example": "Ukrainian poet, artist, and thinker. Born into a family of serfs, he gained his freedom through a ransom. His work became the foundation of modern Ukrainian literature.",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {
@@ -547,6 +682,10 @@
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Authors",
+            "description": "Authors"
         },
         {
             "name": "Users",

@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
 #[OA\Schema(
     schema: 'UserResponse',
     title: 'User Response',
-    description: 'Data for a user.',
+    description: 'Data of a specific user.',
     required: ['id', 'name', 'email'],
     properties: [
         new OA\Property(

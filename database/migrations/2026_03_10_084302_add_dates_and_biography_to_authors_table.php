@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('biography')->nullable()->after('death_date');
 
             $table->dropFullText('authors_search_index');
-            $table->fullText(['last_name', 'first_name', 'patronymic', 'biography'], 'authors_search_fulltext');
         });
     }
 
@@ -27,7 +26,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('authors', function (Blueprint $table) {
-            $table->dropFullText('authors_search_fulltext');
             $table->fullText(['last_name', 'first_name', 'patronymic'], 'authors_search_index');
 
             $table->dropIndex(['birth_date']);
