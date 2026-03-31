@@ -224,6 +224,49 @@
                     },
                     {}
                 ]
+            },
+            "post": {
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Create a new author",
+                "description": "Create a new author.",
+                "operationId": "5d6ba5699658034e1b0f9fb42d197514",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateAuthorRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Author created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/AuthorResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/users/{user}/role": {
@@ -467,14 +510,14 @@
                 ],
                 "properties": {
                     "email": {
-                        "description": "User email address.",
+                        "description": "Email address of the user.",
                         "type": "string",
                         "format": "email",
                         "example": "john@example.com",
                         "maxLength": 255
                     },
                     "password": {
-                        "description": "User account password.",
+                        "description": "Account password of the user.",
                         "type": "string",
                         "format": "password",
                         "example": "password123"
@@ -500,25 +543,85 @@
                         "minLength": 3
                     },
                     "email": {
-                        "description": "User email address.",
+                        "description": "Email address of the user.",
                         "type": "string",
                         "format": "email",
                         "example": "john@example.com",
                         "maxLength": 255
                     },
                     "password": {
-                        "description": "User account password.",
+                        "description": "Account password of the user.",
                         "type": "string",
                         "format": "password",
                         "example": "password123",
                         "minLength": 8
                     },
                     "password_confirmation": {
-                        "description": "Password confirmation (must match password).",
+                        "description": "Password confirmation of the user. (must match password)",
                         "type": "string",
                         "format": "password",
                         "example": "password123",
                         "minLength": 8
+                    }
+                },
+                "type": "object"
+            },
+            "CreateAuthorRequest": {
+                "title": "Create Author Request",
+                "description": "Request payload for creation a new author.",
+                "required": [
+                    "last_name",
+                    "first_name",
+                    "patronymic"
+                ],
+                "properties": {
+                    "last_name": {
+                        "description": "Lastname of the author.",
+                        "type": "string",
+                        "example": "Shevchenko",
+                        "maxLength": 255,
+                        "minLength": 2
+                    },
+                    "first_name": {
+                        "description": "Firstname of the author.",
+                        "type": "string",
+                        "example": "Taras",
+                        "maxLength": 255,
+                        "minLength": 2
+                    },
+                    "patronymic": {
+                        "description": "Patronymic of the author.",
+                        "type": "string",
+                        "example": "Grigorievich",
+                        "maxLength": 255,
+                        "minLength": 2
+                    },
+                    "slug": {
+                        "description": "Slug of the author.",
+                        "type": "string",
+                        "example": "shevchenko-taras-grigorievich",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "birth_date": {
+                        "description": "Birth date of the author.",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1814-03-09",
+                        "nullable": true
+                    },
+                    "death_date": {
+                        "description": "Death date of the author.",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1861-03-10",
+                        "nullable": true
+                    },
+                    "biography": {
+                        "description": "Biography of the author.",
+                        "type": "string",
+                        "example": "Ukrainian poet, artist, and thinker. Born into a family of serfs, he gained his freedom through a ransom. His work became the foundation of modern Ukrainian literature.",
+                        "nullable": true
                     }
                 },
                 "type": "object"

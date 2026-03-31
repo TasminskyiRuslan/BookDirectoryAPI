@@ -24,8 +24,8 @@ class RegisterUserData extends Data
     public function __construct(
         #[Required]
         #[StringType]
-        #[Min(3)]
-        #[Max(100)]
+        #[Min(2)]
+        #[Max(255)]
         public string $name,
 
         #[Required]

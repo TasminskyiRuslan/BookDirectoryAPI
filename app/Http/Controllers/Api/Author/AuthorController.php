@@ -85,6 +85,35 @@ class AuthorController extends Controller
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
+    #[OA\Post(
+        path: '/authors',
+        description: 'Create a new author.',
+        summary: 'Create a new author',
+        security: [['sanctum' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: '#/components/schemas/CreateAuthorRequest')
+        ),
+        tags: ['Authors'],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_CREATED,
+                description: 'Author created successfully.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/AuthorResponse'
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNPROCESSABLE_ENTITY,
+                description: 'Validation error.'
+            ),
+        ]
+    )]
     /**
      * Create a new author.
      *

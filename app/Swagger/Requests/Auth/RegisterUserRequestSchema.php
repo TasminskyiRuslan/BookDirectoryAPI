@@ -20,7 +20,7 @@ use OpenApi\Attributes as OA;
         ),
         new OA\Property(
             property: 'email',
-            description: 'User email address.',
+            description: 'Email address of the user.',
             type: 'string',
             format: 'email',
             example: 'john@example.com',
@@ -28,7 +28,7 @@ use OpenApi\Attributes as OA;
         ),
         new OA\Property(
             property: 'password',
-            description: 'User account password.',
+            description: 'Account password of the user.',
             type: 'string',
             format: 'password',
             example: 'password123',
@@ -36,7 +36,7 @@ use OpenApi\Attributes as OA;
         ),
         new OA\Property(
             property: 'password_confirmation',
-            description: 'Password confirmation (must match password).',
+            description: 'Password confirmation of the user. (must match password)',
             type: 'string',
             format: 'password',
             example: 'password123',
