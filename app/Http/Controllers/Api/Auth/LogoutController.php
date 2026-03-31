@@ -13,7 +13,7 @@ class LogoutController extends Controller
 {
     #[OA\Delete(
         path: '/auth/logout',
-        description: 'Revoke the current access token for the authenticated user.',
+        description: 'Revokes the current access token for an authenticated user.',
         summary: 'Logout user',
         security: [['sanctum' => []]],
         tags: ['Auth'],
@@ -29,7 +29,7 @@ class LogoutController extends Controller
         ]
     )]
     /**
-     * Logout the authenticated user by revoking the current access token.
+     * Revokes the current access token for an authenticated user.
      *
      * @param Request $request
      * @param RevokeCurrentTokenAction $revokeCurrentTokenAction

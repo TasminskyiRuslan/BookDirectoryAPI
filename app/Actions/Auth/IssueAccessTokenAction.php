@@ -7,7 +7,7 @@ use App\Models\User;
 class IssueAccessTokenAction
 {
     /**
-     * Generate a new personal access token for the user.
+     * Generates a new personal access token for the user.
      *
      * @param User $user
      * @return string

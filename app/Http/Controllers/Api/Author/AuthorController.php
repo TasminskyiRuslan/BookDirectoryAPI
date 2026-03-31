@@ -22,8 +22,8 @@ class AuthorController extends Controller
 
     #[OA\Get(
         path: '/authors',
-        description: 'Retrieve a paginated list of authors with filters and sorting.',
-        summary: 'Get list of authors',
+        description: 'Gets a paginated list of authors with filters and sorting.',
+        summary: 'Get a list of authors',
         security: [['sanctum' => []], []],
         tags: ['Authors'],
         parameters: [
@@ -66,10 +66,14 @@ class AuthorController extends Controller
                     ]
                 )
             ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            )
         ]
     )]
     /**
-     * Get a paginated list of authors.
+     * Gets a paginated list of authors with filters and sorting.
      *
      * @param AuthorListQuery $authorListQuery
      * @return JsonResponse
@@ -87,8 +91,8 @@ class AuthorController extends Controller
 
     #[OA\Post(
         path: '/authors',
-        description: 'Create a new author.',
-        summary: 'Create a new author',
+        description: 'Creates a new author.',
+        summary: 'Create an author',
         security: [['sanctum' => []]],
         requestBody: new OA\RequestBody(
             required: true,
@@ -109,13 +113,17 @@ class AuthorController extends Controller
                 )
             ),
             new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
+            new OA\Response(
                 response: SymfonyResponse::HTTP_UNPROCESSABLE_ENTITY,
                 description: 'Validation error.'
             ),
         ]
     )]
     /**
-     * Create a new author.
+     * Creates a new author.
      *
      * @param CreateAuthorData $authorData
      * @param CreateAuthorAction $createAuthorAction
@@ -130,8 +138,45 @@ class AuthorController extends Controller
             ->setStatusCode(SymfonyResponse::HTTP_CREATED);
     }
 
+    #[OA\Get(
+        path: '/authors/{author}',
+        description: 'Gets detailed information about a specific author.',
+        summary: 'Get author details',
+        tags: ['Authors'],
+        parameters: [
+            new OA\Parameter(
+                name: 'author',
+                description: 'Author identifier (slug)',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'string'),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_OK,
+                description: 'Author details retrieved successfully.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/AuthorResponse'
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NOT_FOUND,
+                description: 'User not found.'
+            )
+        ]
+    )]
     /**
-     * Get the details of a specific author.
+     * Gets detailed information about a specific author.
      *
      * @param Author $author
      * @return JsonResponse

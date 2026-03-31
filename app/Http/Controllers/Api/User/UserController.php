@@ -19,8 +19,8 @@ class UserController extends Controller
 
     #[OA\Get(
         path: '/users',
-        description: 'Retrieve a paginated list of users with filters and sorting.',
-        summary: 'Get list of users',
+        description: 'Gets a paginated list of users with filters and sorting.',
+        summary: 'Get a list of users',
         security: [['sanctum' => []]],
         tags: ['Users'],
         parameters: [
@@ -73,11 +73,11 @@ class UserController extends Controller
             new OA\Response(
                 response: SymfonyResponse::HTTP_UNAUTHORIZED,
                 description: 'User does not have permissions.'
-            ),
+            )
         ]
     )]
     /**
-     * Get a paginated list of users.
+     * Gets a paginated list of users with filters and sorting.
      *
      * @param UserListQuery $userListQuery
      * @return JsonResponse
@@ -92,7 +92,7 @@ class UserController extends Controller
 
     #[OA\Get(
         path: '/users/{user}',
-        description: 'Retrieve detailed information for a specific user.',
+        description: 'Gets detailed information about a specific user.',
         summary: 'Get user details',
         security: [['sanctum' => []]],
         tags: ['Users'],
@@ -129,7 +129,7 @@ class UserController extends Controller
         ]
     )]
     /**
-     * Get the details of a specific user.
+     * Gets detailed information about a specific user.
      *
      * @param User $user
      * @return JsonResponse
@@ -144,7 +144,7 @@ class UserController extends Controller
 
     #[OA\Delete(
         path: '/users/{user}',
-        description: 'Permanently remove the specified user from the database.',
+        description: 'Deletes the specified user.',
         summary: 'Delete user',
         security: [['sanctum' => []]],
         tags: ['Users'],
@@ -173,7 +173,7 @@ class UserController extends Controller
         ]
     )]
     /**
-     * Delete the specified user.
+     * Deletes the specified user.
      *
      * @param User $user
      * @param DeleteUserAction $deleteUserAction

@@ -10,7 +10,7 @@ use Throwable;
 class CreateAuthorAction
 {
     /**
-     * Create a new author.
+     * Creates a new author.
      *
      * @param CreateAuthorData $authorData
      * @return Author
@@ -19,7 +19,7 @@ class CreateAuthorAction
     public function handle(CreateAuthorData $authorData): Author
     {
         return DB::transaction(function () use ($authorData) {
-            return Author::create($authorData->all());
+            return Author::create($authorData->toArray());
         });
     }
 }

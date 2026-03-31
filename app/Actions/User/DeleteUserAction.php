@@ -7,7 +7,7 @@ use App\Models\User;
 class DeleteUserAction
 {
     /**
-     * Delete the specified user.
+     * Deletes the specified user.
      *
      * @param User $user
      * @return void

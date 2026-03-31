@@ -18,8 +18,8 @@ class UpdateUserRoleController extends Controller
 
     #[OA\Put(
         path: '/users/{user}/role',
-        description: 'Update role of the specified user.',
-        summary: 'Update user role',
+        description: 'Updates the role of the specified user.',
+        summary: 'Updates user role',
         security: [['sanctum' => []]],
         requestBody: new OA\RequestBody(
             required: true,
@@ -63,7 +63,7 @@ class UpdateUserRoleController extends Controller
         ]
     )]
     /**
-     * Update the role of a specific user.
+     * Updates the role of the specified user.
      *
      * @param UpdateUserRoleData $userRoleData
      * @param User $user

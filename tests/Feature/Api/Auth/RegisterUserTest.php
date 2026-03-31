@@ -34,7 +34,7 @@ describe('RegisterController', function () {
         });
 
         it('fails if the name is too long', function () {
-            $longName = str_repeat('A', 101);
+            $longName = str_repeat('A', 256);
             postJson(route('auth.register'), registrationPayload(['name' => $longName]))
                 ->assertUnprocessable()
                 ->assertJsonValidationErrors(['name']);

@@ -8,7 +8,7 @@ use App\Models\User;
 class UpdateUserRoleAction
 {
     /**
-     * Update the role for the specified user.
+     * Updates the role for the specified user.
      *
      * @param UpdateUserRoleData $userRoleData
      * @param User $user
