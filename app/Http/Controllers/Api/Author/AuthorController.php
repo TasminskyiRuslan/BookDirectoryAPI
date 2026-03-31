@@ -131,11 +131,17 @@ class AuthorController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get the details of a specific author.
+     *
+     * @param Author $author
+     * @return JsonResponse
      */
-    public function show(string $id)
+    public function show(Author $author): JsonResponse
     {
-        //
+        $this->authorize('view', $author);
+        return AuthorResource::make($author)
+            ->response()
+            ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
     /**

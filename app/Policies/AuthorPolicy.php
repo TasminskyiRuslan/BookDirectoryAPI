@@ -23,13 +23,13 @@ class AuthorPolicy
     /**
      * Determine whether the user can view the specific author's details.
      *
-     * @param User $user
+     * @param User|null $user
      * @param Author $author
      * @return bool
      */
-    public function view(User $user, Author $author): bool
+    public function view(?User $user, Author $author): bool
     {
-        return $user->hasPermissionTo(UserPermission::AUTHOR_SHOW->value);
+        return $user?->hasPermissionTo(UserPermission::AUTHOR_SHOW->value) ?? true;
     }
 
     /**

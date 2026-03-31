@@ -3,7 +3,6 @@
 use App\Enums\UserRole;
 use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
-use Database\Seeders\SuperAdminUserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\getJson;
@@ -23,14 +22,14 @@ describe('UserController -> show', function () {
     */
     describe('permissions', function () {
 
-        it('fails if user is not authenticated', function () {
+        it('fails if the user is not authenticated', function () {
             $targetUser = User::factory()->viewer()->create();
 
             getJson(route('user.show', $targetUser))
                 ->assertUnauthorized();
         });
 
-        it('fails if a viewer tries to view user details', function () {
+        it('fails if a viewer tries to view the user details', function () {
             $viewer = User::factory()->viewer()->create();
 
             Sanctum::actingAs($viewer);
@@ -41,7 +40,7 @@ describe('UserController -> show', function () {
                 ->assertForbidden();
         });
 
-        it('fails if an editor tries to view user details', function () {
+        it('fails if an editor tries to view the user details', function () {
             $editor = User::factory()->editor()->create();
 
             Sanctum::actingAs($editor);
@@ -52,7 +51,7 @@ describe('UserController -> show', function () {
                 ->assertForbidden();
         });
 
-        it('allows an admin to view user details', function () {
+        it('allows an admin to view the user details', function () {
             $admin = User::factory()->admin()->create();
 
             Sanctum::actingAs($admin);
@@ -67,7 +66,7 @@ describe('UserController -> show', function () {
                 ->assertJsonFragment(['id' => $targetUser->id]);
         });
 
-        it('allows an super-admin to view user details', function () {
+        it('allows an super-admin to view the user details', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -96,7 +95,7 @@ describe('UserController -> show', function () {
    */
     describe('validation', function () {
 
-        it('fails if user does not exist', function () {
+        it('fails if the user does not exist', function () {
             $admin = User::factory()->admin()->create();
 
             Sanctum::actingAs($admin);
