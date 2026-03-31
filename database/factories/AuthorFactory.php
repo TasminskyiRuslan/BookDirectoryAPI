@@ -21,7 +21,7 @@ class AuthorFactory extends Factory
         $lastName = fake()->lastName();
         $firstName = fake()->firstName();
         $patronymic = fake()->optional()->firstName();
-        $birthDate = fake()->date('Y-m-d');
+        $birthDate = fake()->date('Y-m-d', 'now');
 
         return [
             'last_name' => $lastName,

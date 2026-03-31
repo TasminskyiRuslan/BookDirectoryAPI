@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\Author;
 
+use App\Actions\Author\CreateAuthorAction;
+use App\Data\Author\Requests\CreateAuthorData;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Author\AuthorResource;
 use App\Models\Author;
@@ -12,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use OpenApi\Attributes as OA;
+use Throwable;
 
 class AuthorController extends Controller
 {
@@ -83,11 +86,19 @@ class AuthorController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a new author.
+     *
+     * @param CreateAuthorData $authorData
+     * @param CreateAuthorAction $createAuthorAction
+     * @return JsonResponse
+     * @throws Throwable
      */
-    public function store(Request $request)
+    public function store(CreateAuthorData $authorData, CreateAuthorAction $createAuthorAction): JsonResponse
     {
-        //
+        $this->authorize('create', Author::class);
+        return AuthorResource::make($createAuthorAction->handle($authorData))
+            ->response()
+            ->setStatusCode(SymfonyResponse::HTTP_CREATED);
     }
 
     /**

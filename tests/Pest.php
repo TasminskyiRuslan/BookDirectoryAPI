@@ -55,8 +55,8 @@ function something()
 /**
  * Generate a registration payload with optional overrides.
  *
- * @param array $overrides Key-value pairs to override default payload values.
- * @return array The generated registration payload.
+ * @param array $overrides
+ * @return array
  */
 function registrationPayload(array $overrides = []): array
 {
@@ -65,6 +65,26 @@ function registrationPayload(array $overrides = []): array
         'email'    => fake()->unique()->safeEmail(),
         'password' => 'password123',
         'password_confirmation' => 'password123',
+    ], $overrides);
+}
+
+/**
+ * Generate a creation author payload with optional overrides.
+ *
+ * @param array $overrides
+ * @return array
+ */
+function creationAuthorPayload(array $overrides = []): array
+{
+    $birthDate = fake()->date('Y-m-d', 'now');
+
+    return array_merge([
+        'last_name'     => fake()->lastName(),
+        'first_name'    => fake()->firstName(),
+        'patronymic' => fake()->optional()->firstName(),
+        'birth_date' => $birthDate,
+        'death_date' => fake()->optional()->dateTimeBetween($birthDate, 'now')?->format('Y-m-d'),
+        'biography'    => fake()->paragraph(),
     ], $overrides);
 }
 
