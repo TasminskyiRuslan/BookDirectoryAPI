@@ -10,7 +10,6 @@ use function Pest\Laravel\getJson;
 uses(RefreshDatabase::class);
 
 describe('UserController -> show', function () {
-
     beforeEach(function () {
         $this->seed(RolesAndPermissionsSeeder::class);
     });
@@ -21,7 +20,6 @@ describe('UserController -> show', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-
         it('fails if the user is not authenticated', function () {
             $targetUser = User::factory()->viewer()->create();
 
@@ -31,9 +29,7 @@ describe('UserController -> show', function () {
 
         it('fails if a viewer tries to view the user details', function () {
             $viewer = User::factory()->viewer()->create();
-
             Sanctum::actingAs($viewer);
-
             $targetUser = User::factory()->viewer()->create();
 
             getJson(route('user.show', $targetUser))
@@ -42,9 +38,7 @@ describe('UserController -> show', function () {
 
         it('fails if an editor tries to view the user details', function () {
             $editor = User::factory()->editor()->create();
-
             Sanctum::actingAs($editor);
-
             $targetUser = User::factory()->viewer()->create();
 
             getJson(route('user.show', $targetUser))
@@ -53,36 +47,31 @@ describe('UserController -> show', function () {
 
         it('allows an admin to view the user details', function () {
             $admin = User::factory()->admin()->create();
-
             Sanctum::actingAs($admin);
-
             $targetUser = User::factory()->viewer()->create();
 
             getJson(route('user.show', $targetUser))
                 ->assertOk()
                 ->assertJsonStructure([
-                    'data' =>  userJsonStructure()
+                    'data' => userJsonStructure()
                 ])
                 ->assertJsonFragment(['id' => $targetUser->id]);
         });
 
-        it('allows an super-admin to view the user details', function () {
+        it('allows a super-admin to view the user details', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
                 'password' => config('super-admin.password')
             ]);
-
             $superAdmin->assignRole(UserRole::SUPER_ADMIN->value);
-
             Sanctum::actingAs($superAdmin);
-
             $targetUser = User::factory()->viewer()->create();
 
             getJson(route('user.show', $targetUser))
                 ->assertOk()
                 ->assertJsonStructure([
-                    'data' =>  userJsonStructure()
+                    'data' => userJsonStructure()
                 ])
                 ->assertJsonFragment(['id' => $targetUser->id]);
         });
@@ -94,15 +83,12 @@ describe('UserController -> show', function () {
    |--------------------------------------------------------------------------
    */
     describe('validation', function () {
-
         it('fails if the user does not exist', function () {
             $admin = User::factory()->admin()->create();
-
             Sanctum::actingAs($admin);
 
             getJson(route('user.show', 999))
                 ->assertNotFound();
         });
-
     });
 })->group('user');

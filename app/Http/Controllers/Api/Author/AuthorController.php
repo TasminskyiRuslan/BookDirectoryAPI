@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Api\Author;
 
 use App\Actions\Author\CreateAuthorAction;
+use App\Actions\Author\UpdateAuthorAction;
 use App\Data\Author\Requests\CreateAuthorData;
+use App\Data\Author\Requests\UpdateAuthorData;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Author\AuthorResource;
 use App\Models\Author;
 use App\Queries\Author\AuthorListQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use OpenApi\Attributes as OA;
@@ -78,7 +79,7 @@ class AuthorController extends Controller
      * @param AuthorListQuery $authorListQuery
      * @return JsonResponse
      */
-    public function index(AuthorListQuery $authorListQuery)
+    public function index(AuthorListQuery $authorListQuery): JsonResponse
     {
         $this->authorize('view-any', Author::class);
         $authors = Cache::tags(['author'])->remember('authors:' . md5(json_encode(request()->only(['page', 'filter', 'sort']))), config('cache.ttl.authors'), function () use ($authorListQuery) {
@@ -133,7 +134,8 @@ class AuthorController extends Controller
     public function store(CreateAuthorData $authorData, CreateAuthorAction $createAuthorAction): JsonResponse
     {
         $this->authorize('create', Author::class);
-        return AuthorResource::make($createAuthorAction->handle($authorData))
+        $author = $createAuthorAction->handle($authorData);
+        return AuthorResource::make($author)
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_CREATED);
     }
@@ -190,11 +192,21 @@ class AuthorController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Updates the specified author.
+     *
+     * @param UpdateAuthorData $authorData
+     * @param Author $author
+     * @param UpdateAuthorAction $updateAuthorAction
+     * @return JsonResponse
+     * @throws Throwable
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateAuthorData $authorData, Author $author, UpdateAuthorAction $updateAuthorAction): JsonResponse
     {
-        //
+        $this->authorize('update', $author);
+        $author = $updateAuthorAction->handle($authorData, $author);
+        return AuthorResource::make($author->fresh())
+            ->response()
+            ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
     /**

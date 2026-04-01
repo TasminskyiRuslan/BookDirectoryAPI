@@ -12,7 +12,6 @@ use function Pest\Laravel\getJson;
 uses(RefreshDatabase::class);
 
 describe('AuthorController -> index', function () {
-
     beforeEach(function () {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
         Cache::flush();
@@ -25,16 +24,13 @@ describe('AuthorController -> index', function () {
     |--------------------------------------------------------------------------
     */
     describe('filters & sorting', function () {
-
         it('filters authors by search string in last_name, first_name, patronymic or biography', function () {
             $viewer = User::factory()->viewer()->create();
-
             Sanctum::actingAs($viewer);
-
             $author1 = Author::factory()->create(['last_name' => 'Shevchenko', 'first_name' => 'Taras', 'patronymic' => 'Grigorovich']);
             $author2 = Author::factory()->create(['last_name' => 'Bondar', 'first_name' => 'Andrii']);
-
             $searchString = substr($author1->last_name, 3);
+
             getJson(route('author.index', ['filter[search]' => $searchString]))
                 ->assertOk()
                 ->assertJsonCount(1, 'data')
@@ -43,12 +39,9 @@ describe('AuthorController -> index', function () {
 
         it('sorts authors by created_at (desc) by default', function () {
             $viewer = User::factory()->viewer()->create();
-
             Sanctum::actingAs($viewer);
-
             $oldAuthor = Author::factory()->create();
             $oldAuthor->setCreatedAt(now()->subDays(2))->save();
-
             $newAuthor = Author::factory()->create();
             $newAuthor->setCreatedAt(now()->subDay())->save();
 
@@ -60,9 +53,7 @@ describe('AuthorController -> index', function () {
 
         it('sorts authors by full_name (asc and desc)', function () {
             $viewer = User::factory()->viewer()->create();
-
             Sanctum::actingAs($viewer);
-
             $author1 = Author::factory()->create(['last_name' => 'Shevchenko', 'first_name' => 'Taras', 'patronymic' => 'Grigorovich']);
             $author2 = Author::factory()->create(['last_name' => 'Bondar', 'first_name' => 'Andrii']);
             $author3 = Author::factory()->create(['last_name' => 'Shevchenko', 'first_name' => 'Natalia']);
@@ -72,7 +63,6 @@ describe('AuthorController -> index', function () {
                 ->assertJsonFragment(['id' => $author2->id])
                 ->assertJsonFragment(['id' => $author3->id])
                 ->assertJsonFragment(['id' => $author1->id]);
-
             getJson(route('author.index', ['sort' => '-full_name']))
                 ->assertOk()
                 ->assertJsonFragment(['id' => $author1->id])
@@ -82,15 +72,11 @@ describe('AuthorController -> index', function () {
 
         it('sorts authors by created_at (asc and desc)', function () {
             $viewer = User::factory()->viewer()->create();
-
             Sanctum::actingAs($viewer);
-
             $author1 = Author::factory()->create();
             $author1->setCreatedAt(now()->subDays(3))->save();
-
             $author2 = Author::factory()->create();
             $author2->setCreatedAt(now()->subDays(2))->save();
-
             $author3 = Author::factory()->create();
             $author3->setCreatedAt(now()->subDay())->save();
 
@@ -99,7 +85,6 @@ describe('AuthorController -> index', function () {
                 ->assertJsonFragment(['id' => $author1->id])
                 ->assertJsonFragment(['id' => $author2->id])
                 ->assertJsonFragment(['id' => $author3->id]);
-
             getJson(route('author.index', ['sort' => '-created_at']))
                 ->assertOk()
                 ->assertJsonFragment(['id' => $author3->id])
@@ -109,9 +94,7 @@ describe('AuthorController -> index', function () {
 
         it('sorts authors by birth_date (asc and desc)', function () {
             $viewer = User::factory()->viewer()->create();
-
             Sanctum::actingAs($viewer);
-
             $author1 = Author::factory()->create(['birth_date' => now()->subYears(100)]);
             $author2 = Author::factory()->create(['birth_date' => now()->subYears(70)]);
             $author3 = Author::factory()->create(['birth_date' => now()->subYears(50)]);
@@ -121,7 +104,6 @@ describe('AuthorController -> index', function () {
                 ->assertJsonFragment(['id' => $author1->id])
                 ->assertJsonFragment(['id' => $author2->id])
                 ->assertJsonFragment(['id' => $author3->id]);
-
             getJson(route('author.index', ['sort' => '-birth_date']))
                 ->assertOk()
                 ->assertJsonFragment(['id' => $author3->id])
@@ -131,9 +113,7 @@ describe('AuthorController -> index', function () {
 
         it('sorts authors by death_date (asc and desc)', function () {
             $viewer = User::factory()->viewer()->create();
-
             Sanctum::actingAs($viewer);
-
             $author1 = Author::factory()->create(['death_date' => now()->subYears(30)]);
             $author2 = Author::factory()->create(['death_date' => now()->subYears(20)]);
             $author3 = Author::factory()->create(['death_date' => now()->subYears(10)]);
@@ -143,7 +123,6 @@ describe('AuthorController -> index', function () {
                 ->assertJsonFragment(['id' => $author1->id])
                 ->assertJsonFragment(['id' => $author2->id])
                 ->assertJsonFragment(['id' => $author3->id]);
-
             getJson(route('author.index', ['sort' => '-death_date']))
                 ->assertOk()
                 ->assertJsonFragment(['id' => $author3->id])
@@ -153,9 +132,7 @@ describe('AuthorController -> index', function () {
 
         it('returns empty data when no users match search', function () {
             $viewer = User::factory()->viewer()->create();
-
             Sanctum::actingAs($viewer);
-
             $authors = Author::factory()->count(7)->create();
 
             getJson(route('author.index', ['filter[search]' => 'non-existent']))
@@ -170,7 +147,6 @@ describe('AuthorController -> index', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-
         it('allows an unauthenticated user to get a list of authors', function () {
             $authors = Author::factory()->count(7)->create();
 
@@ -186,9 +162,7 @@ describe('AuthorController -> index', function () {
 
         it('allows a viewer user to get a list of authors', function () {
             $viewer = User::factory()->viewer()->create();
-
             Sanctum::actingAs($viewer);
-
             $authors = Author::factory()->count(7)->create();
 
             getJson(route('author.index'))
@@ -203,9 +177,7 @@ describe('AuthorController -> index', function () {
 
         it('allows an editor user to get a list of authors', function () {
             $editor = User::factory()->editor()->create();
-
             Sanctum::actingAs($editor);
-
             $authors = Author::factory()->count(7)->create();
 
             getJson(route('author.index'))
@@ -220,9 +192,7 @@ describe('AuthorController -> index', function () {
 
         it('allows an admin user to get a list of authors', function () {
             $admin = User::factory()->admin()->create();
-
             Sanctum::actingAs($admin);
-
             $authors = Author::factory()->count(7)->create();
 
             getJson(route('author.index'))
@@ -241,11 +211,8 @@ describe('AuthorController -> index', function () {
                 'email' => config('super-admin.email'),
                 'password' => config('super-admin.password')
             ]);
-
             $superAdmin->assignRole(UserRole::SUPER_ADMIN->value);
-
             Sanctum::actingAs($superAdmin);
-
             $authors = Author::factory()->count(7)->create();
 
             getJson(route('author.index'))
@@ -267,18 +234,16 @@ describe('AuthorController -> index', function () {
     describe('caching', function () {
         it('stores the author list in cache after the first request', function () {
             Cache::spy();
-
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
 
             getJson(route('author.index'))->assertOk();
-
             Cache::shouldHaveReceived('tags')
                 ->with(['author'])
                 ->once();
         });
 
-        it('returns data from cache instead of database on subsequent requests', function () {
+        it('returns data from cache instead of the database on subsequent requests', function () {
             $oldLastname = 'Shevchenko';
             Author::factory()->create(['last_name' => $oldLastname]);
 
@@ -300,12 +265,9 @@ describe('AuthorController -> index', function () {
     |--------------------------------------------------------------------------
     */
     describe('pagination', function () {
-
-        it('returns paginated a list of users', function () {
+        it('returns a paginated list of authors', function () {
             $viewer = User::factory()->viewer()->create();
-
             Sanctum::actingAs($viewer);
-
             User::factory()->count(30)->create();
 
             getJson(route('author.index'))
@@ -316,6 +278,5 @@ describe('AuthorController -> index', function () {
                     'meta'
                 ]);
         });
-
     });
 })->group('author');

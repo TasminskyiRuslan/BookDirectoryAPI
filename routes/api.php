@@ -70,7 +70,6 @@ Route::prefix('authors')->group(function () {
 
     // Create author action
     Route::post('/', [AuthorController::class, 'store'])
-        ->middleware('auth:sanctum')
         ->name('author.store');
 
     // Show author action

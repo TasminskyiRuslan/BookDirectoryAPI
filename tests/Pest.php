@@ -69,12 +69,12 @@ function registrationPayload(array $overrides = []): array
 }
 
 /**
- * Generate a creation author payload with optional overrides.
+ * Generate an author payload with optional overrides.
  *
  * @param array $overrides
  * @return array
  */
-function creationAuthorPayload(array $overrides = []): array
+function authorPayload(array $overrides = []): array
 {
     $birthDate = fake()->date('Y-m-d', 'now');
 

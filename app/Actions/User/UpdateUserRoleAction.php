@@ -4,6 +4,8 @@ namespace App\Actions\User;
 
 use App\Data\User\Requests\UpdateUserRoleData;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class UpdateUserRoleAction
 {
@@ -12,10 +14,14 @@ class UpdateUserRoleAction
      *
      * @param UpdateUserRoleData $userRoleData
      * @param User $user
-     * @return void
+     * @return User
+     * @throws Throwable
      */
-    public function handle(UpdateUserRoleData $userRoleData, User $user): void
+    public function handle(UpdateUserRoleData $userRoleData, User $user): User
     {
-        $user->syncRoles([$userRoleData->role->value]);
+        return DB::transaction(function () use ($userRoleData, $user) {
+            $user->syncRoles([$userRoleData->role->value]);
+            return $user;
+        });
     }
 }

@@ -8,7 +8,6 @@ use function Pest\Laravel\postJson;
 uses(RefreshDatabase::class);
 
 describe('LoginController', function () {
-
     beforeEach(function () {
         $this->seed(RolesAndPermissionsSeeder::class);
     });
@@ -19,7 +18,6 @@ describe('LoginController', function () {
     |--------------------------------------------------------------------------
     */
     describe('validation', function () {
-
         it('fails if required fields are missing', function () {
             postJson(route('auth.login'), [])
                 ->assertUnprocessable()
@@ -72,12 +70,9 @@ describe('LoginController', function () {
     |--------------------------------------------------------------------------
     */
     describe('success', function () {
-
         it('can authenticate a user and return an access token', function () {
             $password = 'password123';
-
             $user = User::factory()->create(['password' => $password,]);
-
             $data = [
                 'email' => $user->email,
                 'password' => $password,
@@ -89,5 +84,4 @@ describe('LoginController', function () {
                 ->assertJsonStructure(['data' => authJsonStructure()]);
         });
     });
-
 })->group('auth');

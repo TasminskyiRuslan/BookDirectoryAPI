@@ -18,7 +18,7 @@
                     "Auth"
                 ],
                 "summary": "Authenticate user",
-                "description": "Authenticate a user using email and password and issue an access token.",
+                "description": "Authenticates the user using email and password and issue an access token.",
                 "operationId": "8e026335d25c3df3f6f6cf1f683ac7b8",
                 "requestBody": {
                     "required": true,
@@ -58,7 +58,7 @@
                     "Auth"
                 ],
                 "summary": "Logout user",
-                "description": "Revoke the current access token for the authenticated user.",
+                "description": "Revokes the current access token for an authenticated user.",
                 "operationId": "23a3ec5e2e8d20c9fd2ea568ae96fcd3",
                 "responses": {
                     "204": {
@@ -81,7 +81,7 @@
                     "Auth"
                 ],
                 "summary": "Get current user",
-                "description": "Return the currently authenticated user.",
+                "description": "Gets the currently authenticated user.",
                 "operationId": "a27984a716a6787c8b8537aee958673c",
                 "responses": {
                     "200": {
@@ -116,7 +116,7 @@
                     "Auth"
                 ],
                 "summary": "Register user",
-                "description": "Register a new user and issue an access token.",
+                "description": "Registers a new user and issue an access token.",
                 "operationId": "8e69ddc577b1650c4a010f798dd6c9d3",
                 "requestBody": {
                     "required": true,
@@ -155,8 +155,8 @@
                 "tags": [
                     "Authors"
                 ],
-                "summary": "Get list of authors",
-                "description": "Retrieve a paginated list of authors with filters and sorting.",
+                "summary": "Get a list of authors",
+                "description": "Gets a paginated list of authors with filters and sorting.",
                 "operationId": "6e791cab4f6d9bd496a9d5ddd05fdb24",
                 "parameters": [
                     {
@@ -216,6 +216,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
                     }
                 },
                 "security": [
@@ -229,8 +232,8 @@
                 "tags": [
                     "Authors"
                 ],
-                "summary": "Create a new author",
-                "description": "Create a new author.",
+                "summary": "Create an author",
+                "description": "Creates a new author.",
                 "operationId": "5d6ba5699658034e1b0f9fb42d197514",
                 "requestBody": {
                     "required": true,
@@ -258,6 +261,9 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
                     "422": {
                         "description": "Validation error."
                     }
@@ -269,13 +275,57 @@
                 ]
             }
         },
+        "/authors/{author}": {
+            "get": {
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Get author details",
+                "description": "Gets detailed information about a specific author.",
+                "operationId": "7c537557c462cca9909ec5980263514c",
+                "parameters": [
+                    {
+                        "name": "author",
+                        "in": "path",
+                        "description": "Author identifier (slug)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Author details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/AuthorResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "404": {
+                        "description": "User not found."
+                    }
+                }
+            }
+        },
         "/users/{user}/role": {
             "put": {
                 "tags": [
                     "Users"
                 ],
-                "summary": "Update user role",
-                "description": "Update role of the specified user.",
+                "summary": "Updates user role",
+                "description": "Updates the role of the specified user.",
                 "operationId": "4850dab8bab4efcf811ea32bd7ac050d",
                 "parameters": [
                     {
@@ -336,8 +386,8 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Get list of users",
-                "description": "Retrieve a paginated list of users with filters and sorting.",
+                "summary": "Get a list of users",
+                "description": "Gets a paginated list of users with filters and sorting.",
                 "operationId": "bda0424acf687003f1427ea721f28c1b",
                 "parameters": [
                     {
@@ -420,7 +470,7 @@
                     "Users"
                 ],
                 "summary": "Get user details",
-                "description": "Retrieve detailed information for a specific user.",
+                "description": "Gets detailed information about a specific user.",
                 "operationId": "5d070ea37265b50551f44596d2508cda",
                 "parameters": [
                     {
@@ -467,7 +517,7 @@
                     "Users"
                 ],
                 "summary": "Delete user",
-                "description": "Permanently remove the specified user from the database.",
+                "description": "Deletes the specified user.",
                 "operationId": "f5763f7370dc575bb7d88d3e39f34e43",
                 "parameters": [
                     {

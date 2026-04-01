@@ -9,7 +9,6 @@ use function Pest\Laravel\getJson;
 uses(RefreshDatabase::class);
 
 describe('MeController', function () {
-
     beforeEach(function () {
         $this->seed(RolesAndPermissionsSeeder::class);
     });
@@ -22,7 +21,6 @@ describe('MeController', function () {
     describe('success', function () {
         it('can retrieve the current authenticated user profile', function () {
             $user = User::factory()->create();
-
             Sanctum::actingAs($user);
 
             getJson(route('auth.me'))

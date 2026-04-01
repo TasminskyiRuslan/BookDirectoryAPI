@@ -9,7 +9,6 @@ use function Pest\Laravel\postJson;
 uses(RefreshDatabase::class);
 
 describe('RegisterController', function () {
-
     beforeEach(function () {
         $this->seed(RolesAndPermissionsSeeder::class);
     });
@@ -20,7 +19,6 @@ describe('RegisterController', function () {
     |--------------------------------------------------------------------------
     */
     describe('validation', function () {
-
         it('fails if required fields are missing', function () {
             postJson(route('auth.register'), [])
                 ->assertUnprocessable()
@@ -49,7 +47,6 @@ describe('RegisterController', function () {
 
         it('fails if the email is already taken', function () {
             $data = registrationPayload();
-
             User::factory()->create(['email' => $data['email']]);
 
             postJson(route('auth.register'), $data)
@@ -87,7 +84,6 @@ describe('RegisterController', function () {
     |--------------------------------------------------------------------------
     */
     describe('success', function () {
-
         it('can register a user and return an access token', function () {
             $data = registrationPayload();
 
@@ -95,12 +91,9 @@ describe('RegisterController', function () {
                 ->assertCreated()
                 ->assertJsonPath('data.user.email', $data['email'])
                 ->assertJsonStructure(['data' => authJsonStructure()]);
-
             $user = User::whereEmail($data['email'])->first();
-
             expect($user)->not->toBeNull()
                 ->and(Hash::check($data['password'], $user->password))->toBeTrue();
         });
     });
-
 })->group('auth');

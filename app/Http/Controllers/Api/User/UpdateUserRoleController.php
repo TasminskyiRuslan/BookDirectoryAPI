@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use OpenApi\Attributes as OA;
+use Throwable;
 
 class UpdateUserRoleController extends Controller
 {
@@ -69,11 +70,12 @@ class UpdateUserRoleController extends Controller
      * @param User $user
      * @param UpdateUserRoleAction $updateUserRoleAction
      * @return JsonResponse
+     * @throws Throwable
      */
     public function __invoke(UpdateUserRoleData $userRoleData, User $user, UpdateUserRoleAction $updateUserRoleAction): JsonResponse
     {
         $this->authorize('update-role', $user);
-        $updateUserRoleAction->handle($userRoleData, $user);
+        $user = $updateUserRoleAction->handle($userRoleData, $user);
         return UserResource::make($user->fresh('roles'))
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
