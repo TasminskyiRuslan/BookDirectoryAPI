@@ -22,75 +22,75 @@ describe('AuthorController -> update', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('fails if an unauthenticated user tries to update authors', function () {
-            $author = Author::factory()->create();
+        it('fails if an unauthenticated user tries to update an author', function () {
+            $targetAuthor = Author::factory()->create();
             $data = authorPayload();
 
-            patchJson(route('author.update', $author), $data)
+            patchJson(route('author.update', $targetAuthor), $data)
                 ->assertForbidden();
 
             $this->assertDatabaseMissing('authors', [
-                'id' => $author->id,
+                'id' => $targetAuthor->id,
                 'last_name' => $data['last_name'],
                 'first_name' => $data['first_name'],
                 'patronymic' => $data['patronymic'],
             ]);
         });
 
-        it('fails if a viewer user tries to update authors', function () {
+        it('fails if a viewer tries to update an author', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             $data = authorPayload();
 
-            patchJson(route('author.update', $author), $data)
+            patchJson(route('author.update', $targetAuthor), $data)
                 ->assertForbidden();
 
             $this->assertDatabaseMissing('authors', [
-                'id' => $author->id,
+                'id' => $targetAuthor->id,
                 'last_name' => $data['last_name'],
                 'first_name' => $data['first_name'],
                 'patronymic' => $data['patronymic'],
             ]);
         });
 
-        it('allows an editor user to update authors', function () {
+        it('allows an editor to update an author', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             $data = authorPayload();
 
-            patchJson(route('author.update', $author), $data)
+            patchJson(route('author.update', $targetAuthor), $data)
                 ->assertOk()
                 ->assertJsonStructure(['data' => authorJsonStructure()]);
 
             $this->assertDatabaseHas('authors', [
-                'id' => $author->id,
+                'id' => $targetAuthor->id,
                 'last_name' => $data['last_name'],
                 'first_name' => $data['first_name'],
                 'patronymic' => $data['patronymic'],
             ]);
         });
 
-        it('allows an admin user to update authors', function () {
+        it('allows an admin to update an author', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             $data = authorPayload();
 
-            patchJson(route('author.update', $author), $data)
+            patchJson(route('author.update', $targetAuthor), $data)
                 ->assertOk()
                 ->assertJsonStructure(['data' => authorJsonStructure()]);
 
             $this->assertDatabaseHas('authors', [
-                'id' => $author->id,
+                'id' => $targetAuthor->id,
                 'last_name' => $data['last_name'],
                 'first_name' => $data['first_name'],
                 'patronymic' => $data['patronymic'],
             ]);
         });
 
-        it('allows a super-admin user to update authors', function () {
+        it('allows a super-admin to update an author', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -98,15 +98,15 @@ describe('AuthorController -> update', function () {
             ]);
             $superAdmin->assignRole(UserRole::SUPER_ADMIN->value);
             Sanctum::actingAs($superAdmin);
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             $data = authorPayload();
 
-            patchJson(route('author.update', $author), $data)
+            patchJson(route('author.update', $targetAuthor), $data)
                 ->assertOk()
                 ->assertJsonStructure(['data' => authorJsonStructure()]);
 
             $this->assertDatabaseHas('authors', [
-                'id' => $author->id,
+                'id' => $targetAuthor->id,
                 'last_name' => $data['last_name'],
                 'first_name' => $data['first_name'],
                 'patronymic' => $data['patronymic'],
@@ -122,10 +122,10 @@ describe('AuthorController -> update', function () {
     describe('validation', function () {
         it('fails if present fields are empty', function () {
             $editor = User::factory()->editor()->create();
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            patchJson(route('author.update', $author), authorPayload([
+            patchJson(route('author.update', $targetAuthor), authorPayload([
                 'last_name' => '',
                 'first_name' => '',
                 'slug' => ''
@@ -136,10 +136,10 @@ describe('AuthorController -> update', function () {
 
         it('fails if present fields are null', function () {
             $editor = User::factory()->editor()->create();
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            patchJson(route('author.update', $author), authorPayload([
+            patchJson(route('author.update', $targetAuthor), authorPayload([
                 'last_name' => null,
                 'first_name' => null,
                 'slug' => null
@@ -150,10 +150,10 @@ describe('AuthorController -> update', function () {
 
         it('fails if the last_name, first_name and patronymic are too short', function () {
             $editor = User::factory()->editor()->create();
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            patchJson(route('author.update', $author), authorPayload([
+            patchJson(route('author.update', $targetAuthor), authorPayload([
                 'last_name' => 'A',
                 'first_name' => 'B',
                 'patronymic' => 'C',
@@ -164,10 +164,10 @@ describe('AuthorController -> update', function () {
 
         it('fails if the last_name, first_name, patronymic, slug and biography are too long', function () {
             $editor = User::factory()->editor()->create();
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            patchJson(route('author.update', $author), authorPayload([
+            patchJson(route('author.update', $targetAuthor), authorPayload([
                 'last_name' => str_repeat('A', 256),
                 'first_name' => str_repeat('B', 256),
                 'patronymic' => str_repeat('C', 256),
@@ -180,10 +180,10 @@ describe('AuthorController -> update', function () {
 
         it('fails if the birth_date and death_date format are invalid', function () {
             $editor = User::factory()->editor()->create();
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            patchJson(route('author.update', $author), authorPayload([
+            patchJson(route('author.update', $targetAuthor), authorPayload([
                 'birth_date' => 'invalid-date',
                 'death_date' => 'invalid-date',
             ]))
@@ -193,10 +193,10 @@ describe('AuthorController -> update', function () {
 
         it('fails if the birth_date and death_date are in the future', function () {
             $editor = User::factory()->editor()->create();
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            patchJson(route('author.update', $author), authorPayload([
+            patchJson(route('author.update', $targetAuthor), authorPayload([
                 'birth_date' => now()->addDay()->format('Y-m-d'),
                 'death_date' => now()->addDay()->format('Y-m-d'),
             ]))
@@ -206,10 +206,10 @@ describe('AuthorController -> update', function () {
 
         it('fails if death_date is before birth_date', function () {
             $editor = User::factory()->editor()->create();
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            patchJson(route('author.update', $author), authorPayload([
+            patchJson(route('author.update', $targetAuthor), authorPayload([
                 'birth_date' => now()->subDay()->format('Y-m-d'),
                 'death_date' => now()->subDays(2)->format('Y-m-d'),
             ]))
@@ -219,11 +219,11 @@ describe('AuthorController -> update', function () {
 
         it('fails if slug is taken by another author', function () {
             $editor = User::factory()->editor()->create();
-            $author = Author::factory()->create(['slug' => 'my-slug']);
+            $targetAuthor = Author::factory()->create(['slug' => 'my-slug']);
             $otherAuthor = Author::factory()->create(['slug' => 'taken-slug']);
             Sanctum::actingAs($editor);
 
-            patchJson(route('author.update', $author), authorPayload([
+            patchJson(route('author.update', $targetAuthor), authorPayload([
                 'slug' => $otherAuthor->slug,
             ]))
                 ->assertUnprocessable()
@@ -232,10 +232,10 @@ describe('AuthorController -> update', function () {
 
         it('fails if slug format is invalid', function () {
             $editor = User::factory()->editor()->create();
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            patchJson(route('author.update', $author), authorPayload([
+            patchJson(route('author.update', $targetAuthor), authorPayload([
                 'slug' => 'Invalid Slug!'
             ]))
                 ->assertUnprocessable()
@@ -244,17 +244,17 @@ describe('AuthorController -> update', function () {
 
         it('succeeds if slug remains the same (ignore current)', function () {
             $editor = User::factory()->editor()->create();
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            patchJson(route('author.update', $author), [
-                'slug' => $author->slug,
+            patchJson(route('author.update', $targetAuthor), [
+                'slug' => $targetAuthor->slug,
             ])
                 ->assertOk()
-                ->assertJsonFragment(['slug' => $author->slug]);
+                ->assertJsonFragment(['slug' => $targetAuthor->slug]);
         });
 
-        it('fails if the author does not exist', function () {
+        it('fails if an author does not exist', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
 
@@ -269,14 +269,14 @@ describe('AuthorController -> update', function () {
     |--------------------------------------------------------------------------
     */
     describe('caching', function () {
-        it('flushes cache if author is updated', function () {
+        it('flushes cache if an author is updated', function () {
             $editor = User::factory()->editor()->create();
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
             Cache::tags(['author'])->put('authors', 'test_value', config('cache.ttl.authors'));
             expect(Cache::tags(['author'])->get('authors'))->toBe('test_value');
-            patchJson(route('author.update', $author), authorPayload([
+            patchJson(route('author.update', $targetAuthor), authorPayload([
                 'last_name' => 'Franko'
             ]))->assertOk();
             expect(Cache::tags(['author'])->get('authors'))->toBeNull();

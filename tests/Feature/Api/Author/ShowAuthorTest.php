@@ -21,57 +21,57 @@ describe('AuthorController -> show', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('allows an unauthenticated user to show the author', function () {
-            $author = Author::factory()->create();
+        it('allows an unauthenticated user to show an author', function () {
+            $targetAuthor = Author::factory()->create();
 
-            getJson(route('author.show', $author))
+            getJson(route('author.show', $targetAuthor))
                  ->assertOk()
                  ->assertJsonStructure([
                      'data' => authorJsonStructure()
                  ])
-                 ->assertJsonFragment(['id' => $author->id]);
+                 ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
 
-        it('allows a viewer user to show the author', function () {
+        it('allows a viewer to show an author', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
 
-            getJson(route('author.show', $author))
+            getJson(route('author.show', $targetAuthor))
                 ->assertOk()
                 ->assertJsonStructure([
                     'data' => authorJsonStructure()
                 ])
-                ->assertJsonFragment(['id' => $author->id]);
+                ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
 
-        it('allows an editor user to show the author', function () {
+        it('allows an editor to show an author', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
 
-            getJson(route('author.show', $author))
+            getJson(route('author.show', $targetAuthor))
                 ->assertOk()
                 ->assertJsonStructure([
                     'data' => authorJsonStructure()
                 ])
-                ->assertJsonFragment(['id' => $author->id]);
+                ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
 
-        it('allows an admin user to show the author', function () {
+        it('allows an admin to show an author', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
 
-            getJson(route('author.show', $author))
+            getJson(route('author.show', $targetAuthor))
                 ->assertOk()
                 ->assertJsonStructure([
                     'data' => authorJsonStructure()
                 ])
-                ->assertJsonFragment(['id' => $author->id]);
+                ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
 
-        it('allows a super-admin user to show the author', function () {
+        it('allows a super-admin to show an author', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -79,14 +79,14 @@ describe('AuthorController -> show', function () {
             ]);
             $superAdmin->assignRole(UserRole::SUPER_ADMIN->value);
             Sanctum::actingAs($superAdmin);
-            $author = Author::factory()->create();
+            $targetAuthor = Author::factory()->create();
 
-            getJson(route('author.show', $author))
+            getJson(route('author.show', $targetAuthor))
                 ->assertOk()
                 ->assertJsonStructure([
                     'data' => authorJsonStructure()
                 ])
-                ->assertJsonFragment(['id' => $author->id]);
+                ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
     });
 
@@ -96,7 +96,7 @@ describe('AuthorController -> show', function () {
     |--------------------------------------------------------------------------
     */
     describe('validation', function () {
-        it('fails if the author does not exist', function () {
+        it('fails if an author does not exist', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
 

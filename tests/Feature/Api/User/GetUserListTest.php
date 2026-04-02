@@ -191,6 +191,5 @@ describe('UserController -> index', function () {
                     'meta'
                 ]);
         });
-
     });
 })->group('user');

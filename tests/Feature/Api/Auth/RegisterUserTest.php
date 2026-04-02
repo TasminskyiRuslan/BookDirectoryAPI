@@ -25,27 +25,27 @@ describe('RegisterController', function () {
                 ->assertJsonValidationErrors(['name', 'email', 'password']);
         });
 
-        it('fails if the name is too short', function () {
+        it('fails if a name is too short', function () {
             postJson(route('auth.register'), registrationPayload(['name' => 'A']))
                 ->assertUnprocessable()
                 ->assertJsonValidationErrors(['name']);
         });
 
-        it('fails if the name is too long', function () {
+        it('fails if a name is too long', function () {
             $longName = str_repeat('A', 256);
             postJson(route('auth.register'), registrationPayload(['name' => $longName]))
                 ->assertUnprocessable()
                 ->assertJsonValidationErrors(['name']);
         });
 
-        it('fails if the email is too long', function () {
+        it('fails if an email is too long', function () {
             $longEmail = str_repeat('a', 256) . '@example.com';
             postJson(route('auth.register'), registrationPayload(['email' => $longEmail]))
                 ->assertUnprocessable()
                 ->assertJsonValidationErrors(['email']);
         });
 
-        it('fails if the email is already taken', function () {
+        it('fails if an email is already taken', function () {
             $data = registrationPayload();
             User::factory()->create(['email' => $data['email']]);
 
@@ -54,13 +54,13 @@ describe('RegisterController', function () {
                 ->assertJsonValidationErrors(['email']);
         });
 
-        it('fails if the email format is invalid', function () {
+        it('fails if an email format is invalid', function () {
             postJson(route('auth.register'), registrationPayload(['email' => 'invalid-email']))
                 ->assertUnprocessable()
                 ->assertJsonValidationErrors(['email']);
         });
 
-        it('fails if the password is too short', function () {
+        it('fails if a password is too short', function () {
             postJson(route('auth.register'), registrationPayload([
                 'password' => '123',
                 'password_confirmation' => '123',

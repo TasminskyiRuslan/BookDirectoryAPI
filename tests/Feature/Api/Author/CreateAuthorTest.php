@@ -21,7 +21,7 @@ describe('AuthorController -> store', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('fails if an unauthenticated user tries to create authors', function () {
+        it('fails if an unauthenticated user tries to create an author', function () {
             $data = authorPayload();
 
             postJson(route('author.store'), $data)
@@ -33,7 +33,7 @@ describe('AuthorController -> store', function () {
             ]);
         });
 
-        it('fails if a viewer user tries to create authors', function () {
+        it('fails if a viewer tries to create an author', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
             $data = authorPayload();
@@ -47,7 +47,7 @@ describe('AuthorController -> store', function () {
             ]);
         });
 
-        it('allows an editor user to create authors', function () {
+        it('allows an editor to create an author', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
             $data = authorPayload();
@@ -62,7 +62,7 @@ describe('AuthorController -> store', function () {
             ]);
         });
 
-        it('allows an admin user to create authors', function () {
+        it('allows an admin to create an author', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $data = authorPayload();
@@ -77,7 +77,7 @@ describe('AuthorController -> store', function () {
             ]);
         });
 
-        it('allows a super-admin user to create authors', function () {
+        it('allows a super-admin to create an author', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -216,7 +216,7 @@ describe('AuthorController -> store', function () {
     |--------------------------------------------------------------------------
     */
     describe('caching', function () {
-        it('flushes cache if author is created', function () {
+        it('flushes cache if an author is created', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
             Cache::tags(['author'])->put('authors', 'test_value', config('cache.ttl.authors'));

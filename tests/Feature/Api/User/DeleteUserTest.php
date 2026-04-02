@@ -20,7 +20,7 @@ describe('UserController -> destroy', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('fails if a user is not authenticated', function () {
+        it('fails if an unauthenticated user tries to delete a user', function () {
             $targetUser = User::factory()->viewer()->create();
 
             deleteJson(route('user.destroy', $targetUser))
@@ -122,7 +122,7 @@ describe('UserController -> destroy', function () {
             ]);
         });
 
-        it('deletes user tokens when the user is deleted', function () {
+        it('deletes user\'s tokens when the user is deleted', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetUser = User::factory()->viewer()->create();
@@ -142,7 +142,6 @@ describe('UserController -> destroy', function () {
     |--------------------------------------------------------------------------
     */
     describe('validation', function () {
-
         it('fails if a user does not exist', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);

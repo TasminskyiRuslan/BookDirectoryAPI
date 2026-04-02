@@ -160,7 +160,7 @@ describe('AuthorController -> index', function () {
                 ->assertJsonCount($authors->count(), 'data');
         });
 
-        it('allows a viewer user to get a list of authors', function () {
+        it('allows a viewer to get a list of authors', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
             $authors = Author::factory()->count(7)->create();
@@ -175,7 +175,7 @@ describe('AuthorController -> index', function () {
                 ->assertJsonCount($authors->count(), 'data');
         });
 
-        it('allows an editor user to get a list of authors', function () {
+        it('allows an editor to get a list of authors', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
             $authors = Author::factory()->count(7)->create();
@@ -190,7 +190,7 @@ describe('AuthorController -> index', function () {
                 ->assertJsonCount($authors->count(), 'data');
         });
 
-        it('allows an admin user to get a list of authors', function () {
+        it('allows an admin to get a list of authors', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $authors = Author::factory()->count(7)->create();
@@ -205,7 +205,7 @@ describe('AuthorController -> index', function () {
                 ->assertJsonCount($authors->count(), 'data');
         });
 
-        it('allows a super-admin user to get a list of authors', function () {
+        it('allows a super-admin to get a list of authors', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),

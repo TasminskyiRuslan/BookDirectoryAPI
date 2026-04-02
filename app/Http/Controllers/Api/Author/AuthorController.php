@@ -256,4 +256,19 @@ class AuthorController extends Controller
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
+
+    /**
+     * Deletes the specified author.
+     *
+     * @param Author $author
+     * @param DeleteAuthorAction $deleteAuthorAction
+     * @return Response
+     * @throws Throwable
+     */
+    public function destroy(Author $author, DeleteAuthorAction $deleteAuthorAction): Response
+    {
+        $this->authorize('delete', $author);
+        $deleteAuthorAction->handle($author);
+        return response()->noContent();
+    }
 }

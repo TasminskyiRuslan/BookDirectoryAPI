@@ -24,7 +24,7 @@ describe('LoginController', function () {
                 ->assertJsonValidationErrors(['email', 'password']);
         });
 
-        it('fails if the email is too long', function () {
+        it('fails if an email is too long', function () {
             $longEmail = str_repeat('a', 256) . '@example.com';
             postJson(route('auth.login'), [
                 'email' => $longEmail,
@@ -34,7 +34,7 @@ describe('LoginController', function () {
                 ->assertJsonValidationErrors(['email']);
         });
 
-        it('fails if the email does not exist', function () {
+        it('fails if an email does not exist', function () {
             postJson(route('auth.login'), [
                 'email' => 'nonexistent@example.com',
                 'password' => 'password123',
@@ -43,7 +43,7 @@ describe('LoginController', function () {
                 ->assertJsonValidationErrors(['email']);
         });
 
-        it('fails if the email format is invalid', function () {
+        it('fails if an email format is invalid', function () {
             postJson(route('auth.login'), [
                 'email' => 'invalid-email',
                 'password' => 'password123',
@@ -52,7 +52,7 @@ describe('LoginController', function () {
                 ->assertJsonValidationErrors(['email']);
         });
 
-        it('fails if the password is incorrect', function () {
+        it('fails if a password is incorrect', function () {
             $user = User::factory()->create();
 
             postJson(route('auth.login'), [
