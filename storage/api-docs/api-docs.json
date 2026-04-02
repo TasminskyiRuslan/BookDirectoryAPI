@@ -317,6 +317,66 @@
                         "description": "User not found."
                     }
                 }
+            },
+            "patch": {
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Update an author",
+                "description": "Updates the specified author.",
+                "operationId": "36fbfcc245f31a04f120a0d1d03428ff",
+                "parameters": [
+                    {
+                        "name": "author",
+                        "in": "path",
+                        "description": "Author identifier (slug)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAuthorRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Author updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/AuthorResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "404": {
+                        "description": "User not found."
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/users/{user}/role": {
@@ -621,8 +681,7 @@
                 "description": "Request payload for creation a new author.",
                 "required": [
                     "last_name",
-                    "first_name",
-                    "patronymic"
+                    "first_name"
                 ],
                 "properties": {
                     "last_name": {
@@ -643,14 +702,73 @@
                         "description": "Patronymic of the author.",
                         "type": "string",
                         "example": "Grigorievich",
+                        "nullable": true,
                         "maxLength": 255,
                         "minLength": 2
                     },
                     "slug": {
                         "description": "Slug of the author.",
                         "type": "string",
+                        "pattern": "^[a-z0-9-]+$",
                         "example": "shevchenko-taras-grigorievich",
                         "nullable": true,
+                        "maxLength": 255
+                    },
+                    "birth_date": {
+                        "description": "Birth date of the author.",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1814-03-09",
+                        "nullable": true
+                    },
+                    "death_date": {
+                        "description": "Death date of the author.",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1861-03-10",
+                        "nullable": true
+                    },
+                    "biography": {
+                        "description": "Biography of the author.",
+                        "type": "string",
+                        "example": "Ukrainian poet, artist, and thinker. Born into a family of serfs, he gained his freedom through a ransom. His work became the foundation of modern Ukrainian literature.",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateAuthorRequest": {
+                "title": "Update Author Request",
+                "description": "Request payload for updating a new author.",
+                "required": [],
+                "properties": {
+                    "last_name": {
+                        "description": "Lastname of the author.",
+                        "type": "string",
+                        "example": "Shevchenko",
+                        "maxLength": 255,
+                        "minLength": 2
+                    },
+                    "first_name": {
+                        "description": "Firstname of the author.",
+                        "type": "string",
+                        "example": "Taras",
+                        "maxLength": 255,
+                        "minLength": 2
+                    },
+                    "patronymic": {
+                        "description": "Patronymic of the author.",
+                        "type": "string",
+                        "example": "Grigorievich",
+                        "nullable": true,
+                        "maxLength": 255,
+                        "minLength": 2
+                    },
+                    "slug": {
+                        "description": "Slug of the author.",
+                        "type": "string",
+                        "pattern": "^[a-z0-9-]+$",
+                        "example": "shevchenko-taras-grigorievich",
                         "maxLength": 255
                     },
                     "birth_date": {

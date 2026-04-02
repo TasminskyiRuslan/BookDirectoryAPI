@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Author;
 
 use App\Actions\Author\CreateAuthorAction;
+use App\Actions\Author\DeleteAuthorAction;
 use App\Actions\Author\UpdateAuthorAction;
 use App\Data\Author\Requests\CreateAuthorData;
 use App\Data\Author\Requests\UpdateAuthorData;
@@ -12,6 +13,7 @@ use App\Models\Author;
 use App\Queries\Author\AuthorListQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use OpenApi\Attributes as OA;
@@ -191,6 +193,52 @@ class AuthorController extends Controller
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
+    #[OA\Patch(
+        path: '/authors/{author}',
+        description: 'Updates the specified author.',
+        summary: 'Update an author',
+        security: [['sanctum' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: '#/components/schemas/UpdateAuthorRequest')
+        ),
+        tags: ['Authors'],
+        parameters: [
+            new OA\Parameter(
+                name: 'author',
+                description: 'Author identifier (slug)',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'string'),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_OK,
+                description: 'Author updated successfully.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/AuthorResponse'
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NOT_FOUND,
+                description: 'User not found.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNPROCESSABLE_ENTITY,
+                description: 'Validation error.'
+            ),
+        ]
+    )]
     /**
      * Updates the specified author.
      *
@@ -207,13 +255,5 @@ class AuthorController extends Controller
         return AuthorResource::make($author->fresh())
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

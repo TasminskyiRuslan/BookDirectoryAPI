@@ -3,6 +3,8 @@
 namespace App\Actions\User;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class DeleteUserAction
 {
@@ -11,9 +13,12 @@ class DeleteUserAction
      *
      * @param User $user
      * @return void
+     * @throws Throwable
      */
     public function handle(User $user): void
     {
-        $user->delete();
+        DB::transaction(function () use ($user) {
+            $user->delete();
+        });
     }
 }

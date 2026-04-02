@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Throwable;
 
 class UserController extends Controller
 {
@@ -178,6 +179,7 @@ class UserController extends Controller
      * @param User $user
      * @param DeleteUserAction $deleteUserAction
      * @return Response
+     * @throws Throwable
      */
     public function destroy(User $user, DeleteUserAction $deleteUserAction): Response
     {

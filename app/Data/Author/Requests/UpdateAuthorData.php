@@ -19,7 +19,6 @@ use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
 use Spatie\LaravelData\Support\Validation\References\RouteParameterReference;
-use Symfony\Component\Console\Attribute\Option;
 
 class UpdateAuthorData extends Data
 {
@@ -38,11 +37,12 @@ class UpdateAuthorData extends Data
         #[MapName('first_name')]
         public string|Optional $firstName,
 
+        #[Sometimes]
         #[Nullable]
         #[StringType]
         #[Min(2)]
         #[Max(255)]
-        public ?string $patronymic,
+        public string|Optional|null $patronymic,
 
         #[Sometimes]
         #[StringType]
@@ -51,24 +51,27 @@ class UpdateAuthorData extends Data
         #[Regex('/^[a-z0-9-]+$/')]
         public string|Optional $slug,
 
+        #[Sometimes]
         #[Nullable]
         #[Date]
         #[BeforeOrEqual('today')]
         #[MapName('birth_date')]
         #[WithCast(DateTimeInterfaceCast::class, format: 'Y-m-d')]
-        public ?Carbon $birthDate,
+        public Carbon|Optional|null $birthDate,
 
+        #[Sometimes]
         #[Nullable]
         #[Date]
         #[AfterOrEqual('birth_date')]
         #[BeforeOrEqual('today')]
         #[MapName('death_date')]
         #[WithCast(DateTimeInterfaceCast::class, format: 'Y-m-d')]
-        public ?Carbon $deathDate,
+        public Carbon|Optional|null $deathDate,
 
+        #[Sometimes]
         #[Nullable]
         #[StringType]
         #[Max(5000)]
-        public ?string $biography,
+        public string|Optional|null $biography,
     ) {}
 }
