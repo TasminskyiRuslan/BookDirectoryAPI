@@ -318,6 +318,41 @@
                     }
                 }
             },
+            "delete": {
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Delete author",
+                "description": "Deletes the specified author.",
+                "operationId": "d6b7c065f13e949ca9072d148ba8dbf6",
+                "parameters": [
+                    {
+                        "name": "author",
+                        "in": "path",
+                        "description": "Author identifier (slug)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Author deleted successfully."
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "404": {
+                        "description": "Author not found."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
             "patch": {
                 "tags": [
                     "Authors"

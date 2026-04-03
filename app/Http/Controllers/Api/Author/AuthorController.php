@@ -257,6 +257,36 @@ class AuthorController extends Controller
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
+    #[OA\Delete(
+        path: '/authors/{author}',
+        description: 'Deletes the specified author.',
+        summary: 'Delete author',
+        security: [['sanctum' => []]],
+        tags: ['Authors'],
+        parameters: [
+            new OA\Parameter(
+                name: 'author',
+                description: 'Author identifier (slug)',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'string'),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NO_CONTENT,
+                description: 'Author deleted successfully.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NOT_FOUND,
+                description: 'Author not found.'
+            )
+        ]
+    )]
     /**
      * Deletes the specified author.
      *
