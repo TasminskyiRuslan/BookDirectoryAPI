@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers;
+namespace App\Observers\Author;
 
 use App\Models\Author;
 use Illuminate\Support\Facades\Cache;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers;
+namespace App\Observers\Book;
 
 use App\Models\Book;
 use Illuminate\Support\Facades\Cache;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Swagger\Schemas\Auth;
+namespace App\Swagger\Responses\Auth;
 
 use App\Enums\UserRole;
 use OpenApi\Attributes as OA;
@@ -9,7 +9,7 @@ use OpenApi\Attributes as OA;
     schema: 'UserResponse',
     title: 'User Response',
     description: 'Data of a specific user.',
-    required: ['id', 'name', 'email'],
+    required: ['id', 'name', 'email', 'role'],
     properties: [
         new OA\Property(
             property: 'id',

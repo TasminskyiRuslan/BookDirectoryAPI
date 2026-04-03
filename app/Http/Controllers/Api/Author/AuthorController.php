@@ -84,7 +84,7 @@ class AuthorController extends Controller
     public function index(AuthorListQuery $authorListQuery): JsonResponse
     {
         $this->authorize('view-any', Author::class);
-        $authors = Cache::tags(['author'])->remember('authors:' . md5(json_encode(request()->only(['page', 'filter', 'sort']))), config('cache.ttl.authors'), function () use ($authorListQuery) {
+        $authors = Cache::tags(['author'])->remember('authors:' . http_build_query(request()->only(['page', 'filter', 'sort'])), config('cache.ttl.authors'), function () use ($authorListQuery) {
             return $authorListQuery->get();
         });
         return AuthorResource::collection($authors)

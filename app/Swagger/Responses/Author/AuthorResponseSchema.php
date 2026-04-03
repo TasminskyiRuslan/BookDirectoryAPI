@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Swagger\Schemas\Author;
+namespace App\Swagger\Responses\Author;
 
-use App\Enums\UserRole;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(

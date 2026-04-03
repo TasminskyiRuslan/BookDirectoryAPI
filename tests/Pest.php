@@ -148,6 +148,7 @@ function bookJsonStructure(): array {
     return [
         'id',
         'title',
+        'slug',
         'description',
         'image_url',
         'publication_date',

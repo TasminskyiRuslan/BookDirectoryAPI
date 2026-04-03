@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Observers\AuthorObserver;
+use App\Observers\Author\AuthorObserver;
 use Database\Factories\AuthorFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;

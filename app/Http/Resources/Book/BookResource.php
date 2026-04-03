@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 /**
  * @property mixed $id
  * @property mixed $title
+ * @property mixed $slug
  * @property mixed $description
  * @property mixed $image_path
  * @property mixed $publication_date
@@ -26,6 +27,7 @@ class BookResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'slug' => $this->slug,
             'description' => $this->description,
             'image_url' => $this->image_path ? Storage::disk('public')->url($this->image_path) : null,
             'publication_date' => $this->publication_date?->toDateString(),

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Observers\BookObserver;
+use App\Observers\Book\BookObserver;
 use Database\Factories\BookFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
