@@ -19,7 +19,7 @@ class CreateAuthorAction
     public function handle(CreateAuthorData $authorData): Author
     {
         return DB::transaction(function () use ($authorData) {
-            return Author::create($authorData->toArray());
+            return Author::create($authorData->all());
         });
     }
 }

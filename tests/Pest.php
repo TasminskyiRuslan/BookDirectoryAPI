@@ -88,6 +88,21 @@ function authorPayload(array $overrides = []): array
     ], $overrides);
 }
 
+/**
+ * Generate a book payload with optional overrides.
+ *
+ * @param array $overrides
+ * @return array
+ */
+function bookPayload(array $overrides = []): array
+{
+    return array_merge([
+        'title' => fake()->sentence(3),
+        'description' => fake()->paragraph(),
+        'publication_date' => fake()->date(),
+    ], $overrides);
+}
+
 /*
 |--------------------------------------------------------------------------
 | json structures

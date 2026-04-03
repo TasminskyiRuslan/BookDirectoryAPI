@@ -222,9 +222,7 @@ describe('AuthorController -> store', function () {
             Cache::tags(['author'])->put('authors', 'test_value', config('cache.ttl.authors'));
             expect(Cache::tags(['author'])->get('authors'))->toBe('test_value');
 
-            postJson(route('author.store'), authorPayload([
-                'last_name' => 'Franko'
-            ]))->assertCreated();
+            postJson(route('author.store'), authorPayload())->assertCreated();
             expect(Cache::tags(['author'])->get('authors'))->toBeNull();
         });
     });

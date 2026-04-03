@@ -20,7 +20,7 @@ class UpdateAuthorAction
     public function handle(UpdateAuthorData $authorData, Author $author): Author
     {
         return DB::transaction(function () use ($authorData, $author) {
-            $author->update($authorData->toArray());
+            $author->update($authorData->all());
             return $author;
         });
     }

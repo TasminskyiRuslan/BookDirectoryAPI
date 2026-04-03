@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\Book;
 
+use App\Actions\Book\CreateBookAction;
+use App\Data\Book\Requests\CreateBookData;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
@@ -12,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use OpenApi\Attributes as OA;
+use Throwable;
 
 class BookController extends Controller
 {
@@ -94,11 +97,20 @@ class BookController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Creates a new book.
+     *
+     * @param CreateBookData $bookData
+     * @param CreateBookAction $createBookAction
+     * @return JsonResponse
+     * @throws Throwable
      */
-    public function store(Request $request)
+    public function store(CreateBookData $bookData, CreateBookAction $createBookAction): JsonResponse
     {
-         //
+         $this->authorize('create', Book::class);
+         $book = $createBookAction->handle($bookData);
+         return BookResource::make($book)
+             ->response()
+             ->setStatusCode(SymfonyResponse::HTTP_CREATED);
     }
 
     /**
