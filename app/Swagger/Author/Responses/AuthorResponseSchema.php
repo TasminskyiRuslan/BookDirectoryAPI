@@ -1,47 +1,45 @@
 <?php
 
-namespace App\Swagger\Requests\Author;
+namespace App\Swagger\Author\Responses;
 
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: 'UpdateAuthorRequest',
-    title: 'Update Author Request',
-    description: 'Request payload for updating a new author.',
-    required: [],
+    schema: 'AuthorResponse',
+    title: 'Author Response',
+    description: 'Data of a specific author.',
+    required: ['id', 'last_name', 'first_name', 'slug'],
     properties: [
+        new OA\Property(
+            property: 'id',
+            description: 'Unique identifier of the author.',
+            type: 'integer',
+            example: 1
+        ),
         new OA\Property(
             property: 'last_name',
             description: 'Lastname of the author.',
             type: 'string',
-            example: 'Shevchenko',
-            maxLength: 255,
-            minLength: 2
+            example: 'Shevchenko'
         ),
         new OA\Property(
             property: 'first_name',
             description: 'Firstname of the author.',
             type: 'string',
-            example: 'Taras',
-            maxLength: 255,
-            minLength: 2
+            example: 'Taras'
         ),
         new OA\Property(
             property: 'patronymic',
             description: 'Patronymic of the author.',
             type: 'string',
             example: 'Grigorievich',
-            nullable: true,
-            maxLength: 255,
-            minLength: 2
+            nullable: true
         ),
         new OA\Property(
             property: 'slug',
             description: 'Slug of the author.',
             type: 'string',
-            pattern: '^[a-z0-9-]+$',
             example: 'shevchenko-taras-grigorievich',
-            maxLength: 255
         ),
         new OA\Property(
             property: 'birth_date',
@@ -69,7 +67,7 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class UpdateAuthorRequestSchema
+class AuthorResponseSchema
 {
 
 }

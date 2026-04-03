@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Swagger\Requests\User;
+namespace App\Swagger\User\Requests;
 
 use App\Enums\UserRole;
 use OpenApi\Attributes as OA;

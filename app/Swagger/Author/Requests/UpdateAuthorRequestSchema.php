@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Swagger\Requests\Author;
+namespace App\Swagger\Author\Requests;
 
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: 'CreateAuthorRequest',
-    title: 'Create Author Request',
-    description: 'Request payload for creation a new author.',
-    required: ['last_name', 'first_name'],
+    schema: 'UpdateAuthorRequest',
+    title: 'Update Author Request',
+    description: 'Request payload for updating a new author.',
+    required: [],
     properties: [
         new OA\Property(
             property: 'last_name',
@@ -41,8 +41,7 @@ use OpenApi\Attributes as OA;
             type: 'string',
             pattern: '^[a-z0-9-]+$',
             example: 'shevchenko-taras-grigorievich',
-            nullable: true,
-            maxLength: 255,
+            maxLength: 255
         ),
         new OA\Property(
             property: 'birth_date',
@@ -70,7 +69,7 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class CreateAuthorRequestSchema
+class UpdateAuthorRequestSchema
 {
 
 }

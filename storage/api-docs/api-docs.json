@@ -498,6 +498,52 @@
                     },
                     {}
                 ]
+            },
+            "post": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Book an author",
+                "description": "Creates a new book.",
+                "operationId": "cea0e0738c55976e73681eba8cb71b26",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBookRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Book created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/BookResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/users/{user}/role": {
@@ -797,6 +843,71 @@
                 },
                 "type": "object"
             },
+            "AuthResponse": {
+                "title": "Auth Response",
+                "description": "Data returned after user login or registration.",
+                "required": [
+                    "user",
+                    "access_token",
+                    "token_type"
+                ],
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/UserResponse"
+                    },
+                    "access_token": {
+                        "description": "Personal access token for API authentication.",
+                        "type": "string",
+                        "example": "1|eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+                    },
+                    "token_type": {
+                        "description": "Token type to be used in the Authorization header.",
+                        "type": "string",
+                        "example": "Bearer"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResponse": {
+                "title": "User Response",
+                "description": "Data of a specific user.",
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "role"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Unique identifier of the user.",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Full name of the user.",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "Email address of the user.",
+                        "type": "string",
+                        "format": "email",
+                        "example": "john@example.com"
+                    },
+                    "role": {
+                        "description": "Role of the user.",
+                        "type": "string",
+                        "example": "viewer",
+                        "enum": [
+                            "viewer",
+                            "editor",
+                            "admin",
+                            "super-admin"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
             "CreateAuthorRequest": {
                 "title": "Create Author Request",
                 "description": "Request payload for creation a new author.",
@@ -915,91 +1026,6 @@
                 },
                 "type": "object"
             },
-            "UpdateUserRoleRequest": {
-                "title": "Update User Role Request",
-                "description": "Request payload for updating of the specified user.",
-                "required": [
-                    "role"
-                ],
-                "properties": {
-                    "role": {
-                        "description": "Role of the user.",
-                        "type": "string",
-                        "example": "editor",
-                        "enum": [
-                            "viewer",
-                            "editor",
-                            "admin"
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "AuthResponse": {
-                "title": "Auth Response",
-                "description": "Data returned after user login or registration.",
-                "required": [
-                    "user",
-                    "access_token",
-                    "token_type"
-                ],
-                "properties": {
-                    "user": {
-                        "$ref": "#/components/schemas/UserResponse"
-                    },
-                    "access_token": {
-                        "description": "Personal access token for API authentication.",
-                        "type": "string",
-                        "example": "1|eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
-                    },
-                    "token_type": {
-                        "description": "Token type to be used in the Authorization header.",
-                        "type": "string",
-                        "example": "Bearer"
-                    }
-                },
-                "type": "object"
-            },
-            "UserResponse": {
-                "title": "User Response",
-                "description": "Data of a specific user.",
-                "required": [
-                    "id",
-                    "name",
-                    "email",
-                    "role"
-                ],
-                "properties": {
-                    "id": {
-                        "description": "Unique identifier of the user.",
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
-                        "description": "Full name of the user.",
-                        "type": "string",
-                        "example": "John Doe"
-                    },
-                    "email": {
-                        "description": "Email address of the user.",
-                        "type": "string",
-                        "format": "email",
-                        "example": "john@example.com"
-                    },
-                    "role": {
-                        "description": "Role of the user.",
-                        "type": "string",
-                        "example": "viewer",
-                        "enum": [
-                            "viewer",
-                            "editor",
-                            "admin",
-                            "super-admin"
-                        ]
-                    }
-                },
-                "type": "object"
-            },
             "AuthorResponse": {
                 "title": "Author Response",
                 "description": "Data of a specific author.",
@@ -1059,6 +1085,44 @@
                 },
                 "type": "object"
             },
+            "CreateBookRequest": {
+                "title": "Create Book Request",
+                "description": "Request payload for creation a new book.",
+                "required": [
+                    "title"
+                ],
+                "properties": {
+                    "title": {
+                        "description": "Title of the book.",
+                        "type": "string",
+                        "example": "The Tragical History of Hamlet, Prince of Denmark",
+                        "maxLength": 255
+                    },
+                    "slug": {
+                        "description": "Slug of the book.",
+                        "type": "string",
+                        "pattern": "^[a-z0-9-]+$",
+                        "example": "the-tragical-history-of-hamlet-prince-of-denmark",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "description": {
+                        "description": "Description of the book.",
+                        "type": "string",
+                        "example": "The story follows Prince Hamlet of Denmark, who returns home to find his father (the King) dead and his uncle, Claudius, newly crowned and married to Hamlet's mother, Gertrude. After the Ghost of his father appears and reveals that Claudius murdered him, Hamlet is consumed by a quest for revenge.",
+                        "nullable": true,
+                        "maxLength": 5000
+                    },
+                    "publication_date": {
+                        "description": "Publication date of the book.",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1603-01-01",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
             "BookResponse": {
                 "title": "Book Response",
                 "description": "Data of a specific book.",
@@ -1110,6 +1174,26 @@
                             "$ref": "#/components/schemas/AuthorResponse"
                         },
                         "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateUserRoleRequest": {
+                "title": "Update User Role Request",
+                "description": "Request payload for updating of the specified user.",
+                "required": [
+                    "role"
+                ],
+                "properties": {
+                    "role": {
+                        "description": "Role of the user.",
+                        "type": "string",
+                        "example": "editor",
+                        "enum": [
+                            "viewer",
+                            "editor",
+                            "admin"
+                        ]
                     }
                 },
                 "type": "object"

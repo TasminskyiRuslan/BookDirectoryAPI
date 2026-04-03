@@ -1,45 +1,48 @@
 <?php
 
-namespace App\Swagger\Responses\Author;
+namespace App\Swagger\Author\Requests;
 
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: 'AuthorResponse',
-    title: 'Author Response',
-    description: 'Data of a specific author.',
-    required: ['id', 'last_name', 'first_name', 'slug'],
+    schema: 'CreateAuthorRequest',
+    title: 'Create Author Request',
+    description: 'Request payload for creation a new author.',
+    required: ['last_name', 'first_name'],
     properties: [
-        new OA\Property(
-            property: 'id',
-            description: 'Unique identifier of the author.',
-            type: 'integer',
-            example: 1
-        ),
         new OA\Property(
             property: 'last_name',
             description: 'Lastname of the author.',
             type: 'string',
-            example: 'Shevchenko'
+            example: 'Shevchenko',
+            maxLength: 255,
+            minLength: 2
         ),
         new OA\Property(
             property: 'first_name',
             description: 'Firstname of the author.',
             type: 'string',
-            example: 'Taras'
+            example: 'Taras',
+            maxLength: 255,
+            minLength: 2
         ),
         new OA\Property(
             property: 'patronymic',
             description: 'Patronymic of the author.',
             type: 'string',
             example: 'Grigorievich',
-            nullable: true
+            nullable: true,
+            maxLength: 255,
+            minLength: 2
         ),
         new OA\Property(
             property: 'slug',
             description: 'Slug of the author.',
             type: 'string',
+            pattern: '^[a-z0-9-]+$',
             example: 'shevchenko-taras-grigorievich',
+            nullable: true,
+            maxLength: 255,
         ),
         new OA\Property(
             property: 'birth_date',
@@ -67,7 +70,7 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class AuthorResponseSchema
+class CreateAuthorRequestSchema
 {
 
 }

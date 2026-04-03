@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Swagger\Requests\Auth;
+namespace App\Swagger\Auth\Requests;
 
 use OpenApi\Attributes as OA;
 
