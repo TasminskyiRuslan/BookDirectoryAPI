@@ -14,7 +14,7 @@ class UserListQuery
      *
      * @return LengthAwarePaginator
      */
-    public function handle(): LengthAwarePaginator
+    public function get(): LengthAwarePaginator
     {
         return QueryBuilder::for(User::class)
             ->allowedFilters([

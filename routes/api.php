@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\MeController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Author\AuthorController;
+use App\Http\Controllers\Api\Book\BookController;
 use App\Http\Controllers\Api\User\UpdateUserRoleController;
 use App\Http\Controllers\Api\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -60,7 +61,7 @@ Route::prefix('users')->middleware('auth:sanctum')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| User actions
+| Author actions
 |--------------------------------------------------------------------------
 */
 Route::prefix('authors')->group(function () {
@@ -83,4 +84,31 @@ Route::prefix('authors')->group(function () {
     // Delete author action
     Route::delete('/{author}', [AuthorController::class, 'destroy'])
         ->name('author.destroy');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Book actions
+|--------------------------------------------------------------------------
+*/
+Route::prefix('books')->group(function () {
+    // Get books list action
+    Route::get('/', [BookController::class, 'index'])
+        ->name('book.index');
+
+    // Create book action
+    Route::post('/', [BookController::class, 'store'])
+        ->name('book.store');
+
+    // Show book action
+    Route::get('/{book}', [BookController::class, 'show'])
+        ->name('book.show');
+
+    // Update book action
+    Route::patch('/{book}', [BookController::class, 'update'])
+        ->name('book.update');
+
+    // Delete book action
+    Route::delete('/{book}', [BookController::class, 'destroy'])
+        ->name('book.destroy');
 });

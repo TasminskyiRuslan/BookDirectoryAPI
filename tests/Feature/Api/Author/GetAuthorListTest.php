@@ -24,9 +24,7 @@ describe('AuthorController -> index', function () {
     |--------------------------------------------------------------------------
     */
     describe('filters & sorting', function () {
-        it('filters authors by search string in last_name, first_name, patronymic or biography', function () {
-            $viewer = User::factory()->viewer()->create();
-            Sanctum::actingAs($viewer);
+        it('filters authors by search string', function () {
             $author1 = Author::factory()->create(['last_name' => 'Shevchenko', 'first_name' => 'Taras', 'patronymic' => 'Grigorovich']);
             $author2 = Author::factory()->create(['last_name' => 'Bondar', 'first_name' => 'Andrii']);
             $searchString = substr($author1->last_name, 3);
@@ -38,8 +36,6 @@ describe('AuthorController -> index', function () {
         });
 
         it('sorts authors by created_at (desc) by default', function () {
-            $viewer = User::factory()->viewer()->create();
-            Sanctum::actingAs($viewer);
             $oldAuthor = Author::factory()->create();
             $oldAuthor->setCreatedAt(now()->subDays(2))->save();
             $newAuthor = Author::factory()->create();
@@ -52,8 +48,6 @@ describe('AuthorController -> index', function () {
         });
 
         it('sorts authors by full_name (asc and desc)', function () {
-            $viewer = User::factory()->viewer()->create();
-            Sanctum::actingAs($viewer);
             $author1 = Author::factory()->create(['last_name' => 'Shevchenko', 'first_name' => 'Taras', 'patronymic' => 'Grigorovich']);
             $author2 = Author::factory()->create(['last_name' => 'Bondar', 'first_name' => 'Andrii']);
             $author3 = Author::factory()->create(['last_name' => 'Shevchenko', 'first_name' => 'Natalia']);
@@ -71,8 +65,6 @@ describe('AuthorController -> index', function () {
         });
 
         it('sorts authors by created_at (asc and desc)', function () {
-            $viewer = User::factory()->viewer()->create();
-            Sanctum::actingAs($viewer);
             $author1 = Author::factory()->create();
             $author1->setCreatedAt(now()->subDays(3))->save();
             $author2 = Author::factory()->create();
@@ -93,8 +85,6 @@ describe('AuthorController -> index', function () {
         });
 
         it('sorts authors by birth_date (asc and desc)', function () {
-            $viewer = User::factory()->viewer()->create();
-            Sanctum::actingAs($viewer);
             $author1 = Author::factory()->create(['birth_date' => now()->subYears(100)]);
             $author2 = Author::factory()->create(['birth_date' => now()->subYears(70)]);
             $author3 = Author::factory()->create(['birth_date' => now()->subYears(50)]);
@@ -112,8 +102,6 @@ describe('AuthorController -> index', function () {
         });
 
         it('sorts authors by death_date (asc and desc)', function () {
-            $viewer = User::factory()->viewer()->create();
-            Sanctum::actingAs($viewer);
             $author1 = Author::factory()->create(['death_date' => now()->subYears(30)]);
             $author2 = Author::factory()->create(['death_date' => now()->subYears(20)]);
             $author3 = Author::factory()->create(['death_date' => now()->subYears(10)]);
@@ -130,10 +118,8 @@ describe('AuthorController -> index', function () {
                 ->assertJsonFragment(['id' => $author1->id]);
         });
 
-        it('returns empty data when no users match search', function () {
-            $viewer = User::factory()->viewer()->create();
-            Sanctum::actingAs($viewer);
-            $authors = Author::factory()->count(7)->create();
+        it('returns empty data when no authors match search', function () {
+            Author::factory()->count(7)->create();
 
             getJson(route('author.index', ['filter[search]' => 'non-existent']))
                 ->assertOk()

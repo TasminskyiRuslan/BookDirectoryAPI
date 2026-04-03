@@ -86,7 +86,7 @@ class UserController extends Controller
     public function index(UserListQuery $userListQuery): JsonResponse
     {
         $this->authorize('view-any', User::class);
-        return UserResource::collection($userListQuery->handle())
+        return UserResource::collection($userListQuery->get())
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }

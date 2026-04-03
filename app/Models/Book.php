@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\BookObserver;
 use Database\Factories\BookFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -64,7 +65,7 @@ class Book extends Model
     protected function casts(): array
     {
         return [
-            'publication_date' => 'datetime',
+            'publication_date' => 'date',
         ];
     }
 
@@ -88,8 +89,17 @@ class Book extends Model
         return SlugOptions::create()
             ->generateSlugsFrom('title')
             ->saveSlugsTo('slug')
-            ->generateSlugsOnCreate()
             ->doNotGenerateSlugsOnUpdate();
+    }
+
+    /**
+     * Bootstrap any model events and attach the observer.
+     *
+     * @return void
+     */
+    protected static function booted(): void
+    {
+        static::observe(BookObserver::class);
     }
 
     /**

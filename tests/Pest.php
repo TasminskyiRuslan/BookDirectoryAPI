@@ -97,7 +97,7 @@ function authorPayload(array $overrides = []): array
 /**
  * Get the expected JSON structure for a user object.
  *
- * @return array The expected JSON structure for a user.
+ * @return array
  */
 function userJsonStructure(): array {
     return [
@@ -111,7 +111,7 @@ function userJsonStructure(): array {
 /**
  * Get the expected JSON structure for an authentication response.
  *
- * @return array The expected JSON structure for an authentication response.
+ * @return array
  */
 function authJsonStructure(): array {
     return [
@@ -122,9 +122,9 @@ function authJsonStructure(): array {
 }
 
 /**
- * Get the expected JSON structure for an authentication response.
+ * Get the expected JSON structure for an author object.
  *
- * @return array The expected JSON structure for an authentication response.
+ * @return array
  */
 function authorJsonStructure(): array {
     return [
@@ -136,5 +136,23 @@ function authorJsonStructure(): array {
         'birth_date',
         'death_date',
         'biography',
+    ];
+}
+
+/**
+ * Get the expected JSON structure for a book object.
+ *
+ * @return array
+ */
+function bookJsonStructure(): array {
+    return [
+        'id',
+        'title',
+        'description',
+        'image_url',
+        'publication_date',
+        'authors' => [
+            '*' => authorJsonStructure(),
+        ],
     ];
 }

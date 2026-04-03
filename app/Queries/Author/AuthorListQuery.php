@@ -15,7 +15,7 @@ class AuthorListQuery
      *
      * @return LengthAwarePaginator
      */
-    public function handle(): LengthAwarePaginator
+    public function get(): LengthAwarePaginator
     {
         return QueryBuilder::for(Author::class)
             ->allowedFilters([

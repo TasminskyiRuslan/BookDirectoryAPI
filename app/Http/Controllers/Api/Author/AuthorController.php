@@ -85,7 +85,7 @@ class AuthorController extends Controller
     {
         $this->authorize('view-any', Author::class);
         $authors = Cache::tags(['author'])->remember('authors:' . md5(json_encode(request()->only(['page', 'filter', 'sort']))), config('cache.ttl.authors'), function () use ($authorListQuery) {
-            return $authorListQuery->handle();
+            return $authorListQuery->get();
         });
         return AuthorResource::collection($authors)
             ->response()
