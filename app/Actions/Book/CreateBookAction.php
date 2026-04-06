@@ -10,7 +10,7 @@ use Throwable;
 class CreateBookAction
 {
     /**
-     * Creates a new book.
+     * Create a new book.
      *
      * @param CreateBookData $bookData
      * @return Book

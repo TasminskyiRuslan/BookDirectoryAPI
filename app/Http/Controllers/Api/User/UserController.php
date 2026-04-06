@@ -20,7 +20,7 @@ class UserController extends Controller
 
     #[OA\Get(
         path: '/users',
-        description: 'Retrieves a paginated list of users with filters and sorting.',
+        description: 'Retrieve a paginated list of users with filters and sorting.',
         summary: 'Retrieve a list of users',
         security: [['sanctum' => []]],
         tags: ['User'],
@@ -78,7 +78,7 @@ class UserController extends Controller
         ]
     )]
     /**
-     * Retrieves a paginated list of users with filters and sorting.
+     * Retrieve a paginated list of users with filters and sorting.
      *
      * @param UserListQuery $userListQuery
      * @return JsonResponse
@@ -93,7 +93,7 @@ class UserController extends Controller
 
     #[OA\Get(
         path: '/users/{user}',
-        description: 'Retrieves detailed information about a specific user.',
+        description: 'Retrieve detailed information about a specific user.',
         summary: 'Retrieve user details',
         security: [['sanctum' => []]],
         tags: ['User'],
@@ -130,7 +130,7 @@ class UserController extends Controller
         ]
     )]
     /**
-     * Retrieves detailed information about a specific user.
+     * Retrieve detailed information about a specific user.
      *
      * @param User $user
      * @return JsonResponse
@@ -145,8 +145,8 @@ class UserController extends Controller
 
     #[OA\Delete(
         path: '/users/{user}',
-        description: 'Deletes the specified user.',
-        summary: 'Delete user',
+        description: 'Remove the specified user.',
+        summary: 'Remove a user',
         security: [['sanctum' => []]],
         tags: ['User'],
         parameters: [

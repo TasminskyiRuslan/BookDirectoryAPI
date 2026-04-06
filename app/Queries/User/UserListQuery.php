@@ -10,7 +10,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 class UserListQuery
 {
     /**
-     * Get a paginated list of users with allowed filtering and sorting.
+     * Retrieve a paginated list of users with filters and sorting.
      *
      * @return LengthAwarePaginator
      */

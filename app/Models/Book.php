@@ -111,4 +111,15 @@ class Book extends Model
     {
         return $this->belongsToMany(Author::class);
     }
+
+    /**
+     * Remove the image path from the record.
+     *
+     * @return $this
+     */
+    public function removeImage(): static
+    {
+        $this->image_path = null;
+        return $this;
+    }
 }

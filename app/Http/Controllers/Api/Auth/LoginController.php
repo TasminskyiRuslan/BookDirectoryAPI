@@ -14,7 +14,7 @@ class LoginController extends Controller
 {
     #[OA\Post(
         path: '/auth/login',
-        description: 'Authenticates the user using email and password and issue an access token.',
+        description: 'Authenticate the user using email and password and issue an access token.',
         summary: 'Authenticate user',
         requestBody: new OA\RequestBody(
             required: true,
@@ -41,7 +41,7 @@ class LoginController extends Controller
         ]
     )]
     /**
-     * Authenticates the user using email and password and issue an access token.
+     * Authenticate the user using email and password and issue an access token.
      *
      * @param LoginUserData $userData
      * @param LoginUserAction $loginUserAction

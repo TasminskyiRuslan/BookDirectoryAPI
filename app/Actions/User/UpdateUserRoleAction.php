@@ -10,7 +10,7 @@ use Throwable;
 class UpdateUserRoleAction
 {
     /**
-     * Updates the role for the specified user.
+     * Update the role for the specified user.
      *
      * @param UpdateUserRoleData $userRoleData
      * @param User $user

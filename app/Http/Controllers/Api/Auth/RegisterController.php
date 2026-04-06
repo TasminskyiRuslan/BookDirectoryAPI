@@ -15,7 +15,7 @@ class RegisterController extends Controller
 {
     #[OA\Post(
         path: '/auth/register',
-        description: 'Registers a new user and issue an access token.',
+        description: 'Register a new user and issue an access token.',
         summary: 'Register user',
         requestBody: new OA\RequestBody(
             required: true,
@@ -42,7 +42,7 @@ class RegisterController extends Controller
         ]
     )]
     /**
-     * Registers a new user and issue an access token.
+     * Register a new user and issue an access token.
      *
      * @param RegisterUserData $userData
      * @param RegisterUserAction $registerUserAction

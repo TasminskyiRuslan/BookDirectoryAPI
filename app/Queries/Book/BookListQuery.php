@@ -10,7 +10,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 class BookListQuery
 {
     /**
-     * Get a paginated list of books with allowed filtering and sorting.
+     * Retrieve a paginated list of books with allowed filtering and sorting.
      *
      * @return LengthAwarePaginator
      */

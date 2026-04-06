@@ -9,7 +9,7 @@ use Throwable;
 class DeleteAuthorAction
 {
     /**
-     * Deletes the specified author.
+     * Remove the specified author.
      *
      * @param Author $author
      * @return void

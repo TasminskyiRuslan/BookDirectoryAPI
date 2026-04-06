@@ -7,7 +7,7 @@ use App\Models\User;
 class RevokeCurrentTokenAction
 {
     /**
-     * Revokes the current access token for the user.
+     * Revoke the current access token for the user.
      *
      * @param User $user
      * @return void

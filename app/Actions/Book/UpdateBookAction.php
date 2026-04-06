@@ -10,7 +10,7 @@ use Throwable;
 class UpdateBookAction
 {
     /**
-     * Updates the specified book.
+     * Update the specified book.
      *
      * @param UpdateBookData $bookData
      * @param Book $book

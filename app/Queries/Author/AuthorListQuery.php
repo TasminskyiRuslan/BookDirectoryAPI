@@ -11,7 +11,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 class AuthorListQuery
 {
     /**
-     * Get a paginated list of authors with allowed filtering and sorting.
+     * Retrieve a paginated list of authors with allowed filtering and sorting.
      *
      * @return LengthAwarePaginator
      */

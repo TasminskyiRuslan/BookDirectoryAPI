@@ -9,7 +9,7 @@ use Throwable;
 class DeleteUserAction
 {
     /**
-     * Deletes the specified user.
+     * Delete the specified user.
      *
      * @param User $user
      * @return void

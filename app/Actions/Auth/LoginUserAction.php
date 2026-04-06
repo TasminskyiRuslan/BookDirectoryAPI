@@ -21,7 +21,7 @@ class LoginUserAction
     }
 
     /**
-     * Authenticates the user and issue an access token.
+     * Authenticate the user and issue an access token.
      *
      * @param LoginUserData $userData
      * @return AuthData

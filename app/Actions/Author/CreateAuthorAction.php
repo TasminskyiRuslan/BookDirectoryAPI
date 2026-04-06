@@ -10,7 +10,7 @@ use Throwable;
 class CreateAuthorAction
 {
     /**
-     * Creates a new author.
+     * Create a new author.
      *
      * @param CreateAuthorData $authorData
      * @return Author

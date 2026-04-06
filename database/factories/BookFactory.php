@@ -33,18 +33,13 @@ class BookFactory extends Factory
     /**
      * Add an image to the book.
      *
+     * @param string $path
      * @return static
      */
-    public function withImage(): static
+    public function withImage(string $path): static
     {
-        return $this->state(function (array $attributes) {
-            $file = UploadedFile::fake()->image(fake()->sha1() . '.jpg');
-
-            $path = $file->store('books', 'public');
-
-            return [
-                'image_path' => $path,
-            ];
+        return $this->state(function (array $attributes) use ($path) {
+            return ['image_path' => $path ?? 'books/' . fake()->uuid() . '.jpg'];
         });
     }
 }

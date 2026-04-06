@@ -25,7 +25,7 @@ class AuthorController extends Controller
 
     #[OA\Get(
         path: '/authors',
-        description: 'Retrieves a paginated list of authors with filters and sorting.',
+        description: 'Retrieve a paginated list of authors with filters and sorting.',
         summary: 'Retrieve a list of authors',
         security: [['sanctum' => []], []],
         tags: ['Author'],
@@ -76,7 +76,7 @@ class AuthorController extends Controller
         ]
     )]
     /**
-     * Retrieves a paginated list of authors with filters and sorting.
+     * Retrieve a paginated list of authors with filters and sorting.
      *
      * @param AuthorListQuery $authorListQuery
      * @return JsonResponse
@@ -94,7 +94,7 @@ class AuthorController extends Controller
 
     #[OA\Post(
         path: '/authors',
-        description: 'Creates a new author.',
+        description: 'Create a new author.',
         summary: 'Create an author',
         security: [['sanctum' => []]],
         requestBody: new OA\RequestBody(
@@ -126,7 +126,7 @@ class AuthorController extends Controller
         ]
     )]
     /**
-     * Creates a new author.
+     * Create a new author.
      *
      * @param CreateAuthorData $authorData
      * @param CreateAuthorAction $createAuthorAction
@@ -144,7 +144,7 @@ class AuthorController extends Controller
 
     #[OA\Get(
         path: '/authors/{author}',
-        description: 'Retrieves detailed information about a specific author.',
+        description: 'Retrieve detailed information about a specific author.',
         summary: 'Retrieve author details',
         tags: ['Author'],
         parameters: [
@@ -180,7 +180,7 @@ class AuthorController extends Controller
         ]
     )]
     /**
-     * Retrieves detailed information about a specific author.
+     * Retrieve detailed information about a specific author.
      *
      * @param Author $author
      * @return JsonResponse
@@ -195,7 +195,7 @@ class AuthorController extends Controller
 
     #[OA\Patch(
         path: '/authors/{author}',
-        description: 'Updates the specified author.',
+        description: 'Update the specified author.',
         summary: 'Update an author',
         security: [['sanctum' => []]],
         requestBody: new OA\RequestBody(
@@ -240,7 +240,7 @@ class AuthorController extends Controller
         ]
     )]
     /**
-     * Updates the specified author.
+     * Update the specified author.
      *
      * @param UpdateAuthorData $authorData
      * @param Author $author
@@ -259,8 +259,8 @@ class AuthorController extends Controller
 
     #[OA\Delete(
         path: '/authors/{author}',
-        description: 'Deletes the specified author.',
-        summary: 'Delete author',
+        description: 'Remove the specified author.',
+        summary: 'Remove author',
         security: [['sanctum' => []]],
         tags: ['Author'],
         parameters: [
@@ -288,7 +288,7 @@ class AuthorController extends Controller
         ]
     )]
     /**
-     * Deletes the specified author.
+     * Remove the specified author.
      *
      * @param Author $author
      * @param DeleteAuthorAction $deleteAuthorAction

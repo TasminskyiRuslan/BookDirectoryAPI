@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Book;
 
 use App\Actions\Book\CreateBookAction;
+use App\Actions\Book\DeleteBookAction;
 use App\Actions\Book\UpdateBookAction;
 use App\Data\Book\Requests\CreateBookData;
 use App\Data\Book\Requests\UpdateBookData;
@@ -12,7 +13,7 @@ use App\Models\Book;
 use App\Queries\Book\BookListQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use OpenApi\Attributes as OA;
@@ -24,7 +25,7 @@ class BookController extends Controller
 
     #[OA\Get(
         path: '/books',
-        description: 'Retrieves a paginated list of books with filters and sorting.',
+        description: 'Retrieve a paginated list of authors with filters and sorting.',
         summary: 'Retrieve a list of books',
         security: [['sanctum' => []], []],
         tags: ['Book'],
@@ -82,7 +83,7 @@ class BookController extends Controller
         ]
     )]
     /**
-     * Retrieves a paginated list of authors with filters and sorting.
+     * Retrieve a paginated list of authors with filters and sorting.
      *
      * @param BookListQuery $bookListQuery
      * @return JsonResponse
@@ -100,8 +101,8 @@ class BookController extends Controller
 
     #[OA\Post(
         path: '/books',
-        description: 'Creates a new book.',
-        summary: 'Book an author',
+        description: 'Create a new book.',
+        summary: 'Create a book',
         security: [['sanctum' => []]],
         requestBody: new OA\RequestBody(
             required: true,
@@ -132,7 +133,7 @@ class BookController extends Controller
         ]
     )]
     /**
-     * Creates a new book.
+     * Create a new book.
      *
      * @param CreateBookData $bookData
      * @param CreateBookAction $createBookAction
@@ -150,7 +151,7 @@ class BookController extends Controller
 
     #[OA\Get(
         path: '/books/{book}',
-        description: 'Retrieves detailed information about a specific book.',
+        description: 'Retrieve detailed information about a specific book.',
         summary: 'Retrieve book details',
         tags: ['Book'],
         parameters: [
@@ -186,7 +187,7 @@ class BookController extends Controller
         ]
     )]
     /**
-     * Retrieves detailed information about a specific book.
+     * Retrieve detailed information about a specific book.
      *
      * @param Book $book
      * @return JsonResponse
@@ -201,7 +202,7 @@ class BookController extends Controller
 
     #[OA\Patch(
         path: '/books/{book}',
-        description: 'Updates the specified book.',
+        description: 'Update the specified book.',
         summary: 'Update a book',
         security: [['sanctum' => []]],
         requestBody: new OA\RequestBody(
@@ -246,7 +247,7 @@ class BookController extends Controller
         ]
     )]
     /**
-     * Updates the specified book.
+     * Update the specified book.
      *
      * @param UpdateBookData $bookData
      * @param Book $book
@@ -264,10 +265,17 @@ class BookController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified book.
+     *
+     * @param Book $book
+     * @param DeleteBookAction $deleteBookAction
+     * @return Response
+     * @throws Throwable
      */
-    public function destroy(string $id)
+    public function destroy(Book $book, DeleteBookAction $deleteBookAction): Response
     {
-        //
+        $this->authorize('delete', $book);
+        $deleteBookAction->handle($book);
+        return response()->noContent();
     }
 }

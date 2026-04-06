@@ -10,7 +10,7 @@ use Throwable;
 class UpdateAuthorAction
 {
     /**
-     * Updates the specified author.
+     * Update the specified author.
      *
      * @param UpdateAuthorData $authorData
      * @param Author $author
