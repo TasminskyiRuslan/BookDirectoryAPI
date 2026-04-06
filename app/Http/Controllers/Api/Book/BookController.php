@@ -147,11 +147,17 @@ class BookController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Gets detailed information about a specific book.
+     *
+     * @param Book $book
+     * @return JsonResponse
      */
-    public function show(string $id)
+    public function show(Book $book): JsonResponse
     {
-        //
+        $this->authorize('view', $book);
+        return BookResource::make($book)
+            ->response()
+            ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
     /**
