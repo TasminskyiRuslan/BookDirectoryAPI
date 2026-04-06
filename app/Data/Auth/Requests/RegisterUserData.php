@@ -31,8 +31,8 @@ class RegisterUserData extends Data
         #[Required]
         #[Email]
         #[Max(255)]
-        #[Unique('users', 'email')]
-        #[WithCast(LowercaseCast::class)]
+        #[Unique(table: 'users', column: 'email')]
+        #[WithCast(castClass: LowercaseCast::class)]
         public string $email,
 
         #[Required]

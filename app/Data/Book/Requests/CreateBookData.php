@@ -27,7 +27,7 @@ class CreateBookData extends Data
         #[Nullable]
         #[StringType]
         #[Max(255)]
-        #[Unique('books', 'slug')]
+        #[Unique(table: 'books', column: 'slug')]
         #[Regex('/^[a-z0-9-]+$/')]
         public ?string $slug,
 
@@ -40,7 +40,7 @@ class CreateBookData extends Data
         #[Date]
         #[BeforeOrEqual('today')]
         #[MapName('publication_date')]
-        #[WithCast(DateTimeInterfaceCast::class, format: 'Y-m-d')]
+        #[WithCast(castClass: DateTimeInterfaceCast::class, format: 'Y-m-d')]
         public ?Carbon $publicationDate,
     ) {}
 }

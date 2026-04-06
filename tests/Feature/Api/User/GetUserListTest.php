@@ -20,7 +20,7 @@ describe('UserController -> index', function () {
     |--------------------------------------------------------------------------
     */
     describe('filters & sorting', function () {
-        it('filters users by search string in name or email', function () {
+        it('filters users by a search string in the name or email', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $john = User::factory()->create(['name' => 'John Doe', 'email' => 'john@gmail.com']);
@@ -33,7 +33,7 @@ describe('UserController -> index', function () {
                 ->assertJsonFragment(['id' => $john->id]);
         });
 
-        it('filters users exactly by role', function () {
+        it('filters users by an exact role', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $viewers = User::factory()->viewer()->count(5)->create();
@@ -98,7 +98,7 @@ describe('UserController -> index', function () {
                 ->assertJsonFragment(['id' => $ben->id]);
         });
 
-        it('returns empty data when no users match search', function () {
+        it('returns empty data when no users match the search', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $users = User::factory()->count(7)->create();
@@ -115,12 +115,12 @@ describe('UserController -> index', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('fails if a user is not authenticated', function () {
+        it('fails if the user is not authenticated', function () {
              getJson(route('user.index'))
                 ->assertUnauthorized();
         });
 
-        it('fails if a viewer tries to get a list of users', function () {
+        it('fails if a viewer attempts to get the list of users', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
 
@@ -128,7 +128,7 @@ describe('UserController -> index', function () {
                 ->assertForbidden();
         });
 
-        it('fails if an editor tries to get a list of users', function () {
+        it('fails if an editor attempts to get the list of users', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
 
@@ -136,7 +136,7 @@ describe('UserController -> index', function () {
                 ->assertForbidden();
         });
 
-        it('allows an admin to get a list of users', function () {
+        it('allows an admin to get the list of users', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $users = User::factory()->count(7)->create();
@@ -151,7 +151,7 @@ describe('UserController -> index', function () {
                 ->assertJsonCount($users->count() + 1, 'data');
         });
 
-        it('allows a super-admin to get a list of users', function () {
+        it('allows a super-admin to get the list of users', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -185,11 +185,7 @@ describe('UserController -> index', function () {
 
             getJson(route('user.index'))
                 ->assertOk()
-                ->assertJsonStructure([
-                    'data',
-                    'links',
-                    'meta'
-                ]);
+                ->assertJsonStructure(paginationJsonStructure());
         });
     });
 })->group('user');

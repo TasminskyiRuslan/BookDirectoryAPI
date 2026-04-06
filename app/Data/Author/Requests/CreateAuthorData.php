@@ -53,7 +53,7 @@ class CreateAuthorData extends Data
         #[Nullable]
         #[StringType]
         #[Max(255)]
-        #[Unique('authors', 'slug')]
+        #[Unique(table: 'authors', column: 'slug')]
         #[Regex('/^[a-z0-9-]+$/')]
         public ?string $slug,
 
@@ -61,7 +61,7 @@ class CreateAuthorData extends Data
         #[Date]
         #[BeforeOrEqual('today')]
         #[MapName('birth_date')]
-        #[WithCast(DateTimeInterfaceCast::class, format: 'Y-m-d')]
+        #[WithCast(castClass: DateTimeInterfaceCast::class, format: 'Y-m-d')]
         public ?Carbon $birthDate,
 
         #[Nullable]
@@ -69,7 +69,7 @@ class CreateAuthorData extends Data
         #[AfterOrEqual('birth_date')]
         #[BeforeOrEqual('today')]
         #[MapName('death_date')]
-        #[WithCast(DateTimeInterfaceCast::class, format: 'Y-m-d')]
+        #[WithCast(castClass: DateTimeInterfaceCast::class, format: 'Y-m-d')]
         public ?Carbon $deathDate,
 
         #[Nullable]

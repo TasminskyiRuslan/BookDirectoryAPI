@@ -6,11 +6,12 @@ use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use App\Models\Book;
-use function Pest\Laravel\postJson;
+use function Pest\Laravel\patchJson;
 
 uses(RefreshDatabase::class);
 
-describe('BookController -> store', function () {
+describe('BookController -> update', function () {
+
     beforeEach(function () {
         $this->seed(RolesAndPermissionsSeeder::class);
     });
@@ -21,63 +22,75 @@ describe('BookController -> store', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('fails if an unauthenticated user tries to create a book', function () {
+        it('fails if an unauthenticated user tries to update the book', function () {
+            $targetBook = Book::factory()->create();
             $data = bookPayload();
 
-            postJson(route('book.store'), $data)
+            patchJson(route('book.update', $targetBook), $data)
                 ->assertForbidden();
+
             $this->assertDatabaseMissing('books', [
+                'id' => $targetBook->id,
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'publication_date' => $data['publication_date'],
             ]);
         });
 
-        it('fails if a viewer tries to create a book', function () {
+        it('fails if a viewer tries to update the book', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
+            $targetBook = Book::factory()->create();
             $data = bookPayload();
 
-            postJson(route('book.store'), $data)
+            patchJson(route('book.update', $targetBook), $data)
                 ->assertForbidden();
+
             $this->assertDatabaseMissing('books', [
+                'id' => $targetBook->id,
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'publication_date' => $data['publication_date'],
             ]);
         });
 
-        it('allows an editor to create a book', function () {
+        it('allows an editor to update the book', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
+            $targetBook = Book::factory()->create();
             $data = bookPayload();
 
-            postJson(route('book.store'), $data)
-                ->assertCreated()
+            patchJson(route('book.update', $targetBook), $data)
+                ->assertOk()
                 ->assertJsonStructure(['data' => bookJsonStructure()]);
+
             $this->assertDatabaseHas('books', [
+                'id' => $targetBook->id,
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'publication_date' => $data['publication_date'],
             ]);
         });
 
-        it('allows an admin to create a book', function () {
+        it('allows an admin to update the book', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
+            $targetBook = Book::factory()->create();
             $data = bookPayload();
 
-            postJson(route('book.store'), $data)
-                ->assertCreated()
+            patchJson(route('book.update', $targetBook), $data)
+                ->assertOk()
                 ->assertJsonStructure(['data' => bookJsonStructure()]);
+
             $this->assertDatabaseHas('books', [
+                'id' => $targetBook->id,
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'publication_date' => $data['publication_date'],
             ]);
         });
 
-        it('allows a super-admin to create a book', function () {
+        it('allows a super-admin to update the book', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -85,12 +98,15 @@ describe('BookController -> store', function () {
             ]);
             $superAdmin->assignRole(UserRole::SUPER_ADMIN->value);
             Sanctum::actingAs($superAdmin);
+            $targetBook = Book::factory()->create();
             $data = bookPayload();
 
-            postJson(route('book.store'), $data)
-                ->assertCreated()
+            patchJson(route('book.update', $targetBook), $data)
+                ->assertOk()
                 ->assertJsonStructure(['data' => bookJsonStructure()]);
+
             $this->assertDatabaseHas('books', [
+                'id' => $targetBook->id,
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'publication_date' => $data['publication_date'],
@@ -104,20 +120,38 @@ describe('BookController -> store', function () {
     |--------------------------------------------------------------------------
     */
     describe('validation', function () {
-        it('fails if the required fields are missing', function () {
+        it('fails if the present fields are empty', function () {
             $editor = User::factory()->editor()->create();
+            $targetBook = Book::factory()->create();
             Sanctum::actingAs($editor);
 
-            postJson(route('book.store'), [])
+            patchJson(route('book.update', $targetBook), bookPayload([
+                'title' => '',
+                'slug' => ''
+            ]))
                 ->assertUnprocessable()
-                ->assertJsonValidationErrors(['title']);
+                ->assertJsonValidationErrors(['title', 'slug']);
+        });
+
+        it('fails if the present fields are null', function () {
+            $editor = User::factory()->editor()->create();
+            $targetBook = Book::factory()->create();
+            Sanctum::actingAs($editor);
+
+            patchJson(route('book.update', $targetBook), bookPayload([
+                'title' => null,
+                'slug' => null
+            ]))
+                ->assertUnprocessable()
+                ->assertJsonValidationErrors(['title', 'slug']);
         });
 
         it('fails if the fields are too long', function () {
             $editor = User::factory()->editor()->create();
+            $targetBook = Book::factory()->create();
             Sanctum::actingAs($editor);
 
-            postJson(route('book.store'), bookPayload([
+            patchJson(route('book.update', $targetBook), bookPayload([
                 'title' => str_repeat('A', 256),
                 'slug' => str_repeat('B', 256),
                 'description' => str_repeat('C', 5001),
@@ -128,9 +162,10 @@ describe('BookController -> store', function () {
 
         it('fails if the publication_date format is invalid', function () {
             $editor = User::factory()->editor()->create();
+            $targetBook = Book::factory()->create();
             Sanctum::actingAs($editor);
 
-            postJson(route('book.store'), bookPayload([
+            patchJson(route('book.update', $targetBook), bookPayload([
                 'publication_date' => 'invalid-date',
             ]))
                 ->assertUnprocessable()
@@ -139,9 +174,10 @@ describe('BookController -> store', function () {
 
         it('fails if the publication_date is in the future', function () {
             $editor = User::factory()->editor()->create();
+            $targetBook = Book::factory()->create();
             Sanctum::actingAs($editor);
 
-            postJson(route('book.store'), bookPayload([
+            patchJson(route('book.update', $targetBook), bookPayload([
                 'publication_date' => now()->addDay()->format('Y-m-d'),
             ]))
                 ->assertUnprocessable()
@@ -149,35 +185,48 @@ describe('BookController -> store', function () {
         });
 
         it('fails if the slug is taken by another book', function () {
-            $otherBook = Book::factory()->create(['slug' => 'taken-slug']);
             $editor = User::factory()->editor()->create();
+            $targetBook = Book::factory()->create(['slug' => 'my-slug']);
+            $otherBook = Book::factory()->create(['slug' => 'taken-slug']);
             Sanctum::actingAs($editor);
 
-            postJson(route('book.store'), bookPayload(['slug' => $otherBook->slug]))
+            patchJson(route('book.update', $targetBook), bookPayload([
+                'slug' => $otherBook->slug,
+            ]))
                 ->assertUnprocessable()
                 ->assertJsonValidationErrors(['slug']);
         });
 
         it('fails if the slug format is invalid', function () {
             $editor = User::factory()->editor()->create();
-            $book = Book::factory()->create();
+            $targetBook = Book::factory()->create();
             Sanctum::actingAs($editor);
 
-            postJson(route('book.store'), bookPayload([
+            patchJson(route('book.update', $targetBook), bookPayload([
                 'slug' => 'Invalid Slug!'
             ]))
                 ->assertUnprocessable()
                 ->assertJsonValidationErrors(['slug']);
         });
 
-        it('succeeds if a slug is provided manually', function () {
+        it('succeeds if the slug remains the same (ignore current)', function () {
+            $editor = User::factory()->editor()->create();
+            $targetBook = Book::factory()->create();
+            Sanctum::actingAs($editor);
+
+            patchJson(route('book.update', $targetBook), [
+                'slug' => $targetBook->slug,
+            ])
+                ->assertOk()
+                ->assertJsonFragment(['slug' => $targetBook->slug]);
+        });
+
+        it('fails if the book does not exist', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
-            $slug = 'test-slug';
 
-            postJson(route('book.store'), bookPayload(['slug' => $slug]))
-                ->assertCreated()
-                ->assertJsonFragment(['slug' => $slug]);
+            patchJson(route('book.update', 999))
+                ->assertNotFound();
         });
     });
 
@@ -187,14 +236,15 @@ describe('BookController -> store', function () {
     |--------------------------------------------------------------------------
     */
     describe('caching', function () {
-        it('flushes the cache when a book is created', function () {
+        it('flushes the cache when a book is updated', function () {
             $editor = User::factory()->editor()->create();
+            $targetBook = Book::factory()->create();
             Sanctum::actingAs($editor);
+
             Cache::tags(['book'])->put('books', 'test_value', config('cache.ttl.books'));
             expect(Cache::tags(['book'])->get('books'))->toBe('test_value');
-
-            postJson(route('book.store'), bookPayload())
-                ->assertCreated();
+            patchJson(route('book.update', $targetBook), bookPayload())
+                ->assertOk();
             expect(Cache::tags(['book'])->get('books'))->toBeNull();
         });
     });

@@ -25,8 +25,8 @@ class AuthorController extends Controller
 
     #[OA\Get(
         path: '/authors',
-        description: 'Gets a paginated list of authors with filters and sorting.',
-        summary: 'Get a list of authors',
+        description: 'Retrieves a paginated list of authors with filters and sorting.',
+        summary: 'Retrieve a list of authors',
         security: [['sanctum' => []], []],
         tags: ['Author'],
         parameters: [
@@ -76,7 +76,7 @@ class AuthorController extends Controller
         ]
     )]
     /**
-     * Gets a paginated list of authors with filters and sorting.
+     * Retrieves a paginated list of authors with filters and sorting.
      *
      * @param AuthorListQuery $authorListQuery
      * @return JsonResponse
@@ -144,8 +144,8 @@ class AuthorController extends Controller
 
     #[OA\Get(
         path: '/authors/{author}',
-        description: 'Gets detailed information about a specific author.',
-        summary: 'Get author details',
+        description: 'Retrieves detailed information about a specific author.',
+        summary: 'Retrieve author details',
         tags: ['Author'],
         parameters: [
             new OA\Parameter(
@@ -180,7 +180,7 @@ class AuthorController extends Controller
         ]
     )]
     /**
-     * Gets detailed information about a specific author.
+     * Retrieves detailed information about a specific author.
      *
      * @param Author $author
      * @return JsonResponse

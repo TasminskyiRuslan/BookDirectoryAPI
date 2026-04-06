@@ -20,7 +20,7 @@ class LoginUserData extends Data
         #[Required]
         #[Email]
         #[Max(255)]
-        #[WithCast(LowercaseCast::class)]
+        #[WithCast(castClass: LowercaseCast::class)]
         public string $email,
 
         #[Required]

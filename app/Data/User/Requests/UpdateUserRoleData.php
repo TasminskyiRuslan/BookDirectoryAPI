@@ -17,7 +17,7 @@ class UpdateUserRoleData extends Data
     public function __construct(
         #[Required]
         #[StringType]
-        #[Enum(UserRole::class)]
+        #[Enum(enum: UserRole::class)]
         #[In(UserRole::ADMIN->value, UserRole::EDITOR->value, UserRole::VIEWER->value)]
         public UserRole $role,
     ) {}

@@ -24,7 +24,7 @@ describe('AuthorController -> index', function () {
     |--------------------------------------------------------------------------
     */
     describe('filters & sorting', function () {
-        it('filters authors by search string', function () {
+        it('filters authors by a search string', function () {
             $author1 = Author::factory()->create(['last_name' => 'Shevchenko', 'first_name' => 'Taras', 'patronymic' => 'Grigorovich']);
             $author2 = Author::factory()->create(['last_name' => 'Bondar', 'first_name' => 'Andrii']);
             $searchString = substr($author1->last_name, 3);
@@ -118,7 +118,7 @@ describe('AuthorController -> index', function () {
                 ->assertJsonFragment(['id' => $author1->id]);
         });
 
-        it('returns empty data when no authors match search', function () {
+        it('returns empty data when no authors match the search', function () {
             Author::factory()->count(7)->create();
 
             getJson(route('author.index', ['filter[search]' => 'non-existent']))
@@ -133,7 +133,7 @@ describe('AuthorController -> index', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('allows an unauthenticated user to get a list of authors', function () {
+        it('allows an unauthenticated user to retrieve the list of authors', function () {
             $authors = Author::factory()->count(7)->create();
 
             getJson(route('author.index'))
@@ -146,7 +146,7 @@ describe('AuthorController -> index', function () {
                 ->assertJsonCount($authors->count(), 'data');
         });
 
-        it('allows a viewer to get a list of authors', function () {
+        it('allows a viewer to retrieve the list of authors', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
             $authors = Author::factory()->count(7)->create();
@@ -161,7 +161,7 @@ describe('AuthorController -> index', function () {
                 ->assertJsonCount($authors->count(), 'data');
         });
 
-        it('allows an editor to get a list of authors', function () {
+        it('allows an editor to retrieve the list of authors', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
             $authors = Author::factory()->count(7)->create();
@@ -176,7 +176,7 @@ describe('AuthorController -> index', function () {
                 ->assertJsonCount($authors->count(), 'data');
         });
 
-        it('allows an admin to get a list of authors', function () {
+        it('allows an admin to retrieve the list of authors', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $authors = Author::factory()->count(7)->create();
@@ -191,7 +191,7 @@ describe('AuthorController -> index', function () {
                 ->assertJsonCount($authors->count(), 'data');
         });
 
-        it('allows a super-admin to get a list of authors', function () {
+        it('allows a super-admin to retrieve the list of authors', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -218,7 +218,7 @@ describe('AuthorController -> index', function () {
     |--------------------------------------------------------------------------
     */
     describe('caching', function () {
-        it('stores the author list in cache after the first request', function () {
+        it('stores the author list in the cache after the first request', function () {
             Cache::spy();
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
@@ -229,7 +229,7 @@ describe('AuthorController -> index', function () {
                 ->once();
         });
 
-        it('returns data from cache instead of the database on subsequent requests', function () {
+        it('returns data from the cache instead of the database on subsequent requests', function () {
             $oldLastname = 'Shevchenko';
             Author::factory()->create(['last_name' => $oldLastname]);
 
@@ -258,11 +258,7 @@ describe('AuthorController -> index', function () {
 
             getJson(route('author.index'))
                 ->assertOk()
-                ->assertJsonStructure([
-                    'data',
-                    'links',
-                    'meta'
-                ]);
+                ->assertJsonStructure(paginationJsonStructure());
         });
     });
 })->group('author');

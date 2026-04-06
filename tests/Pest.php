@@ -98,8 +98,8 @@ function bookPayload(array $overrides = []): array
 {
     return array_merge([
         'title' => fake()->sentence(3),
-        'description' => fake()->paragraph(),
-        'publication_date' => fake()->date(),
+        'description' => fake()->optional()->paragraph(),
+        'publication_date' => fake()->optional()->date(),
     ], $overrides);
 }
 
@@ -170,5 +170,18 @@ function bookJsonStructure(): array {
         'authors' => [
             '*' => authorJsonStructure(),
         ],
+    ];
+}
+
+/**
+ * Get the expected JSON structure for a pagination data.
+ *
+ * @return array
+ */
+function paginationJsonStructure(): array {
+    return [
+        'data',
+        'links',
+        'meta'
     ];
 }

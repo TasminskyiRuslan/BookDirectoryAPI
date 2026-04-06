@@ -20,14 +20,14 @@ describe('UpdateUserRoleController', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('fails if an unauthenticated user tries to update a user\'s role', function () {
+        it('fails if an unauthenticated user tries to update the user\'s role', function () {
             $targetUser = User::factory()->viewer()->create();
 
             putJson(route('user.role.update', $targetUser), ['role' => UserRole::EDITOR->value])
                 ->assertUnauthorized();
         });
 
-        it('fails if a viewer tries to update a user\'s role', function () {
+        it('fails if a viewer tries to update the user\'s role', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
             $targetUser = User::factory()->viewer()->create();
@@ -36,7 +36,7 @@ describe('UpdateUserRoleController', function () {
                 ->assertForbidden();
         });
 
-        it('fails if an editor tries to update a user\'s role', function () {
+        it('fails if an editor tries to update the user\'s role', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
             $targetUser = User::factory()->viewer()->create();
@@ -45,7 +45,7 @@ describe('UpdateUserRoleController', function () {
                 ->assertForbidden();
         });
 
-        it('fails if an admin tries to update an admin\'s role', function () {
+        it('fails if an admin tries to update another admin\'s role', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetUser = User::factory()->admin()->create();
@@ -54,7 +54,7 @@ describe('UpdateUserRoleController', function () {
                 ->assertForbidden();
         });
 
-        it('fails if an admin tries to update a super-admin\'s role', function () {
+        it('fails if an admin tries to update the super-admin\'s role', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetUser = User::factory()->create([
@@ -68,7 +68,7 @@ describe('UpdateUserRoleController', function () {
                 ->assertForbidden();
         });
 
-        it('fails if an admin tries to update his role', function () {
+        it('fails if an admin tries to update his own role', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
 
@@ -76,7 +76,7 @@ describe('UpdateUserRoleController', function () {
                 ->assertForbidden();
         });
 
-        it('allows an admin to update a viewer\'s role', function () {
+        it('allows an admin to update the viewer\'s role', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetUser = User::factory()->viewer()->create();
@@ -88,7 +88,7 @@ describe('UpdateUserRoleController', function () {
                 ->and($targetUser->hasRole(UserRole::EDITOR))->toBeTrue();
         });
 
-        it('allows an admin to update an editor\'s role ', function () {
+        it('allows an admin to update the editor\'s role', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetUser = User::factory()->editor()->create();
@@ -124,7 +124,7 @@ describe('UpdateUserRoleController', function () {
     |--------------------------------------------------------------------------
     */
     describe('validation', function () {
-        it('fails if required fields are missing', function () {
+        it('fails if the required fields are missing', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetUser = User::factory()->viewer()->create();
@@ -133,7 +133,7 @@ describe('UpdateUserRoleController', function () {
                 ->assertUnprocessable();
         });
 
-        it('fails if a user role is invalid', function () {
+        it('fails if the user role is invalid', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetUser = User::factory()->viewer()->create();
@@ -142,7 +142,7 @@ describe('UpdateUserRoleController', function () {
                 ->assertUnprocessable();
         });
 
-        it('fails if a user role is being updated to a super-admin', function () {
+        it('fails if the user role is being updated to a super-admin', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetUser = User::factory()->viewer()->create();
@@ -151,7 +151,7 @@ describe('UpdateUserRoleController', function () {
                 ->assertUnprocessable();
         });
 
-        it('fails if a user does not exist', function () {
+        it('fails if the user does not exist', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
 
@@ -166,7 +166,7 @@ describe('UpdateUserRoleController', function () {
     |--------------------------------------------------------------------------
     */
     describe('business logic', function () {
-        it('does nothing when assigning same role', function () {
+        it('does nothing when assigning the same role', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetUser = User::factory()->viewer()->create();

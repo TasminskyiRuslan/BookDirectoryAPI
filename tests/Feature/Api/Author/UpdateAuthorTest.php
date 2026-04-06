@@ -22,7 +22,7 @@ describe('AuthorController -> update', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('fails if an unauthenticated user tries to update an author', function () {
+        it('fails if an unauthenticated user tries to update the author', function () {
             $targetAuthor = Author::factory()->create();
             $data = authorPayload();
 
@@ -37,7 +37,7 @@ describe('AuthorController -> update', function () {
             ]);
         });
 
-        it('fails if a viewer tries to update an author', function () {
+        it('fails if a viewer tries to update the author', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
             $targetAuthor = Author::factory()->create();
@@ -54,7 +54,7 @@ describe('AuthorController -> update', function () {
             ]);
         });
 
-        it('allows an editor to update an author', function () {
+        it('allows an editor to update the author', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
             $targetAuthor = Author::factory()->create();
@@ -72,7 +72,7 @@ describe('AuthorController -> update', function () {
             ]);
         });
 
-        it('allows an admin to update an author', function () {
+        it('allows an admin to update the author', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetAuthor = Author::factory()->create();
@@ -90,7 +90,7 @@ describe('AuthorController -> update', function () {
             ]);
         });
 
-        it('allows a super-admin to update an author', function () {
+        it('allows a super-admin to update the author', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -120,7 +120,7 @@ describe('AuthorController -> update', function () {
     |--------------------------------------------------------------------------
     */
     describe('validation', function () {
-        it('fails if present fields are empty', function () {
+        it('fails if the present fields are empty', function () {
             $editor = User::factory()->editor()->create();
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
@@ -134,7 +134,7 @@ describe('AuthorController -> update', function () {
                 ->assertJsonValidationErrors(['last_name', 'first_name', 'slug']);
         });
 
-        it('fails if present fields are null', function () {
+        it('fails if the present fields are null', function () {
             $editor = User::factory()->editor()->create();
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
@@ -148,7 +148,7 @@ describe('AuthorController -> update', function () {
                 ->assertJsonValidationErrors(['last_name', 'first_name', 'slug']);
         });
 
-        it('fails if the last_name, first_name and patronymic are too short', function () {
+        it('fails if the fields are too short', function () {
             $editor = User::factory()->editor()->create();
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
@@ -162,7 +162,7 @@ describe('AuthorController -> update', function () {
                 ->assertJsonValidationErrors(['last_name', 'first_name', 'patronymic']);
         });
 
-        it('fails if the last_name, first_name, patronymic, slug and biography are too long', function () {
+        it('fails if the fields are too long', function () {
             $editor = User::factory()->editor()->create();
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
@@ -178,7 +178,7 @@ describe('AuthorController -> update', function () {
                 ->assertJsonValidationErrors(['last_name', 'first_name', 'patronymic', 'slug', 'biography']);
         });
 
-        it('fails if the birth_date and death_date format are invalid', function () {
+        it('fails if the birth_date or death_date format are invalid', function () {
             $editor = User::factory()->editor()->create();
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
@@ -191,7 +191,7 @@ describe('AuthorController -> update', function () {
                 ->assertJsonValidationErrors(['birth_date', 'death_date']);
         });
 
-        it('fails if the birth_date and death_date are in the future', function () {
+        it('fails if the birth_date or death_date are in the future', function () {
             $editor = User::factory()->editor()->create();
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
@@ -204,7 +204,7 @@ describe('AuthorController -> update', function () {
                 ->assertJsonValidationErrors(['birth_date', 'death_date']);
         });
 
-        it('fails if death_date is before birth_date', function () {
+        it('fails if the death_date is before birth_date', function () {
             $editor = User::factory()->editor()->create();
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
@@ -217,7 +217,7 @@ describe('AuthorController -> update', function () {
                 ->assertJsonValidationErrors(['death_date']);
         });
 
-        it('fails if slug is taken by another author', function () {
+        it('fails if the slug is taken by another author', function () {
             $editor = User::factory()->editor()->create();
             $targetAuthor = Author::factory()->create(['slug' => 'my-slug']);
             $otherAuthor = Author::factory()->create(['slug' => 'taken-slug']);
@@ -230,7 +230,7 @@ describe('AuthorController -> update', function () {
                 ->assertJsonValidationErrors(['slug']);
         });
 
-        it('fails if slug format is invalid', function () {
+        it('fails if the slug format is invalid', function () {
             $editor = User::factory()->editor()->create();
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
@@ -242,7 +242,7 @@ describe('AuthorController -> update', function () {
                 ->assertJsonValidationErrors(['slug']);
         });
 
-        it('succeeds if slug remains the same (ignore current)', function () {
+        it('succeeds if the slug remains the same (ignore current)', function () {
             $editor = User::factory()->editor()->create();
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
@@ -254,7 +254,7 @@ describe('AuthorController -> update', function () {
                 ->assertJsonFragment(['slug' => $targetAuthor->slug]);
         });
 
-        it('fails if an author does not exist', function () {
+        it('fails if the author does not exist', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
 
@@ -269,16 +269,15 @@ describe('AuthorController -> update', function () {
     |--------------------------------------------------------------------------
     */
     describe('caching', function () {
-        it('flushes cache if an author is updated', function () {
+        it('flushes the cache when an author is updated', function () {
             $editor = User::factory()->editor()->create();
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
             Cache::tags(['author'])->put('authors', 'test_value', config('cache.ttl.authors'));
             expect(Cache::tags(['author'])->get('authors'))->toBe('test_value');
-            patchJson(route('author.update', $targetAuthor), authorPayload([
-                'last_name' => 'Franko'
-            ]))->assertOk();
+            patchJson(route('author.update', $targetAuthor), authorPayload())
+                ->assertOk();
             expect(Cache::tags(['author'])->get('authors'))->toBeNull();
         });
     });

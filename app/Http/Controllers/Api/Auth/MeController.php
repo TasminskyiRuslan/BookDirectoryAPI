@@ -13,8 +13,8 @@ class MeController extends Controller
 {
     #[OA\Get(
         path: '/auth/me',
-        description: 'Gets the currently authenticated user.',
-        summary: 'Get current user',
+        description: 'Retrieves the currently authenticated user.',
+        summary: 'Retrieve current user',
         security: [['sanctum' => []]],
         tags: ['Auth'],
         responses: [
@@ -37,7 +37,7 @@ class MeController extends Controller
         ]
     )]
     /**
-     * Gets the currently authenticated user.
+     * Retrieves the currently authenticated user.
      *
      * @param Request $request
      * @return JsonResponse

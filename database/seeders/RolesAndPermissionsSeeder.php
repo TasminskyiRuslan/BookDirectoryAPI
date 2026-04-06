@@ -51,14 +51,14 @@ class RolesAndPermissionsSeeder extends Seeder
             UserPermission::AUTHOR_STORE->value,
             UserPermission::AUTHOR_SHOW->value,
             UserPermission::AUTHOR_UPDATE->value,
+            UserPermission::AUTHOR_DESTROY->value,
 
             UserPermission::BOOK_INDEX->value,
             UserPermission::BOOK_STORE->value,
             UserPermission::BOOK_SHOW->value,
             UserPermission::BOOK_UPDATE->value,
-
-            UserPermission::AUTHOR_DESTROY->value,
             UserPermission::BOOK_DESTROY->value,
+
             UserPermission::USER_INDEX->value,
             UserPermission::USER_SHOW->value,
             UserPermission::USER_DESTROY->value,

@@ -21,7 +21,7 @@ describe('AuthorController -> destroy', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('fails if an unauthenticated user tries to delete an author', function () {
+        it('fails if an unauthenticated user tries to delete the author', function () {
             $targetAuthor = Author::factory()->create();
 
             deleteJson(route('author.destroy', $targetAuthor))
@@ -31,7 +31,7 @@ describe('AuthorController -> destroy', function () {
             ]);
         });
 
-        it('fails if a viewer tries to delete an author', function () {
+        it('fails if a viewer tries to delete the author', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
             $targetAuthor = Author::factory()->create();
@@ -43,7 +43,7 @@ describe('AuthorController -> destroy', function () {
             ]);
         });
 
-        it('fails if an editor tries to delete an author', function () {
+        it('fails if an editor tries to delete the author', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
             $targetAuthor = Author::factory()->create();
@@ -55,7 +55,7 @@ describe('AuthorController -> destroy', function () {
             ]);
         });
 
-        it('allows an admin to delete an author', function () {
+        it('allows an admin to delete the author', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetAuthor = Author::factory()->create();
@@ -67,7 +67,7 @@ describe('AuthorController -> destroy', function () {
             ]);
         });
 
-        it('allows a super-admin to delete an author', function () {
+        it('allows a super-admin to delete the author', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -91,7 +91,7 @@ describe('AuthorController -> destroy', function () {
     |--------------------------------------------------------------------------
     */
     describe('validation', function () {
-        it('fails if an author does not exist', function () {
+        it('fails if the author does not exist', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
 
@@ -106,7 +106,7 @@ describe('AuthorController -> destroy', function () {
     |--------------------------------------------------------------------------
     */
     describe('caching', function () {
-        it('flushes cache if an author is deleted', function () {
+        it('flushes the cache when the author is deleted', function () {
             $admin = User::factory()->admin()->create();
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($admin);

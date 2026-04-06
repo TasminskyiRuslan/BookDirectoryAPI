@@ -21,7 +21,7 @@ describe('BookController -> show', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('allows an unauthenticated user to show a book', function () {
+        it('allows an unauthenticated user to retrieve the book', function () {
             $targetBook = Book::factory()->create();
 
             getJson(route('book.show', $targetBook))
@@ -32,7 +32,7 @@ describe('BookController -> show', function () {
                 ->assertJsonFragment(['id' => $targetBook->id]);
         });
 
-        it('allows a viewer to show a book', function () {
+        it('allows a viewer to retrieve the book', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
             $targetBook = Book::factory()->create();
@@ -45,7 +45,7 @@ describe('BookController -> show', function () {
                 ->assertJsonFragment(['id' => $targetBook->id]);
         });
 
-        it('allows an editor to show a book', function () {
+        it('allows an editor to retrieve the book', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
             $targetBook = Book::factory()->create();
@@ -58,7 +58,7 @@ describe('BookController -> show', function () {
                 ->assertJsonFragment(['id' => $targetBook->id]);
         });
 
-        it('allows an admin to show a book', function () {
+        it('allows an admin to retrieve the book', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetBook = Book::factory()->create();
@@ -71,7 +71,7 @@ describe('BookController -> show', function () {
                 ->assertJsonFragment(['id' => $targetBook->id]);
         });
 
-        it('allows a super-admin to show a book', function () {
+        it('allows a super-admin to retrieve the book', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -96,7 +96,7 @@ describe('BookController -> show', function () {
     |--------------------------------------------------------------------------
     */
     describe('validation', function () {
-        it('fails if a book does not exist', function () {
+        it('fails if the book does not exist', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
 

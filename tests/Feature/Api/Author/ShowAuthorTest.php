@@ -21,7 +21,7 @@ describe('AuthorController -> show', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('allows an unauthenticated user to show an author', function () {
+        it('allows an unauthenticated user to retrieve the author', function () {
             $targetAuthor = Author::factory()->create();
 
             getJson(route('author.show', $targetAuthor))
@@ -32,7 +32,7 @@ describe('AuthorController -> show', function () {
                  ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
 
-        it('allows a viewer to show an author', function () {
+        it('allows a viewer to retrieve the author', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
             $targetAuthor = Author::factory()->create();
@@ -45,7 +45,7 @@ describe('AuthorController -> show', function () {
                 ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
 
-        it('allows an editor to show an author', function () {
+        it('allows an editor to retrieve the author', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
             $targetAuthor = Author::factory()->create();
@@ -58,7 +58,7 @@ describe('AuthorController -> show', function () {
                 ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
 
-        it('allows an admin to show an author', function () {
+        it('allows an admin to retrieve the author', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $targetAuthor = Author::factory()->create();
@@ -71,7 +71,7 @@ describe('AuthorController -> show', function () {
                 ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
 
-        it('allows a super-admin to show an author', function () {
+        it('allows a super-admin to retrieve the author', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -96,7 +96,7 @@ describe('AuthorController -> show', function () {
     |--------------------------------------------------------------------------
     */
     describe('validation', function () {
-        it('fails if an author does not exist', function () {
+        it('fails if the author does not exist', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
 

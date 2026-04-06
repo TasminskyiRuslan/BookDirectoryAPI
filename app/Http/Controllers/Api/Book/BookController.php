@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\Book;
 
 use App\Actions\Book\CreateBookAction;
+use App\Actions\Book\UpdateBookAction;
 use App\Data\Book\Requests\CreateBookData;
+use App\Data\Book\Requests\UpdateBookData;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
@@ -22,8 +24,8 @@ class BookController extends Controller
 
     #[OA\Get(
         path: '/books',
-        description: 'Gets a paginated list of books with filters and sorting.',
-        summary: 'Get a list of books',
+        description: 'Retrieves a paginated list of books with filters and sorting.',
+        summary: 'Retrieve a list of books',
         security: [['sanctum' => []], []],
         tags: ['Book'],
         parameters: [
@@ -80,7 +82,7 @@ class BookController extends Controller
         ]
     )]
     /**
-     * Gets a paginated list of authors with filters and sorting.
+     * Retrieves a paginated list of authors with filters and sorting.
      *
      * @param BookListQuery $bookListQuery
      * @return JsonResponse
@@ -148,8 +150,8 @@ class BookController extends Controller
 
     #[OA\Get(
         path: '/books/{book}',
-        description: 'Gets detailed information about a specific book.',
-        summary: 'Get book details',
+        description: 'Retrieves detailed information about a specific book.',
+        summary: 'Retrieve book details',
         tags: ['Book'],
         parameters: [
             new OA\Parameter(
@@ -184,7 +186,7 @@ class BookController extends Controller
         ]
     )]
     /**
-     * Gets detailed information about a specific book.
+     * Retrieves detailed information about a specific book.
      *
      * @param Book $book
      * @return JsonResponse
@@ -198,11 +200,21 @@ class BookController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Updates the specified book.
+     *
+     * @param UpdateBookData $bookData
+     * @param Book $book
+     * @param UpdateBookAction $updateBookAction
+     * @return JsonResponse
+     * @throws Throwable
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateBookData $bookData, Book $book, UpdateBookAction $updateBookAction): JsonResponse
     {
-        //
+        $this->authorize('update', $book);
+        $book = $updateBookAction->handle($bookData, $book);
+        return BookResource::make($book->fresh('authors'))
+            ->response()
+            ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
     /**

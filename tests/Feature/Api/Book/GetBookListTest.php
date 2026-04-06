@@ -24,7 +24,7 @@ describe('BookController -> index', function () {
     |--------------------------------------------------------------------------
     */
     describe('filters & sorting', function () {
-        it('filters books by search string', function () {
+        it('filters books by a search string', function () {
             $book1 = Book::factory()->create(['title' => 'Hamlet']);
             $book2 = Book::factory()->create(['title' => 'Othello']);
             $searchString = substr($book1->title, 3);
@@ -101,7 +101,7 @@ describe('BookController -> index', function () {
                 ->assertJsonFragment(['id' => $book1->id]);
         });
 
-        it('returns empty data when no books match search', function () {
+        it('returns empty data when no books match the search', function () {
             Book::factory()->count(7)->create();
 
             getJson(route('book.index', ['filter[search]' => 'non-existent']))
@@ -116,7 +116,7 @@ describe('BookController -> index', function () {
     |--------------------------------------------------------------------------
     */
     describe('permissions', function () {
-        it('allows an unauthenticated user to get a list of books', function () {
+        it('allows an unauthenticated user to retrieve the list of books', function () {
             $books = Book::factory()->count(7)->create();
 
             getJson(route('book.index'))
@@ -129,7 +129,7 @@ describe('BookController -> index', function () {
                 ->assertJsonCount($books->count(), 'data');
         });
 
-        it('allows a viewer to get a list of books', function () {
+        it('allows a viewer to retrieve the list of books', function () {
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
             $books = Book::factory()->count(7)->create();
@@ -144,7 +144,7 @@ describe('BookController -> index', function () {
                 ->assertJsonCount($books->count(), 'data');
         });
 
-        it('allows an editor to get a list of books', function () {
+        it('allows an editor to retrieve the list of books', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
             $books = Book::factory()->count(7)->create();
@@ -159,7 +159,7 @@ describe('BookController -> index', function () {
                 ->assertJsonCount($books->count(), 'data');
         });
 
-        it('allows an admin to get a list of books', function () {
+        it('allows an admin to retrieve the list of books', function () {
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
             $books = Book::factory()->count(7)->create();
@@ -174,7 +174,7 @@ describe('BookController -> index', function () {
                 ->assertJsonCount($books->count(), 'data');
         });
 
-        it('allows a super-admin to get a list of books', function () {
+        it('allows a super-admin to retrieve the list of books', function () {
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -201,7 +201,7 @@ describe('BookController -> index', function () {
     |--------------------------------------------------------------------------
     */
     describe('caching', function () {
-        it('stores the book list in cache after the first request', function () {
+        it('stores the book list in the cache after the first request', function () {
             Cache::spy();
             $viewer = User::factory()->viewer()->create();
             Sanctum::actingAs($viewer);
@@ -212,7 +212,7 @@ describe('BookController -> index', function () {
                 ->once();
         });
 
-        it('returns data from cache instead of the database on subsequent requests', function () {
+        it('returns data from the cache instead of the database on subsequent requests', function () {
             $oldTitle = 'Hamlet';
             $book = Book::factory()->create(['title' => $oldTitle]);
 
@@ -241,11 +241,7 @@ describe('BookController -> index', function () {
 
             getJson(route('book.index'))
                 ->assertOk()
-                ->assertJsonStructure([
-                    'data',
-                    'links',
-                    'meta'
-                ]);
+                ->assertJsonStructure(paginationJsonStructure());
         });
     });
 })->group('book');

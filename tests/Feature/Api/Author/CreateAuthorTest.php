@@ -104,7 +104,7 @@ describe('AuthorController -> store', function () {
     |--------------------------------------------------------------------------
     */
     describe('validation', function () {
-        it('fails if required fields are missing', function () {
+        it('fails if the required fields are missing', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
 
@@ -113,7 +113,7 @@ describe('AuthorController -> store', function () {
                 ->assertJsonValidationErrors(['last_name', 'first_name']);
         });
 
-        it('fails if the last_name, first_name and patronymic are too short', function () {
+        it('fails if the fields are too short', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
 
@@ -126,7 +126,7 @@ describe('AuthorController -> store', function () {
                 ->assertJsonValidationErrors(['last_name', 'first_name', 'patronymic']);
         });
 
-        it('fails if the last_name, first_name, patronymic, slug and biography are too long', function () {
+        it('fails if the fields are too long', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
 
@@ -141,7 +141,7 @@ describe('AuthorController -> store', function () {
                 ->assertJsonValidationErrors(['last_name', 'first_name', 'patronymic', 'slug']);
         });
 
-        it('fails if the birth_date and death_date format are invalid', function () {
+        it('fails if the birth_date and death_date formats are invalid', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
 
@@ -165,7 +165,7 @@ describe('AuthorController -> store', function () {
                 ->assertJsonValidationErrors(['birth_date', 'death_date']);
         });
 
-        it('fails if the death_date is before birth_date', function () {
+        it('fails if the death_date is before the birth+date', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
 
@@ -177,7 +177,7 @@ describe('AuthorController -> store', function () {
                 ->assertJsonValidationErrors(['death_date']);
         });
 
-        it('fails if slug is taken by another author', function () {
+        it('fails if the slug is taken by another author', function () {
             $otherAuthor = Author::factory()->create(['slug' => 'taken-slug']);
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
@@ -187,7 +187,7 @@ describe('AuthorController -> store', function () {
                 ->assertJsonValidationErrors(['slug']);
         });
 
-        it('fails if slug format is invalid', function () {
+        it('fails if the slug format is invalid', function () {
             $editor = User::factory()->editor()->create();
             $author = Author::factory()->create();
             Sanctum::actingAs($editor);
@@ -199,7 +199,7 @@ describe('AuthorController -> store', function () {
                 ->assertJsonValidationErrors(['slug']);
         });
 
-        it('succeeds if slug is provided manually', function () {
+        it('succeeds if the slug is provided manually', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
             $slug = 'test-slug';
@@ -216,7 +216,7 @@ describe('AuthorController -> store', function () {
     |--------------------------------------------------------------------------
     */
     describe('caching', function () {
-        it('flushes cache if an author is created', function () {
+        it('flushes the cache when an author is created', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
             Cache::tags(['author'])->put('authors', 'test_value', config('cache.ttl.authors'));
