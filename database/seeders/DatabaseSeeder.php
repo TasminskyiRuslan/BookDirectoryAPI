@@ -10,16 +10,13 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     /**
-     * Seed the application's database.
+     * Seed prod data.
      */
     public function run(): void
     {
         $this->call([
             RolesAndPermissionsSeeder::class,
             SuperAdminUserSeeder::class,
-//            UserSeeder::class,
-//            AuthorSeeder::class,
-//            BookSeeder::class,
         ]);
     }
 }
