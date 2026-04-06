@@ -80,8 +80,8 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Get current user",
-                "description": "Gets the currently authenticated user.",
+                "summary": "Retrieve current user",
+                "description": "Retrieves the currently authenticated user.",
                 "operationId": "a27984a716a6787c8b8537aee958673c",
                 "responses": {
                     "200": {
@@ -155,8 +155,8 @@
                 "tags": [
                     "Author"
                 ],
-                "summary": "Get a list of authors",
-                "description": "Gets a paginated list of authors with filters and sorting.",
+                "summary": "Retrieve a list of authors",
+                "description": "Retrieves a paginated list of authors with filters and sorting.",
                 "operationId": "6e791cab4f6d9bd496a9d5ddd05fdb24",
                 "parameters": [
                     {
@@ -280,8 +280,8 @@
                 "tags": [
                     "Author"
                 ],
-                "summary": "Get author details",
-                "description": "Gets detailed information about a specific author.",
+                "summary": "Retrieve author details",
+                "description": "Retrieves detailed information about a specific author.",
                 "operationId": "7c537557c462cca9909ec5980263514c",
                 "parameters": [
                     {
@@ -419,8 +419,8 @@
                 "tags": [
                     "Book"
                 ],
-                "summary": "Get a list of books",
-                "description": "Gets a paginated list of books with filters and sorting.",
+                "summary": "Retrieve a list of books",
+                "description": "Retrieves a paginated list of books with filters and sorting.",
                 "operationId": "e3ca1243c40f73fae90719ef44209035",
                 "parameters": [
                     {
@@ -551,8 +551,8 @@
                 "tags": [
                     "Book"
                 ],
-                "summary": "Get book details",
-                "description": "Gets detailed information about a specific book.",
+                "summary": "Retrieve book details",
+                "description": "Retrieves detailed information about a specific book.",
                 "operationId": "0ef12c3dc7339459157697e8efb88c4e",
                 "parameters": [
                     {
@@ -588,6 +588,66 @@
                         "description": "Book not found."
                     }
                 }
+            },
+            "patch": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Update a book",
+                "description": "Updates the specified book.",
+                "operationId": "3c4f25fa03441abe8a539d459cf8dfa1",
+                "parameters": [
+                    {
+                        "name": "book",
+                        "in": "path",
+                        "description": "Book identifier (slug)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBookRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Book updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/BookResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "404": {
+                        "description": "Book not found."
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/users/{user}/role": {
@@ -657,8 +717,8 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Get a list of users",
-                "description": "Gets a paginated list of users with filters and sorting.",
+                "summary": "Retrieve a list of users",
+                "description": "Retrieves a paginated list of users with filters and sorting.",
                 "operationId": "bda0424acf687003f1427ea721f28c1b",
                 "parameters": [
                     {
@@ -740,8 +800,8 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Get user details",
-                "description": "Gets detailed information about a specific user.",
+                "summary": "Retrieve user details",
+                "description": "Retrieves detailed information about a specific user.",
                 "operationId": "5d070ea37265b50551f44596d2508cda",
                 "parameters": [
                     {
@@ -1148,6 +1208,41 @@
                         "pattern": "^[a-z0-9-]+$",
                         "example": "the-tragical-history-of-hamlet-prince-of-denmark",
                         "nullable": true,
+                        "maxLength": 255
+                    },
+                    "description": {
+                        "description": "Description of the book.",
+                        "type": "string",
+                        "example": "The story follows Prince Hamlet of Denmark, who returns home to find his father (the King) dead and his uncle, Claudius, newly crowned and married to Hamlet's mother, Gertrude. After the Ghost of his father appears and reveals that Claudius murdered him, Hamlet is consumed by a quest for revenge.",
+                        "nullable": true,
+                        "maxLength": 5000
+                    },
+                    "publication_date": {
+                        "description": "Publication date of the book.",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1603-01-01",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateBookRequest": {
+                "title": "Update Book Request",
+                "description": "Request payload for updating a new book.",
+                "required": [],
+                "properties": {
+                    "title": {
+                        "description": "Title of the book.",
+                        "type": "string",
+                        "example": "The Tragical History of Hamlet, Prince of Denmark",
+                        "maxLength": 255
+                    },
+                    "slug": {
+                        "description": "Slug of the book.",
+                        "type": "string",
+                        "pattern": "^[a-z0-9-]+$",
+                        "example": "the-tragical-history-of-hamlet-prince-of-denmark",
                         "maxLength": 255
                     },
                     "description": {

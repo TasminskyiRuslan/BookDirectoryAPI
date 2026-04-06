@@ -199,6 +199,52 @@ class BookController extends Controller
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
+    #[OA\Patch(
+        path: '/books/{book}',
+        description: 'Updates the specified book.',
+        summary: 'Update a book',
+        security: [['sanctum' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: '#/components/schemas/UpdateBookRequest')
+        ),
+        tags: ['Book'],
+        parameters: [
+            new OA\Parameter(
+                name: 'book',
+                description: 'Book identifier (slug)',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'string'),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_OK,
+                description: 'Book updated successfully.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/BookResponse'
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NOT_FOUND,
+                description: 'Book not found.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNPROCESSABLE_ENTITY,
+                description: 'Validation error.'
+            ),
+        ]
+    )]
     /**
      * Updates the specified book.
      *
