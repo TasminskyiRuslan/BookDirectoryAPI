@@ -25,7 +25,7 @@ class BookController extends Controller
 
     #[OA\Get(
         path: '/books',
-        description: 'Retrieve a paginated list of authors with filters and sorting.',
+        description: 'Retrieve a paginated list of books with filters and sorting.',
         summary: 'Retrieve a list of books',
         security: [['sanctum' => []], []],
         tags: ['Book'],
@@ -264,6 +264,36 @@ class BookController extends Controller
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
+    #[OA\Delete(
+        path: '/books/{book}',
+        description: 'Remove the specified book.',
+        summary: 'Remove book',
+        security: [['sanctum' => []]],
+        tags: ['Book'],
+        parameters: [
+            new OA\Parameter(
+                name: 'book',
+                description: 'Book identifier (slug)',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'string'),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NO_CONTENT,
+                description: 'Book deleted successfully.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NOT_FOUND,
+                description: 'Book not found.'
+            )
+        ]
+    )]
     /**
      * Remove the specified book.
      *

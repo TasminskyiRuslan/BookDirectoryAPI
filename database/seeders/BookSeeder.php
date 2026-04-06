@@ -14,8 +14,6 @@ class BookSeeder extends Seeder
      */
     public function run(): void
     {
-        Storage::disk('public')->deleteDirectory('books');
-
         $authors = Author::all();
         if ($authors->isEmpty()) {
             $authors = Author::factory()->count(50)->create();

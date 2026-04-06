@@ -18,7 +18,7 @@
                     "Auth"
                 ],
                 "summary": "Authenticate user",
-                "description": "Authenticates the user using email and password and issue an access token.",
+                "description": "Authenticate the user using email and password and issue an access token.",
                 "operationId": "8e026335d25c3df3f6f6cf1f683ac7b8",
                 "requestBody": {
                     "required": true,
@@ -58,7 +58,7 @@
                     "Auth"
                 ],
                 "summary": "Logout user",
-                "description": "Revokes the current access token for an authenticated user.",
+                "description": "Revoke the current access token for an authenticated user.",
                 "operationId": "23a3ec5e2e8d20c9fd2ea568ae96fcd3",
                 "responses": {
                     "204": {
@@ -81,7 +81,7 @@
                     "Auth"
                 ],
                 "summary": "Retrieve current user",
-                "description": "Retrieves the currently authenticated user.",
+                "description": "Retrieve the currently authenticated user.",
                 "operationId": "a27984a716a6787c8b8537aee958673c",
                 "responses": {
                     "200": {
@@ -116,7 +116,7 @@
                     "Auth"
                 ],
                 "summary": "Register user",
-                "description": "Registers a new user and issue an access token.",
+                "description": "Register a new user and issue an access token.",
                 "operationId": "8e69ddc577b1650c4a010f798dd6c9d3",
                 "requestBody": {
                     "required": true,
@@ -156,7 +156,7 @@
                     "Author"
                 ],
                 "summary": "Retrieve a list of authors",
-                "description": "Retrieves a paginated list of authors with filters and sorting.",
+                "description": "Retrieve a paginated list of authors with filters and sorting.",
                 "operationId": "6e791cab4f6d9bd496a9d5ddd05fdb24",
                 "parameters": [
                     {
@@ -233,7 +233,7 @@
                     "Author"
                 ],
                 "summary": "Create an author",
-                "description": "Creates a new author.",
+                "description": "Create a new author.",
                 "operationId": "5d6ba5699658034e1b0f9fb42d197514",
                 "requestBody": {
                     "required": true,
@@ -281,7 +281,7 @@
                     "Author"
                 ],
                 "summary": "Retrieve author details",
-                "description": "Retrieves detailed information about a specific author.",
+                "description": "Retrieve detailed information about a specific author.",
                 "operationId": "7c537557c462cca9909ec5980263514c",
                 "parameters": [
                     {
@@ -322,8 +322,8 @@
                 "tags": [
                     "Author"
                 ],
-                "summary": "Delete author",
-                "description": "Deletes the specified author.",
+                "summary": "Remove author",
+                "description": "Remove the specified author.",
                 "operationId": "d6b7c065f13e949ca9072d148ba8dbf6",
                 "parameters": [
                     {
@@ -358,7 +358,7 @@
                     "Author"
                 ],
                 "summary": "Update an author",
-                "description": "Updates the specified author.",
+                "description": "Update the specified author.",
                 "operationId": "36fbfcc245f31a04f120a0d1d03428ff",
                 "parameters": [
                     {
@@ -420,7 +420,7 @@
                     "Book"
                 ],
                 "summary": "Retrieve a list of books",
-                "description": "Retrieves a paginated list of books with filters and sorting.",
+                "description": "Retrieve a paginated list of books with filters and sorting.",
                 "operationId": "e3ca1243c40f73fae90719ef44209035",
                 "parameters": [
                     {
@@ -503,8 +503,8 @@
                 "tags": [
                     "Book"
                 ],
-                "summary": "Book an author",
-                "description": "Creates a new book.",
+                "summary": "Create a book",
+                "description": "Create a new book.",
                 "operationId": "cea0e0738c55976e73681eba8cb71b26",
                 "requestBody": {
                     "required": true,
@@ -552,7 +552,7 @@
                     "Book"
                 ],
                 "summary": "Retrieve book details",
-                "description": "Retrieves detailed information about a specific book.",
+                "description": "Retrieve detailed information about a specific book.",
                 "operationId": "0ef12c3dc7339459157697e8efb88c4e",
                 "parameters": [
                     {
@@ -589,12 +589,47 @@
                     }
                 }
             },
+            "delete": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Remove book",
+                "description": "Remove the specified book.",
+                "operationId": "9eda054341169792f0183f7fbe5ff89c",
+                "parameters": [
+                    {
+                        "name": "book",
+                        "in": "path",
+                        "description": "Book identifier (slug)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Book deleted successfully."
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "404": {
+                        "description": "Book not found."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
             "patch": {
                 "tags": [
                     "Book"
                 ],
                 "summary": "Update a book",
-                "description": "Updates the specified book.",
+                "description": "Update the specified book.",
                 "operationId": "3c4f25fa03441abe8a539d459cf8dfa1",
                 "parameters": [
                     {
@@ -655,8 +690,8 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Updates user role",
-                "description": "Updates the role of the specified user.",
+                "summary": "Update user role",
+                "description": "Update the role of the specified user.",
                 "operationId": "4850dab8bab4efcf811ea32bd7ac050d",
                 "parameters": [
                     {
@@ -718,7 +753,7 @@
                     "User"
                 ],
                 "summary": "Retrieve a list of users",
-                "description": "Retrieves a paginated list of users with filters and sorting.",
+                "description": "Retrieve a paginated list of users with filters and sorting.",
                 "operationId": "bda0424acf687003f1427ea721f28c1b",
                 "parameters": [
                     {
@@ -801,7 +836,7 @@
                     "User"
                 ],
                 "summary": "Retrieve user details",
-                "description": "Retrieves detailed information about a specific user.",
+                "description": "Retrieve detailed information about a specific user.",
                 "operationId": "5d070ea37265b50551f44596d2508cda",
                 "parameters": [
                     {
@@ -847,8 +882,8 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Delete user",
-                "description": "Deletes the specified user.",
+                "summary": "Remove a user",
+                "description": "Remove the specified user.",
                 "operationId": "f5763f7370dc575bb7d88d3e39f34e43",
                 "parameters": [
                     {
