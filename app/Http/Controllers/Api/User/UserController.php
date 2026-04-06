@@ -23,7 +23,7 @@ class UserController extends Controller
         description: 'Gets a paginated list of users with filters and sorting.',
         summary: 'Get a list of users',
         security: [['sanctum' => []]],
-        tags: ['Users'],
+        tags: ['User'],
         parameters: [
             new OA\Parameter(
                 name: 'filter[search]',
@@ -96,7 +96,7 @@ class UserController extends Controller
         description: 'Gets detailed information about a specific user.',
         summary: 'Get user details',
         security: [['sanctum' => []]],
-        tags: ['Users'],
+        tags: ['User'],
         parameters: [
             new OA\Parameter(
                 name: 'user',
@@ -148,7 +148,7 @@ class UserController extends Controller
         description: 'Deletes the specified user.',
         summary: 'Delete user',
         security: [['sanctum' => []]],
-        tags: ['Users'],
+        tags: ['User'],
         parameters: [
             new OA\Parameter(
                 name: 'user',

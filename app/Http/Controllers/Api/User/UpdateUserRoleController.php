@@ -26,7 +26,7 @@ class UpdateUserRoleController extends Controller
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/UpdateUserRoleRequest')
         ),
-        tags: ['Users'],
+        tags: ['User'],
         parameters: [
             new OA\Parameter(
                 name: 'user',

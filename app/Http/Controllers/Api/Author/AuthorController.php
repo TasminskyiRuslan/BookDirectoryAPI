@@ -28,7 +28,7 @@ class AuthorController extends Controller
         description: 'Gets a paginated list of authors with filters and sorting.',
         summary: 'Get a list of authors',
         security: [['sanctum' => []], []],
-        tags: ['Authors'],
+        tags: ['Author'],
         parameters: [
             new OA\Parameter(
                 name: 'filter[search]',
@@ -101,7 +101,7 @@ class AuthorController extends Controller
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/CreateAuthorRequest')
         ),
-        tags: ['Authors'],
+        tags: ['Author'],
         responses: [
             new OA\Response(
                 response: SymfonyResponse::HTTP_CREATED,
@@ -146,7 +146,7 @@ class AuthorController extends Controller
         path: '/authors/{author}',
         description: 'Gets detailed information about a specific author.',
         summary: 'Get author details',
-        tags: ['Authors'],
+        tags: ['Author'],
         parameters: [
             new OA\Parameter(
                 name: 'author',
@@ -175,7 +175,7 @@ class AuthorController extends Controller
             ),
             new OA\Response(
                 response: SymfonyResponse::HTTP_NOT_FOUND,
-                description: 'User not found.'
+                description: 'Author not found.'
             )
         ]
     )]
@@ -202,7 +202,7 @@ class AuthorController extends Controller
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/UpdateAuthorRequest')
         ),
-        tags: ['Authors'],
+        tags: ['Author'],
         parameters: [
             new OA\Parameter(
                 name: 'author',
@@ -231,7 +231,7 @@ class AuthorController extends Controller
             ),
             new OA\Response(
                 response: SymfonyResponse::HTTP_NOT_FOUND,
-                description: 'User not found.'
+                description: 'Author not found.'
             ),
             new OA\Response(
                 response: SymfonyResponse::HTTP_UNPROCESSABLE_ENTITY,
@@ -262,7 +262,7 @@ class AuthorController extends Controller
         description: 'Deletes the specified author.',
         summary: 'Delete author',
         security: [['sanctum' => []]],
-        tags: ['Authors'],
+        tags: ['Author'],
         parameters: [
             new OA\Parameter(
                 name: 'author',

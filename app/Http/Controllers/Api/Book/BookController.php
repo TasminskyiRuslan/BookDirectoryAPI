@@ -25,7 +25,7 @@ class BookController extends Controller
         description: 'Gets a paginated list of books with filters and sorting.',
         summary: 'Get a list of books',
         security: [['sanctum' => []], []],
-        tags: ['Books'],
+        tags: ['Book'],
         parameters: [
             new OA\Parameter(
                 name: 'filter[search]',
@@ -105,7 +105,7 @@ class BookController extends Controller
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/CreateBookRequest')
         ),
-        tags: ['Books'],
+        tags: ['Book'],
         responses: [
             new OA\Response(
                 response: SymfonyResponse::HTTP_CREATED,
@@ -146,6 +146,43 @@ class BookController extends Controller
              ->setStatusCode(SymfonyResponse::HTTP_CREATED);
     }
 
+    #[OA\Get(
+        path: '/books/{book}',
+        description: 'Gets detailed information about a specific book.',
+        summary: 'Get book details',
+        tags: ['Book'],
+        parameters: [
+            new OA\Parameter(
+                name: 'book',
+                description: 'Book identifier (slug)',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'string'),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_OK,
+                description: 'Book details retrieved successfully.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/BookResponse'
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NOT_FOUND,
+                description: 'Book not found.'
+            )
+        ]
+    )]
     /**
      * Gets detailed information about a specific book.
      *

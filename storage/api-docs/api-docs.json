@@ -153,7 +153,7 @@
         "/authors": {
             "get": {
                 "tags": [
-                    "Authors"
+                    "Author"
                 ],
                 "summary": "Get a list of authors",
                 "description": "Gets a paginated list of authors with filters and sorting.",
@@ -230,7 +230,7 @@
             },
             "post": {
                 "tags": [
-                    "Authors"
+                    "Author"
                 ],
                 "summary": "Create an author",
                 "description": "Creates a new author.",
@@ -278,7 +278,7 @@
         "/authors/{author}": {
             "get": {
                 "tags": [
-                    "Authors"
+                    "Author"
                 ],
                 "summary": "Get author details",
                 "description": "Gets detailed information about a specific author.",
@@ -314,13 +314,13 @@
                         "description": "User does not have permissions."
                     },
                     "404": {
-                        "description": "User not found."
+                        "description": "Author not found."
                     }
                 }
             },
             "delete": {
                 "tags": [
-                    "Authors"
+                    "Author"
                 ],
                 "summary": "Delete author",
                 "description": "Deletes the specified author.",
@@ -355,7 +355,7 @@
             },
             "patch": {
                 "tags": [
-                    "Authors"
+                    "Author"
                 ],
                 "summary": "Update an author",
                 "description": "Updates the specified author.",
@@ -401,7 +401,7 @@
                         "description": "User does not have permissions."
                     },
                     "404": {
-                        "description": "User not found."
+                        "description": "Author not found."
                     },
                     "422": {
                         "description": "Validation error."
@@ -417,7 +417,7 @@
         "/books": {
             "get": {
                 "tags": [
-                    "Books"
+                    "Book"
                 ],
                 "summary": "Get a list of books",
                 "description": "Gets a paginated list of books with filters and sorting.",
@@ -501,7 +501,7 @@
             },
             "post": {
                 "tags": [
-                    "Books"
+                    "Book"
                 ],
                 "summary": "Book an author",
                 "description": "Creates a new book.",
@@ -546,10 +546,54 @@
                 ]
             }
         },
+        "/books/{book}": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Get book details",
+                "description": "Gets detailed information about a specific book.",
+                "operationId": "0ef12c3dc7339459157697e8efb88c4e",
+                "parameters": [
+                    {
+                        "name": "book",
+                        "in": "path",
+                        "description": "Book identifier (slug)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Book details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/BookResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "404": {
+                        "description": "Book not found."
+                    }
+                }
+            }
+        },
         "/users/{user}/role": {
             "put": {
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Updates user role",
                 "description": "Updates the role of the specified user.",
@@ -611,7 +655,7 @@
         "/users": {
             "get": {
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Get a list of users",
                 "description": "Gets a paginated list of users with filters and sorting.",
@@ -694,7 +738,7 @@
         "/users/{user}": {
             "get": {
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Get user details",
                 "description": "Gets detailed information about a specific user.",
@@ -741,7 +785,7 @@
             },
             "delete": {
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Delete user",
                 "description": "Deletes the specified user.",
@@ -1216,16 +1260,16 @@
             "description": "Auth"
         },
         {
-            "name": "Authors",
-            "description": "Authors"
+            "name": "Author",
+            "description": "Author"
         },
         {
-            "name": "Books",
-            "description": "Books"
+            "name": "Book",
+            "description": "Book"
         },
         {
-            "name": "Users",
-            "description": "Users"
+            "name": "User",
+            "description": "User"
         }
     ]
 }
