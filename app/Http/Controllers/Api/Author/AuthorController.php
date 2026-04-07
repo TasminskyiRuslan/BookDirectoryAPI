@@ -54,6 +54,16 @@ class AuthorController extends Controller
                 required: false,
                 schema: new OA\Schema(type: 'integer', minimum: 1),
             ),
+            new OA\Parameter(
+                name: 'include',
+                description: 'Include related books.',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'string',
+                    enum: ['books']
+                ),
+            ),
         ],
         responses: [
             new OA\Response(
@@ -84,7 +94,7 @@ class AuthorController extends Controller
     public function index(AuthorListQuery $authorListQuery): JsonResponse
     {
         $this->authorize('view-any', Author::class);
-        $authors = Cache::tags(['author'])->remember('authors:' . http_build_query(request()->only(['page', 'filter', 'sort'])), config('cache.ttl.authors'), function () use ($authorListQuery) {
+        $authors = Cache::tags(['author'])->remember('authors:' . http_build_query(request()->only(['page', 'filter', 'sort', 'include'])), config('cache.ttl.authors'), function () use ($authorListQuery) {
             return $authorListQuery->get();
         });
         return AuthorResource::collection($authors)
@@ -188,7 +198,7 @@ class AuthorController extends Controller
     public function show(Author $author): JsonResponse
     {
         $this->authorize('view', $author);
-        return AuthorResource::make($author)
+        return AuthorResource::make($author->loadMissing('books'))
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }

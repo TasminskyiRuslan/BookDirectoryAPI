@@ -196,6 +196,18 @@
                             "type": "integer",
                             "minimum": 1
                         }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related books.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "books"
+                            ]
+                        }
                     }
                 ],
                 "responses": {
@@ -466,6 +478,18 @@
                         "schema": {
                             "type": "integer",
                             "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related authors.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "authors"
+                            ]
                         }
                     }
                 ],
@@ -1227,6 +1251,15 @@
                         "format": "url",
                         "example": "http://loclhost:8080/storage/authors/author1.png",
                         "nullable": true
+                    },
+                    "books": {
+                        "description": "Books of the author. Returns an empty array if not loaded. Loaded automatically in \"show\" or via \"?include=books\" in \"index\".",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BookResponse"
+                        },
+                        "example": [],
+                        "nullable": false
                     }
                 },
                 "type": "object"
@@ -1349,12 +1382,13 @@
                         "nullable": true
                     },
                     "authors": {
-                        "description": "Authors of the book.",
+                        "description": "Authors of the book. Returns an empty array if not loaded. Loaded automatically in \"show\" or via \"?include=authors\" in \"index\".",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/AuthorResponse"
                         },
-                        "nullable": true
+                        "example": [],
+                        "nullable": false
                     }
                 },
                 "type": "object"

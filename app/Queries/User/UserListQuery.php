@@ -35,6 +35,7 @@ class UserListQuery
                     'name',
                 ])
                 ->defaultSort('-created_at')
-                ->paginate(config('pagination.user_per_page'));
+                ->paginate(config('pagination.user_per_page'))
+                ->withQueryString();
     }
 }

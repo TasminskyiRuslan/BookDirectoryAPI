@@ -71,6 +71,14 @@ use OpenApi\Attributes as OA;
             format: 'url',
             example: 'http://loclhost:8080/storage/authors/author1.png',
             nullable: true
+        ),
+        new OA\Property(
+            property: 'books',
+            description: 'Books of the author. Returns an empty array if not loaded. Loaded automatically in "show" or via "?include=books" in "index".',
+            type: 'array',
+            items: new OA\Items(ref: '#/components/schemas/BookResponse'),
+            example: [],
+            nullable: false
         )
     ],
     type: 'object'

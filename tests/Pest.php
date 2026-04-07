@@ -139,10 +139,11 @@ function authJsonStructure(): array {
 /**
  * Get the expected JSON structure for an author object.
  *
+ * @param bool $withBooks
  * @return array
  */
-function authorJsonStructure(): array {
-    return [
+function authorJsonStructure(bool $withBooks = false): array {
+    $base = [
         'id',
         'last_name',
         'first_name',
@@ -153,25 +154,38 @@ function authorJsonStructure(): array {
         'biography',
         'image_url',
     ];
+
+    if ($withBooks) {
+        $base['books'] = [
+            '*' => bookJsonStructure(),
+        ];
+    }
+
+    return $base;
 }
 
 /**
  * Get the expected JSON structure for a book object.
  *
+ * @param bool $withAuthors
  * @return array
  */
-function bookJsonStructure(): array {
-    return [
+function bookJsonStructure(bool $withAuthors = false): array {
+    $base = [
         'id',
         'title',
         'slug',
         'description',
         'image_url',
         'publication_date',
-        'authors' => [
-            '*' => authorJsonStructure(),
-        ],
     ];
+    if ($withAuthors) {
+        $base['authors'] = [
+            '*' => authorJsonStructure(),
+        ];
+    }
+
+    return $base;
 }
 
 /**

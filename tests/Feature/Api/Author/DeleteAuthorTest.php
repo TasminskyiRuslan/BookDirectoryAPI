@@ -55,7 +55,7 @@ describe('AuthorController -> destroy', function () {
             ]);
         });
 
-        it('allows an admin to delete the author', function () {
+        it('allows an admin to delete the author and its image', function () {
             Storage::fake('authors');
             $filename = 'test-image';
 
@@ -73,7 +73,7 @@ describe('AuthorController -> destroy', function () {
             Storage::disk('authors')->assertMissing($filename);
         });
 
-        it('allows a super-admin to delete the author', function () {
+        it('allows a super-admin to delete the author and its image', function () {
             Storage::fake('authors');
             $filename = 'test-image';
 

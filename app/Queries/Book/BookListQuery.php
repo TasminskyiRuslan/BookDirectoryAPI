@@ -17,7 +17,7 @@ class BookListQuery
     public function get(): LengthAwarePaginator
     {
         return QueryBuilder::for(Book::class)
-            ->with('authors')
+            ->allowedIncludes(['authors'])
             ->allowedFilters([
                 AllowedFilter::callback('search', function ($query, $value) {
                     $query->where(function ($q) use ($value) {
@@ -42,6 +42,7 @@ class BookListQuery
                 'publication_date'
             ])
             ->defaultSort('-created_at')
-            ->paginate(config('pagination.books_per_page'));
+            ->paginate(config('pagination.books_per_page'))
+            ->withQueryString();
     }
 }

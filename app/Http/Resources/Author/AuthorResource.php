@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Author;
 
+use App\Http\Resources\Book\BookResource;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -38,6 +39,7 @@ class AuthorResource extends JsonResource
             'death_date' => $this->death_date?->toDateString(),
 		    'biography' => $this->biography,
             'image_url' => $this->image_path ? Storage::disk('authors')->url($this->image_path) : null,
+            'books' => BookResource::collection($this->whenLoaded('books')),
         ];
     }
 }

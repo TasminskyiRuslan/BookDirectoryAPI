@@ -53,10 +53,11 @@ use OpenApi\Attributes as OA;
         ),
         new OA\Property(
             property: 'authors',
-            description: 'Authors of the book.',
+            description: 'Authors of the book. Returns an empty array if not loaded. Loaded automatically in "show" or via "?include=authors" in "index".',
             type: 'array',
             items: new OA\Items(ref: '#/components/schemas/AuthorResponse'),
-            nullable: true
+            example: [],
+            nullable: false
         )
     ],
     type: 'object'

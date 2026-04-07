@@ -101,6 +101,18 @@ describe('BookController -> index', function () {
                 ->assertJsonFragment(['id' => $book1->id]);
         });
 
+        it('includes authors by using the include query parameter', function () {
+            Book::factory()->count(7)->create();
+
+            getJson(route('book.index', ['include' => 'authors']))
+                ->assertOk()
+                ->assertJsonStructure([
+                    'data' => [
+                        '*' => bookJsonStructure(true),
+                    ]
+                ]);
+        });
+
         it('returns empty data when no books match the search', function () {
             Book::factory()->count(7)->create();
 

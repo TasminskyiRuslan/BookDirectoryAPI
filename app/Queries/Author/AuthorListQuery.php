@@ -18,6 +18,7 @@ class AuthorListQuery
     public function get(): LengthAwarePaginator
     {
         return QueryBuilder::for(Author::class)
+            ->allowedIncludes('books')
             ->allowedFilters([
                 AllowedFilter::callback('search', function ($query, $value) {
                     $query->where(function ($q) use ($value) {
@@ -40,6 +41,7 @@ class AuthorListQuery
                 'death_date'
             ])
             ->defaultSort('-created_at')
-            ->paginate(config('pagination.authors_per_page'));
+            ->paginate(config('pagination.authors_per_page'))
+            ->withQueryString();
     }
 }
