@@ -40,7 +40,7 @@ use OpenApi\Attributes as OA;
             description: 'Image url of the book.',
             type: 'string',
             format: 'url',
-            example: 'https://example.com/images/book1.png',
+            example: 'http://loclhost:8080/storage/books/book1.png',
             nullable: true
         ),
         new OA\Property(

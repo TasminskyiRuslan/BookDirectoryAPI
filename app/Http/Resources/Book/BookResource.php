@@ -30,7 +30,7 @@ class BookResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'description' => $this->description,
-            'image_url' => $this->image_path ? Storage::disk('public')->url($this->image_path) : null,
+            'image_url' => $this->image_path ? Storage::disk('books')->url($this->image_path) : null,
             'publication_date' => $this->publication_date?->toDateString(),
             'authors' => AuthorResource::collection($this->authors),
         ];

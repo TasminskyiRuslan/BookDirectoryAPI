@@ -113,7 +113,7 @@ class Book extends Model
     }
 
     /**
-     * Remove the image path from the record.
+     * Remove the image path.
      *
      * @return $this
      */

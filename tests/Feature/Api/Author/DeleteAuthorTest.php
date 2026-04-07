@@ -56,18 +56,27 @@ describe('AuthorController -> destroy', function () {
         });
 
         it('allows an admin to delete the author', function () {
+            Storage::fake('authors');
+            $filename = 'test-image';
+
             $admin = User::factory()->admin()->create();
             Sanctum::actingAs($admin);
-            $targetAuthor = Author::factory()->create();
+            $targetAuthor = Author::factory()->withImage($filename)->create();
+
+            Storage::disk('authors')->put($filename, 'fake');
 
             deleteJson(route('author.destroy', $targetAuthor))
                 ->assertNoContent();
             $this->assertDatabaseMissing('authors', [
                 'id' => $targetAuthor->id,
             ]);
+            Storage::disk('authors')->assertMissing($filename);
         });
 
         it('allows a super-admin to delete the author', function () {
+            Storage::fake('authors');
+            $filename = 'test-image';
+
             $superAdmin = User::factory()->create([
                 'name' => config('super-admin.name'),
                 'email' => config('super-admin.email'),
@@ -75,13 +84,16 @@ describe('AuthorController -> destroy', function () {
             ]);
             $superAdmin->assignRole(UserRole::SUPER_ADMIN->value);
             Sanctum::actingAs($superAdmin);
-            $targetAuthor = Author::factory()->create();
+            $targetAuthor = Author::factory()->withImage($filename)->create();
+
+            Storage::disk('authors')->put($filename, 'fake');
 
             deleteJson(route('author.destroy', $targetAuthor))
                 ->assertNoContent();
             $this->assertDatabaseMissing('authors', [
                 'id' => $targetAuthor->id,
             ]);
+            Storage::disk('authors')->assertMissing($filename);
         });
     });
 

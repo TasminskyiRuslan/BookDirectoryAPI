@@ -5,6 +5,7 @@ namespace App\Http\Resources\Author;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @property-read int $id
@@ -15,6 +16,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property-read CarbonImmutable|null $birth_date
  * @property-read CarbonImmutable|null $death_date
  * @property-read string $biography
+ * @property mixed $image_path
  */
 class AuthorResource extends JsonResource
 {
@@ -35,6 +37,7 @@ class AuthorResource extends JsonResource
             'birth_date' => $this->birth_date?->toDateString(),
             'death_date' => $this->death_date?->toDateString(),
 		    'biography' => $this->biography,
+            'image_url' => $this->image_path ? Storage::disk('authors')->url($this->image_path) : null,
         ];
     }
 }

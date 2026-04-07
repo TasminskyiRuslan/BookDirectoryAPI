@@ -41,6 +41,8 @@ use Spatie\Sluggable\SlugOptions;
  * @method static Builder<static>|Author wherePatronymic($value)
  * @method static Builder<static>|Author whereSlug($value)
  * @method static Builder<static>|Author whereUpdatedAt($value)
+ * @property string|null $image_path
+ * @method static Builder<static>|Author whereImagePath($value)
  * @mixin Eloquent
  */
 class Author extends Model
@@ -61,6 +63,7 @@ class Author extends Model
         'birth_date',
         'death_date',
         'biography',
+        'image_path',
     ];
 
     /**
@@ -117,5 +120,16 @@ class Author extends Model
     public function books(): BelongsToMany
     {
         return $this->belongsToMany(Book::class);
+    }
+
+    /**
+     * Remove the image path.
+     *
+     * @return $this
+     */
+    public function removeImage(): static
+    {
+        $this->image_path = null;
+        return $this;
     }
 }

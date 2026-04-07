@@ -31,6 +31,20 @@ class AuthorFactory extends Factory
             'birth_date' => $birthDate,
             'death_date' => fake()->optional()->dateTimeBetween($birthDate, 'now')?->format('Y-m-d'),
             'biography' => fake()->paragraph(),
+            'image_path' => null,
         ];
+    }
+
+    /**
+     * Add an image to the author.
+     *
+     * @param string|null $path
+     * @return static
+     */
+    public function withImage(?string $path = null): static
+    {
+        return $this->state(function (array $attributes) use ($path) {
+            return ['image_path' => $path ?? 'authors/' . fake()->uuid() . '.jpg'];
+        });
     }
 }

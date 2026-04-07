@@ -151,6 +151,7 @@ function authorJsonStructure(): array {
         'birth_date',
         'death_date',
         'biography',
+        'image_url',
     ];
 }
 

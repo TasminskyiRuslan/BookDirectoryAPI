@@ -19,6 +19,7 @@ class DeleteBookAction
 
     /**
      * Remove the specified book and its image.
+     *
      * @param Book $book
      * @return void
      * @throws Throwable

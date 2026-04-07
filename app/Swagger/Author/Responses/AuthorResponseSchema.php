@@ -63,6 +63,14 @@ use OpenApi\Attributes as OA;
             type: 'string',
             example: 'Ukrainian poet, artist, and thinker. Born into a family of serfs, he gained his freedom through a ransom. His work became the foundation of modern Ukrainian literature.',
             nullable: true
+        ),
+        new OA\Property(
+            property: 'image_url',
+            description: 'Image url of the author.',
+            type: 'string',
+            format: 'url',
+            example: 'http://loclhost:8080/storage/authors/author1.png',
+            nullable: true
         )
     ],
     type: 'object'

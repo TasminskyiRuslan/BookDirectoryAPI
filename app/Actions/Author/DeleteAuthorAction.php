@@ -9,7 +9,16 @@ use Throwable;
 class DeleteAuthorAction
 {
     /**
-     * Remove the specified author.
+     * @param DeleteAuthorImageAction $deleteAuthorImageAction
+     */
+    public function __construct(
+        protected DeleteAuthorImageAction $deleteAuthorImageAction,
+    )
+    {
+    }
+
+    /**
+     * Remove the specified author and its image.
      *
      * @param Author $author
      * @return void
@@ -18,6 +27,7 @@ class DeleteAuthorAction
     public function handle(Author $author): void
     {
         DB::transaction(function () use ($author) {
+            $this->deleteAuthorImageAction->handle($author);
             $author->delete();
         });
     }
