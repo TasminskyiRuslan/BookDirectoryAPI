@@ -27,7 +27,7 @@ describe('BookController -> show', function () {
             getJson(route('book.show', $targetBook))
                 ->assertOk()
                 ->assertJsonStructure([
-                    'data' => bookJsonStructure()
+                    'data' => bookJsonStructure(true)
                 ])
                 ->assertJsonFragment(['id' => $targetBook->id]);
         });
@@ -40,7 +40,7 @@ describe('BookController -> show', function () {
             getJson(route('book.show', $targetBook))
                 ->assertOk()
                 ->assertJsonStructure([
-                    'data' => bookJsonStructure()
+                    'data' => bookJsonStructure(true)
                 ])
                 ->assertJsonFragment(['id' => $targetBook->id]);
         });
@@ -53,7 +53,7 @@ describe('BookController -> show', function () {
             getJson(route('book.show', $targetBook))
                 ->assertOk()
                 ->assertJsonStructure([
-                    'data' => bookJsonStructure()
+                    'data' => bookJsonStructure(true)
                 ])
                 ->assertJsonFragment(['id' => $targetBook->id]);
         });
@@ -66,7 +66,7 @@ describe('BookController -> show', function () {
             getJson(route('book.show', $targetBook))
                 ->assertOk()
                 ->assertJsonStructure([
-                    'data' => bookJsonStructure()
+                    'data' => bookJsonStructure(true)
                 ])
                 ->assertJsonFragment(['id' => $targetBook->id]);
         });
@@ -84,7 +84,7 @@ describe('BookController -> show', function () {
             getJson(route('book.show', $targetBook))
                 ->assertOk()
                 ->assertJsonStructure([
-                    'data' => bookJsonStructure()
+                    'data' => bookJsonStructure(true)
                 ])
                 ->assertJsonFragment(['id' => $targetBook->id]);
         });

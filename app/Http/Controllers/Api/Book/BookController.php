@@ -154,7 +154,7 @@ class BookController extends Controller
     {
          $this->authorize('create', Book::class);
          $book = $createBookAction->handle($bookData);
-         return BookResource::make($book)
+         return BookResource::make($book->loadMissing('authors')->loadCount('authors'))
              ->response()
              ->setStatusCode(SymfonyResponse::HTTP_CREATED);
     }
@@ -205,7 +205,7 @@ class BookController extends Controller
     public function show(Book $book): JsonResponse
     {
         $this->authorize('view', $book);
-        return BookResource::make($book->loadMissing('authors'))
+        return BookResource::make($book->loadMissing('authors')->loadCount('authors'))
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
@@ -269,7 +269,7 @@ class BookController extends Controller
     {
         $this->authorize('update', $book);
         $book = $updateBookAction->handle($bookData, $book);
-        return BookResource::make($book->fresh('authors'))
+        return BookResource::make($book->loadMissing('authors')->loadCount('authors'))
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }

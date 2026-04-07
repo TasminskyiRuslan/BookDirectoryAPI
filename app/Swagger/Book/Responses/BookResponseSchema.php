@@ -52,6 +52,13 @@ use OpenApi\Attributes as OA;
             nullable: true
         ),
         new OA\Property(
+            property: 'authors_count',
+            description: 'Authors count of the book.',
+            type: 'integer',
+            example: 2,
+            nullable: false
+        ),
+        new OA\Property(
             property: 'authors',
             description: 'Authors of the book. Returns an empty array if not loaded. Loaded automatically in "show" or via "?include=authors" in "index".',
             type: 'array',

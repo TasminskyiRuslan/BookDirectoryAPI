@@ -19,6 +19,7 @@ class AuthorListQuery
     {
         return QueryBuilder::for(Author::class)
             ->allowedIncludes('books')
+            ->withCount('books')
             ->allowedFilters([
                 AllowedFilter::callback('search', function ($query, $value) {
                     $query->where(function ($q) use ($value) {

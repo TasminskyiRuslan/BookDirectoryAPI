@@ -31,6 +31,7 @@ class BookResource extends JsonResource
             'description' => $this->description,
             'image_url' => $this->image_path ? Storage::disk('books')->url($this->image_path) : null,
             'publication_date' => $this->publication_date?->toDateString(),
+            'authors_count' => $this->whenCounted('authors'),
             'authors' => AuthorResource::collection($this->whenLoaded('authors')),
         ];
     }

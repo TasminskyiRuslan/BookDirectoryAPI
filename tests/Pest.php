@@ -153,6 +153,7 @@ function authorJsonStructure(bool $withBooks = false): array {
         'death_date',
         'biography',
         'image_url',
+        'books_count',
     ];
 
     if ($withBooks) {
@@ -178,6 +179,7 @@ function bookJsonStructure(bool $withAuthors = false): array {
         'description',
         'image_url',
         'publication_date',
+        'authors_count'
     ];
     if ($withAuthors) {
         $base['authors'] = [

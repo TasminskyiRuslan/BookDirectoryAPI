@@ -1252,6 +1252,12 @@
                         "example": "http://loclhost:8080/storage/authors/author1.png",
                         "nullable": true
                     },
+                    "books_count": {
+                        "description": "Books count of the author.",
+                        "type": "integer",
+                        "example": 5,
+                        "nullable": false
+                    },
                     "books": {
                         "description": "Books of the author. Returns an empty array if not loaded. Loaded automatically in \"show\" or via \"?include=books\" in \"index\".",
                         "type": "array",
@@ -1380,6 +1386,12 @@
                         "format": "date",
                         "example": "1603-01-01",
                         "nullable": true
+                    },
+                    "authors_count": {
+                        "description": "Authors count of the book.",
+                        "type": "integer",
+                        "example": 2,
+                        "nullable": false
                     },
                     "authors": {
                         "description": "Authors of the book. Returns an empty array if not loaded. Loaded automatically in \"show\" or via \"?include=authors\" in \"index\".",

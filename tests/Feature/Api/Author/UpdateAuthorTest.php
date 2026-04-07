@@ -62,7 +62,7 @@ describe('AuthorController -> update', function () {
 
             patchJson(route('author.update', $targetAuthor), $data)
                 ->assertOk()
-                ->assertJsonStructure(['data' => authorJsonStructure()]);
+                ->assertJsonStructure(['data' => authorJsonStructure(true)]);
 
             $this->assertDatabaseHas('authors', [
                 'id' => $targetAuthor->id,
@@ -80,7 +80,7 @@ describe('AuthorController -> update', function () {
 
             patchJson(route('author.update', $targetAuthor), $data)
                 ->assertOk()
-                ->assertJsonStructure(['data' => authorJsonStructure()]);
+                ->assertJsonStructure(['data' => authorJsonStructure(true)]);
 
             $this->assertDatabaseHas('authors', [
                 'id' => $targetAuthor->id,
@@ -103,7 +103,7 @@ describe('AuthorController -> update', function () {
 
             patchJson(route('author.update', $targetAuthor), $data)
                 ->assertOk()
-                ->assertJsonStructure(['data' => authorJsonStructure()]);
+                ->assertJsonStructure(['data' => authorJsonStructure(true)]);
 
             $this->assertDatabaseHas('authors', [
                 'id' => $targetAuthor->id,

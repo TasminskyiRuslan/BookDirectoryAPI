@@ -147,7 +147,7 @@ class AuthorController extends Controller
     {
         $this->authorize('create', Author::class);
         $author = $createAuthorAction->handle($authorData);
-        return AuthorResource::make($author)
+        return AuthorResource::make($author->loadMissing('books')->loadCount('books'))
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_CREATED);
     }
@@ -198,7 +198,7 @@ class AuthorController extends Controller
     public function show(Author $author): JsonResponse
     {
         $this->authorize('view', $author);
-        return AuthorResource::make($author->loadMissing('books'))
+        return AuthorResource::make($author->loadMissing('books')->loadCount('books'))
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
@@ -262,7 +262,7 @@ class AuthorController extends Controller
     {
         $this->authorize('update', $author);
         $author = $updateAuthorAction->handle($authorData, $author);
-        return AuthorResource::make($author->fresh())
+        return AuthorResource::make($author->loadMissing('books')->loadCount('books'))
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }

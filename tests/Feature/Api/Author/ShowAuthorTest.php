@@ -27,7 +27,7 @@ describe('AuthorController -> show', function () {
             getJson(route('author.show', $targetAuthor))
                  ->assertOk()
                  ->assertJsonStructure([
-                     'data' => authorJsonStructure()
+                     'data' => authorJsonStructure(true)
                  ])
                  ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
@@ -40,7 +40,7 @@ describe('AuthorController -> show', function () {
             getJson(route('author.show', $targetAuthor))
                 ->assertOk()
                 ->assertJsonStructure([
-                    'data' => authorJsonStructure()
+                    'data' => authorJsonStructure(true)
                 ])
                 ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
@@ -53,7 +53,7 @@ describe('AuthorController -> show', function () {
             getJson(route('author.show', $targetAuthor))
                 ->assertOk()
                 ->assertJsonStructure([
-                    'data' => authorJsonStructure()
+                    'data' => authorJsonStructure(true)
                 ])
                 ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
@@ -66,7 +66,7 @@ describe('AuthorController -> show', function () {
             getJson(route('author.show', $targetAuthor))
                 ->assertOk()
                 ->assertJsonStructure([
-                    'data' => authorJsonStructure()
+                    'data' => authorJsonStructure(true)
                 ])
                 ->assertJsonFragment(['id' => $targetAuthor->id]);
         });
@@ -84,7 +84,7 @@ describe('AuthorController -> show', function () {
             getJson(route('author.show', $targetAuthor))
                 ->assertOk()
                 ->assertJsonStructure([
-                    'data' => authorJsonStructure()
+                    'data' => authorJsonStructure(true)
                 ])
                 ->assertJsonFragment(['id' => $targetAuthor->id]);
         });

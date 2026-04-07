@@ -73,6 +73,13 @@ use OpenApi\Attributes as OA;
             nullable: true
         ),
         new OA\Property(
+            property: 'books_count',
+            description: 'Books count of the author.',
+            type: 'integer',
+            example: 5,
+            nullable: false
+        ),
+        new OA\Property(
             property: 'books',
             description: 'Books of the author. Returns an empty array if not loaded. Loaded automatically in "show" or via "?include=books" in "index".',
             type: 'array',

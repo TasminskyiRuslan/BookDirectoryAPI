@@ -39,6 +39,7 @@ class AuthorResource extends JsonResource
             'death_date' => $this->death_date?->toDateString(),
 		    'biography' => $this->biography,
             'image_url' => $this->image_path ? Storage::disk('authors')->url($this->image_path) : null,
+            'books_count' => $this->whenCounted('books'),
             'books' => BookResource::collection($this->whenLoaded('books')),
         ];
     }
