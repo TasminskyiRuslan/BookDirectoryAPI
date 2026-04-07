@@ -22,6 +22,15 @@ use Spatie\LaravelData\Support\Validation\References\RouteParameterReference;
 
 class UpdateAuthorData extends Data
 {
+    /**
+     * @param string|Optional $lastName
+     * @param string|Optional $firstName
+     * @param string|Optional|null $patronymic
+     * @param string|Optional $slug
+     * @param Carbon|Optional|null $birthDate
+     * @param Carbon|Optional|null $deathDate
+     * @param string|Optional|null $biography
+     */
     public function __construct(
         #[Sometimes]
         #[StringType]

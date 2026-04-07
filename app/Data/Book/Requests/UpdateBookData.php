@@ -20,6 +20,12 @@ use Spatie\LaravelData\Support\Validation\References\RouteParameterReference;
 
 class UpdateBookData extends Data
 {
+    /**
+     * @param string|Optional $title
+     * @param string|Optional $slug
+     * @param string|Optional|null $description
+     * @param Carbon|Optional|null $publicationDate
+     */
     public function __construct(
         #[Sometimes]
         #[StringType]

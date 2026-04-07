@@ -18,6 +18,12 @@ use Symfony\Contracts\Service\Attribute\Required;
 
 class CreateBookData extends Data
 {
+    /**
+     * @param string $title
+     * @param string|null $slug
+     * @param string|null $description
+     * @param Carbon|null $publicationDate
+     */
     public function __construct(
         #[Required]
         #[StringType]
