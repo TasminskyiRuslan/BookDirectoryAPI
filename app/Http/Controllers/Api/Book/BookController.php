@@ -127,7 +127,7 @@ class BookController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/BookResponse'
+                            ref: '#/components/schemas/BookFullResponse'
                         )
                     ]
                 )
@@ -170,7 +170,10 @@ class BookController extends Controller
                 description: 'Book identifier (slug)',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'string'),
+                schema: new OA\Schema(
+                    type: 'string',
+                    example: 'the-tragical-history-of-hamlet-prince-of-denmark'
+                ),
             )
         ],
         responses: [
@@ -181,7 +184,7 @@ class BookController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/BookResponse'
+                            ref: '#/components/schemas/BookFullResponse'
                         )
                     ]
                 )
@@ -226,7 +229,10 @@ class BookController extends Controller
                 description: 'Book identifier (slug)',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'string'),
+                schema: new OA\Schema(
+                    type: 'string',
+                    example: 'the-tragical-history-of-hamlet-prince-of-denmark'
+                ),
             )
         ],
         responses: [
@@ -237,7 +243,7 @@ class BookController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/BookResponse'
+                            ref: '#/components/schemas/BookFullResponse'
                         )
                     ]
                 )
@@ -286,7 +292,10 @@ class BookController extends Controller
                 description: 'Book identifier (slug)',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'string'),
+                schema: new OA\Schema(
+                    type: 'string',
+                    example: 'the-tragical-history-of-hamlet-prince-of-denmark'
+                ),
             )
         ],
         responses: [

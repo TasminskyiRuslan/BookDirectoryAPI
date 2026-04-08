@@ -265,7 +265,7 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/AuthorResponse"
+                                            "$ref": "#/components/schemas/AuthorFullResponse"
                                         }
                                     },
                                     "type": "object"
@@ -302,7 +302,8 @@
                         "description": "Author identifier (slug)",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "shevchenko-taras-grigorievich"
                         }
                     }
                 ],
@@ -314,7 +315,7 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/AuthorResponse"
+                                            "$ref": "#/components/schemas/AuthorFullResponse"
                                         }
                                     },
                                     "type": "object"
@@ -344,7 +345,8 @@
                         "description": "Author identifier (slug)",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "shevchenko-taras-grigorievich"
                         }
                     }
                 ],
@@ -379,7 +381,8 @@
                         "description": "Author identifier (slug)",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "shevchenko-taras-grigorievich"
                         }
                     }
                 ],
@@ -401,7 +404,70 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/AuthorResponse"
+                                            "$ref": "#/components/schemas/AuthorFullResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "404": {
+                        "description": "Author not found."
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/authors/{author}/image": {
+            "post": {
+                "tags": [
+                    "Author"
+                ],
+                "summary": "Update an author image",
+                "description": "Update the specified author image.",
+                "operationId": "612bfa48a85037e6c728e0a8ba4221f0",
+                "parameters": [
+                    {
+                        "name": "author",
+                        "in": "path",
+                        "description": "Author identifier (slug)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "shevchenko-taras-grigorievich"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAuthorImageRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Author image updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/AuthorFullResponse"
                                         }
                                     },
                                     "type": "object"
@@ -548,7 +614,7 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/BookResponse"
+                                            "$ref": "#/components/schemas/BookFullResponse"
                                         }
                                     },
                                     "type": "object"
@@ -585,7 +651,8 @@
                         "description": "Book identifier (slug)",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "the-tragical-history-of-hamlet-prince-of-denmark"
                         }
                     }
                 ],
@@ -597,7 +664,7 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/BookResponse"
+                                            "$ref": "#/components/schemas/BookFullResponse"
                                         }
                                     },
                                     "type": "object"
@@ -627,7 +694,8 @@
                         "description": "Book identifier (slug)",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "the-tragical-history-of-hamlet-prince-of-denmark"
                         }
                     }
                 ],
@@ -662,7 +730,8 @@
                         "description": "Book identifier (slug)",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "the-tragical-history-of-hamlet-prince-of-denmark"
                         }
                     }
                 ],
@@ -684,7 +753,7 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/BookResponse"
+                                            "$ref": "#/components/schemas/BookFullResponse"
                                         }
                                     },
                                     "type": "object"
@@ -724,7 +793,8 @@
                         "description": "User identifier (id)",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
                         }
                     }
                 ],
@@ -869,7 +939,8 @@
                         "description": "User identifier (id)",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
                         }
                     }
                 ],
@@ -916,7 +987,8 @@
                         "description": "User identifier (id)",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
                         }
                     }
                 ],
@@ -1132,9 +1204,33 @@
                 },
                 "type": "object"
             },
+            "UpdateAuthorImageRequest": {
+                "title": "Update Author Image Request",
+                "description": "Request payload for updating an author image.",
+                "required": [
+                    "image",
+                    "_method"
+                ],
+                "properties": {
+                    "image": {
+                        "description": "Image of the author.",
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "_method": {
+                        "description": "Method spoofing to treat POST as PUT.",
+                        "type": "string",
+                        "example": "PUT",
+                        "enum": [
+                            "PUT"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
             "UpdateAuthorRequest": {
                 "title": "Update Author Request",
-                "description": "Request payload for updating a new author.",
+                "description": "Request payload for updating an author.",
                 "required": [],
                 "properties": {
                     "last_name": {
@@ -1196,7 +1292,8 @@
                     "id",
                     "last_name",
                     "first_name",
-                    "slug"
+                    "slug",
+                    "books_count"
                 ],
                 "properties": {
                     "id": {
@@ -1248,7 +1345,81 @@
                     "image_url": {
                         "description": "Image url of the author.",
                         "type": "string",
-                        "format": "url",
+                        "format": "uri",
+                        "example": "http://loclhost:8080/storage/authors/author1.png",
+                        "nullable": true
+                    },
+                    "books_count": {
+                        "description": "Books count of the author.",
+                        "type": "integer",
+                        "example": 5,
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "AuthorFullResponse": {
+                "title": "Author Full Response",
+                "description": "Data of a specific author.",
+                "required": [
+                    "id",
+                    "last_name",
+                    "first_name",
+                    "slug",
+                    "books_count",
+                    "books"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Unique identifier of the author.",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_name": {
+                        "description": "Lastname of the author.",
+                        "type": "string",
+                        "example": "Shevchenko"
+                    },
+                    "first_name": {
+                        "description": "Firstname of the author.",
+                        "type": "string",
+                        "example": "Taras"
+                    },
+                    "patronymic": {
+                        "description": "Patronymic of the author.",
+                        "type": "string",
+                        "example": "Grigorievich",
+                        "nullable": true
+                    },
+                    "slug": {
+                        "description": "Slug of the author.",
+                        "type": "string",
+                        "example": "shevchenko-taras-grigorievich"
+                    },
+                    "birth_date": {
+                        "description": "Birth date of the author.",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1814-03-09",
+                        "nullable": true
+                    },
+                    "death_date": {
+                        "description": "Death date of the author.",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1861-03-10",
+                        "nullable": true
+                    },
+                    "biography": {
+                        "description": "Biography of the author.",
+                        "type": "string",
+                        "example": "Ukrainian poet, artist, and thinker. Born into a family of serfs, he gained his freedom through a ransom. His work became the foundation of modern Ukrainian literature.",
+                        "nullable": true
+                    },
+                    "image_url": {
+                        "description": "Image url of the author.",
+                        "type": "string",
+                        "format": "uri",
                         "example": "http://loclhost:8080/storage/authors/author1.png",
                         "nullable": true
                     },
@@ -1264,7 +1435,6 @@
                         "items": {
                             "$ref": "#/components/schemas/BookResponse"
                         },
-                        "example": [],
                         "nullable": false
                     }
                 },
@@ -1349,7 +1519,63 @@
                 "required": [
                     "id",
                     "title",
-                    "slug"
+                    "slug",
+                    "authors_count"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Unique identifier of the book.",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "description": "Title of the book.",
+                        "type": "string",
+                        "example": "The Tragical History of Hamlet, Prince of Denmark"
+                    },
+                    "slug": {
+                        "description": "Slug of the book.",
+                        "type": "string",
+                        "example": "the-tragical-history-of-hamlet-prince-of-denmark"
+                    },
+                    "description": {
+                        "description": "Description of the book.",
+                        "type": "string",
+                        "example": "The story follows Prince Hamlet of Denmark, who returns home to find his father (the King) dead and his uncle, Claudius, newly crowned and married to Hamlet's mother, Gertrude. After the Ghost of his father appears and reveals that Claudius murdered him, Hamlet is consumed by a quest for revenge.",
+                        "nullable": true
+                    },
+                    "image_url": {
+                        "description": "Image url of the book.",
+                        "type": "string",
+                        "format": "url",
+                        "example": "http://loclhost:8080/storage/books/book1.png",
+                        "nullable": true
+                    },
+                    "publication_date": {
+                        "description": "Publication date of the book.",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1603-01-01",
+                        "nullable": true
+                    },
+                    "authors_count": {
+                        "description": "Authors count of the book.",
+                        "type": "integer",
+                        "example": 2,
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "BookFullResponse": {
+                "title": "Book Full Response",
+                "description": "Data of a specific book.",
+                "required": [
+                    "id",
+                    "title",
+                    "slug",
+                    "authors_count",
+                    "authors"
                 ],
                 "properties": {
                     "id": {
@@ -1394,12 +1620,11 @@
                         "nullable": false
                     },
                     "authors": {
-                        "description": "Authors of the book. Returns an empty array if not loaded. Loaded automatically in \"show\" or via \"?include=authors\" in \"index\".",
+                        "description": "Authors of the book.",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/AuthorResponse"
                         },
-                        "example": [],
                         "nullable": false
                     }
                 },

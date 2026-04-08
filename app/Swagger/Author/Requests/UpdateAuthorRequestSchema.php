@@ -7,7 +7,7 @@ use OpenApi\Attributes as OA;
 #[OA\Schema(
     schema: 'UpdateAuthorRequest',
     title: 'Update Author Request',
-    description: 'Request payload for updating a new author.',
+    description: 'Request payload for updating an author.',
     required: [],
     properties: [
         new OA\Property(

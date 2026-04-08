@@ -120,7 +120,7 @@ class AuthorController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/AuthorResponse'
+                            ref: '#/components/schemas/AuthorFullResponse'
                         )
                     ]
                 )
@@ -163,7 +163,10 @@ class AuthorController extends Controller
                 description: 'Author identifier (slug)',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'string'),
+                schema: new OA\Schema(
+                    type: 'string',
+                    example: 'shevchenko-taras-grigorievich'
+                ),
             )
         ],
         responses: [
@@ -174,7 +177,7 @@ class AuthorController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/AuthorResponse'
+                            ref: '#/components/schemas/AuthorFullResponse'
                         )
                     ]
                 )
@@ -219,7 +222,10 @@ class AuthorController extends Controller
                 description: 'Author identifier (slug)',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'string'),
+                schema: new OA\Schema(
+                    type: 'string',
+                    example: 'shevchenko-taras-grigorievich'
+                ),
             )
         ],
         responses: [
@@ -230,7 +236,7 @@ class AuthorController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/AuthorResponse'
+                            ref: '#/components/schemas/AuthorFullResponse'
                         )
                     ]
                 )
@@ -279,7 +285,10 @@ class AuthorController extends Controller
                 description: 'Author identifier (slug)',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'string'),
+                schema: new OA\Schema(
+                    type: 'string',
+                    example: 'shevchenko-taras-grigorievich'
+                ),
             )
         ],
         responses: [

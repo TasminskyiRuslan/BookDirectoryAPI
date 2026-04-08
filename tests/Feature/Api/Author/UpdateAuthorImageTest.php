@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\Sanctum;
 use App\Models\Author;
-use function Pest\Laravel\patchJson;
 use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);

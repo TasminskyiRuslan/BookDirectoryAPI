@@ -103,7 +103,10 @@ class UserController extends Controller
                 description: 'User identifier (id)',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'integer'),
+                schema: new OA\Schema(
+                    type: 'integer',
+                    example: 1
+                ),
             )
         ],
         responses: [
@@ -155,7 +158,10 @@ class UserController extends Controller
                 description: 'User identifier (id)',
                 in: 'path',
                 required: true,
-                schema: new OA\Schema(type: 'integer'),
+                schema: new OA\Schema(
+                    type: 'integer',
+                    example: 1
+                ),
             )
         ],
         responses: [
