@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Http\UploadedFile;
+
 pest()->extend(Tests\TestCase::class)
  // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature');
@@ -85,6 +87,20 @@ function authorPayload(array $overrides = []): array
         'birth_date' => $birthDate,
         'death_date' => fake()->optional()->dateTimeBetween($birthDate, 'now')?->format('Y-m-d'),
         'biography'    => fake()->paragraph(),
+    ], $overrides);
+}
+
+/**
+ * Generate an author image payload with optional overrides.
+ *
+ * @param array $overrides
+ * @return array
+ */
+function authorImagePayload(array $overrides = []): array
+{
+    return array_merge([
+        'image'     => UploadedFile::fake()->image('author.jpg'),
+        '_method' => 'PUT',
     ], $overrides);
 }
 

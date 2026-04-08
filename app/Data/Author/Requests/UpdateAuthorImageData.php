@@ -10,7 +10,7 @@ use Spatie\LaravelData\Attributes\Validation\Mimes;
 use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Data;
 
-class UploadAuthorImageData extends Data
+class UpdateAuthorImageData extends Data
 {
     /**
      * @param UploadedFile $image

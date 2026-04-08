@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\MeController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Author\AuthorController;
+use App\Http\Controllers\Api\Author\AuthorImageController;
 use App\Http\Controllers\Api\Book\BookController;
 use App\Http\Controllers\Api\User\UpdateUserRoleController;
 use App\Http\Controllers\Api\User\UserController;
@@ -84,6 +85,10 @@ Route::prefix('authors')->group(function () {
     // Delete author action
     Route::delete('/{author}', [AuthorController::class, 'destroy'])
         ->name('author.destroy');
+
+    // Update author image action
+    Route::put('/{author}/image', [AuthorImageController::class, 'update'])
+        ->name('author.image.update');
 });
 
 /*
