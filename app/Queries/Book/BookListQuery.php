@@ -5,6 +5,7 @@ namespace App\Queries\Book;
 use App\Models\Book;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class BookListQuery
@@ -18,7 +19,6 @@ class BookListQuery
     {
         return QueryBuilder::for(Book::class)
             ->allowedIncludes('authors')
-            ->withCount('authors')
             ->allowedFilters([
                 AllowedFilter::callback('search', function ($query, $value) {
                     $query->where(function ($q) use ($value) {

@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
     schema: 'BookResponse',
     title: 'Book Response',
     description: 'Data of a specific book.',
-    required: ['id', 'title', 'slug', 'authors_count'],
+    required: ['id', 'title', 'slug'],
     properties: [
         new OA\Property(
             property: 'id',
@@ -50,13 +50,6 @@ use OpenApi\Attributes as OA;
             format: 'date',
             example: '1603-01-01',
             nullable: true
-        ),
-        new OA\Property(
-            property: 'authors_count',
-            description: 'Authors count of the book.',
-            type: 'integer',
-            example: 2,
-            nullable: false
         )
     ],
     type: 'object'
@@ -69,7 +62,7 @@ class BookResponseSchema
     schema: 'BookFullResponse',
     title: 'Book Full Response',
     description: 'Data of a specific book.',
-    required: ['id', 'title', 'slug', 'authors_count', 'authors'],
+    required: ['id', 'title', 'slug', 'authors'],
     properties: [
         new OA\Property(
             property: 'id',
@@ -111,13 +104,6 @@ class BookResponseSchema
             format: 'date',
             example: '1603-01-01',
             nullable: true
-        ),
-        new OA\Property(
-            property: 'authors_count',
-            description: 'Authors count of the book.',
-            type: 'integer',
-            example: 2,
-            nullable: false
         ),
         new OA\Property(
             property: 'authors',

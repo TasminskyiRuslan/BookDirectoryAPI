@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
  * @property mixed $description
  * @property mixed $image_path
  * @property mixed $publication_date
+ * @property mixed $authors
  */
 class BookResource extends JsonResource
 {
@@ -31,7 +32,6 @@ class BookResource extends JsonResource
             'description' => $this->description,
             'image_url' => $this->image_path ? Storage::disk('books')->url($this->image_path) : null,
             'publication_date' => $this->publication_date?->toDateString(),
-            'authors_count' => $this->whenCounted('authors'),
             'authors' => AuthorResource::collection($this->whenLoaded('authors')),
         ];
     }

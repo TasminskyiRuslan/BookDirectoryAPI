@@ -276,9 +276,12 @@ describe('AuthorController -> update', function () {
 
             Cache::tags(['author'])->put('authors', 'test_value', config('cache.ttl.authors'));
             expect(Cache::tags(['author'])->get('authors'))->toBe('test_value');
+            Cache::tags(['book'])->put('books', 'test_value', config('cache.ttl.books'));
+            expect(Cache::tags(['book'])->get('books'))->toBe('test_value');
             patchJson(route('author.update', $targetAuthor), authorPayload())
                 ->assertOk();
-            expect(Cache::tags(['author'])->get('authors'))->toBeNull();
+            expect(Cache::tags(['author'])->get('authors'))->toBeNull()
+                ->and(Cache::tags(['book'])->get('books'))->toBeNull();
         });
     });
 })->group('author');

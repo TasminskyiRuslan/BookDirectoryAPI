@@ -84,7 +84,7 @@ class AuthorImageController extends Controller
     {
         $this->authorize('update', $author);
         $author = $updateAuthorImageAction->handle($authorImageData, $author);
-        return AuthorResource::make($author->loadMissing('books')->loadCount('books'))
+        return AuthorResource::make($author->loadMissing('books'))
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }

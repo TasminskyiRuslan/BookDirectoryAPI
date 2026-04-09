@@ -91,20 +91,6 @@ function authorPayload(array $overrides = []): array
 }
 
 /**
- * Generate an author image payload with optional overrides.
- *
- * @param array $overrides
- * @return array
- */
-function imagePayload(array $overrides = []): array
-{
-    return array_merge([
-        'image'     => UploadedFile::fake()->image('avatar.jpg'),
-        '_method' => 'PUT',
-    ], $overrides);
-}
-
-/**
  * Generate a book payload with optional overrides.
  *
  * @param array $overrides
@@ -116,6 +102,20 @@ function bookPayload(array $overrides = []): array
         'title' => fake()->sentence(3),
         'description' => fake()->optional()->paragraph(),
         'publication_date' => fake()->optional()->date(),
+    ], $overrides);
+}
+
+/**
+ * Generate an image payload with optional overrides.
+ *
+ * @param array $overrides
+ * @return array
+ */
+function imagePayload(array $overrides = []): array
+{
+    return array_merge([
+        'image'     => UploadedFile::fake()->image('avatar.jpg'),
+        '_method' => 'PUT',
     ], $overrides);
 }
 
@@ -168,14 +168,15 @@ function authorJsonStructure(bool $withBooks = false): array {
         'birth_date',
         'death_date',
         'biography',
-        'image_url',
-        'books_count',
+        'image_url'
     ];
 
     if ($withBooks) {
-        $base['books'] = [
-            '*' => bookJsonStructure(),
-        ];
+        array_merge($base, [
+            'books' => [
+                '*' => bookJsonStructure(),
+            ]
+        ]);
     }
 
     return $base;
@@ -194,13 +195,14 @@ function bookJsonStructure(bool $withAuthors = false): array {
         'slug',
         'description',
         'image_url',
-        'publication_date',
-        'authors_count'
+        'publication_date'
     ];
     if ($withAuthors) {
-        $base['authors'] = [
-            '*' => authorJsonStructure(),
-        ];
+        array_merge($base, [
+            'authors' => [
+                '*' => authorJsonStructure(),
+            ]
+        ]);
     }
 
     return $base;

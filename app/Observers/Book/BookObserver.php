@@ -26,7 +26,7 @@ class BookObserver
      */
     public function updated(Book $book): void
     {
-        Cache::tags(['book'])->flush();
+        Cache::tags(['book', 'author'])->flush();
     }
 
     /**
@@ -37,6 +37,6 @@ class BookObserver
      */
     public function deleted(Book $book): void
     {
-        Cache::tags(['book'])->flush();
+        Cache::tags(['book', 'author'])->flush();
     }
 }

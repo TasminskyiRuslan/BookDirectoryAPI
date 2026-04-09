@@ -1427,8 +1427,7 @@
                     "id",
                     "last_name",
                     "first_name",
-                    "slug",
-                    "books_count"
+                    "slug"
                 ],
                 "properties": {
                     "id": {
@@ -1483,12 +1482,6 @@
                         "format": "uri",
                         "example": "http://loclhost:8080/storage/authors/author1.png",
                         "nullable": true
-                    },
-                    "books_count": {
-                        "description": "Books count of the author.",
-                        "type": "integer",
-                        "example": 5,
-                        "nullable": false
                     }
                 },
                 "type": "object"
@@ -1501,7 +1494,6 @@
                     "last_name",
                     "first_name",
                     "slug",
-                    "books_count",
                     "books"
                 ],
                 "properties": {
@@ -1557,12 +1549,6 @@
                         "format": "uri",
                         "example": "http://loclhost:8080/storage/authors/author1.png",
                         "nullable": true
-                    },
-                    "books_count": {
-                        "description": "Books count of the author.",
-                        "type": "integer",
-                        "example": 5,
-                        "nullable": false
                     },
                     "books": {
                         "description": "Books of the author. Returns an empty array if not loaded. Loaded automatically in \"show\" or via \"?include=books\" in \"index\".",
@@ -1678,8 +1664,7 @@
                 "required": [
                     "id",
                     "title",
-                    "slug",
-                    "authors_count"
+                    "slug"
                 ],
                 "properties": {
                     "id": {
@@ -1716,12 +1701,6 @@
                         "format": "date",
                         "example": "1603-01-01",
                         "nullable": true
-                    },
-                    "authors_count": {
-                        "description": "Authors count of the book.",
-                        "type": "integer",
-                        "example": 2,
-                        "nullable": false
                     }
                 },
                 "type": "object"
@@ -1733,7 +1712,6 @@
                     "id",
                     "title",
                     "slug",
-                    "authors_count",
                     "authors"
                 ],
                 "properties": {
@@ -1771,12 +1749,6 @@
                         "format": "date",
                         "example": "1603-01-01",
                         "nullable": true
-                    },
-                    "authors_count": {
-                        "description": "Authors count of the book.",
-                        "type": "integer",
-                        "example": 2,
-                        "nullable": false
                     },
                     "authors": {
                         "description": "Authors of the book.",

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Storage;
  * @property-read CarbonImmutable|null $death_date
  * @property-read string $biography
  * @property mixed $image_path
+ * @property mixed $books
  */
 class AuthorResource extends JsonResource
 {
@@ -39,7 +40,6 @@ class AuthorResource extends JsonResource
             'death_date' => $this->death_date?->toDateString(),
 		    'biography' => $this->biography,
             'image_url' => $this->image_path ? Storage::disk('authors')->url($this->image_path) : null,
-            'books_count' => $this->whenCounted('books'),
             'books' => BookResource::collection($this->whenLoaded('books')),
         ];
     }

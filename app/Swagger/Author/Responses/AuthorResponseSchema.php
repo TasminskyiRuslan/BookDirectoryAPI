@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
     schema: 'AuthorResponse',
     title: 'Author Response',
     description: 'Data of a specific author.',
-    required: ['id', 'last_name', 'first_name', 'slug', 'books_count'],
+    required: ['id', 'last_name', 'first_name', 'slug'],
     properties: [
         new OA\Property(
             property: 'id',
@@ -71,13 +71,6 @@ use OpenApi\Attributes as OA;
             format: 'uri',
             example: 'http://loclhost:8080/storage/authors/author1.png',
             nullable: true
-        ),
-        new OA\Property(
-            property: 'books_count',
-            description: 'Books count of the author.',
-            type: 'integer',
-            example: 5,
-            nullable: false
         )
     ],
     type: 'object'
@@ -90,7 +83,7 @@ class AuthorResponseSchema
     schema: 'AuthorFullResponse',
     title: 'Author Full Response',
     description: 'Data of a specific author.',
-    required: ['id', 'last_name', 'first_name', 'slug', 'books_count', 'books'],
+    required: ['id', 'last_name', 'first_name', 'slug', 'books'],
     properties: [
         new OA\Property(
             property: 'id',
@@ -153,13 +146,6 @@ class AuthorResponseSchema
             format: 'uri',
             example: 'http://loclhost:8080/storage/authors/author1.png',
             nullable: true
-        ),
-        new OA\Property(
-            property: 'books_count',
-            description: 'Books count of the author.',
-            type: 'integer',
-            example: 5,
-            nullable: false
         ),
         new OA\Property(
             property: 'books',
