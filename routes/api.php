@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Author\AuthorController;
 use App\Http\Controllers\Api\Author\AuthorImageController;
 use App\Http\Controllers\Api\Book\BookController;
+use App\Http\Controllers\Api\Book\BookImageController;
 use App\Http\Controllers\Api\User\UpdateUserRoleController;
 use App\Http\Controllers\Api\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -120,4 +121,8 @@ Route::prefix('books')->group(function () {
     // Delete book action
     Route::delete('/{book}', [BookController::class, 'destroy'])
         ->name('book.destroy');
+
+    // Update author image action
+    Route::put('/{book}/image', [BookImageController::class, 'update'])
+        ->name('book.image.update');
 });

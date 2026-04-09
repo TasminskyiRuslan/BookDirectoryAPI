@@ -27,7 +27,7 @@ describe('AuthorImageController -> update', function () {
         it('fails if an unauthenticated user tries to update the author image', function () {
             $targetAuthor = Author::factory()->create();
 
-            postJson(route('author.image.update', $targetAuthor), authorImagePayload())
+            postJson(route('author.image.update', $targetAuthor), imagePayload())
                 ->assertForbidden();
 
             $targetAuthor->refresh();
@@ -40,7 +40,7 @@ describe('AuthorImageController -> update', function () {
             Sanctum::actingAs($viewer);
             $targetAuthor = Author::factory()->create();
 
-            postJson(route('author.image.update', $targetAuthor), authorImagePayload())
+            postJson(route('author.image.update', $targetAuthor), imagePayload())
                 ->assertForbidden();
 
             $targetAuthor->refresh();
@@ -53,7 +53,7 @@ describe('AuthorImageController -> update', function () {
             Sanctum::actingAs($editor);
             $targetAuthor = Author::factory()->create();
 
-            postJson(route('author.image.update', $targetAuthor), authorImagePayload())
+            postJson(route('author.image.update', $targetAuthor), imagePayload())
                 ->assertOk()
                 ->assertJsonStructure(['data' => authorJsonStructure(true)]);
 
@@ -67,7 +67,7 @@ describe('AuthorImageController -> update', function () {
             Sanctum::actingAs($admin);
             $targetAuthor = Author::factory()->create();
 
-            postJson(route('author.image.update', $targetAuthor), authorImagePayload())
+            postJson(route('author.image.update', $targetAuthor), imagePayload())
                 ->assertOk()
                 ->assertJsonStructure(['data' => authorJsonStructure(true)]);
 
@@ -86,7 +86,7 @@ describe('AuthorImageController -> update', function () {
             Sanctum::actingAs($superAdmin);
             $targetAuthor = Author::factory()->create();
 
-            postJson(route('author.image.update', $targetAuthor), authorImagePayload())
+            postJson(route('author.image.update', $targetAuthor), imagePayload())
                 ->assertOk()
                 ->assertJsonStructure(['data' => authorJsonStructure(true)]);
 
@@ -117,7 +117,7 @@ describe('AuthorImageController -> update', function () {
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            postJson(route('author.image.update', $targetAuthor), authorImagePayload([
+            postJson(route('author.image.update', $targetAuthor), imagePayload([
                 'image' => 'not-a-file',
             ]))
                 ->assertUnprocessable()
@@ -129,7 +129,7 @@ describe('AuthorImageController -> update', function () {
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            postJson(route('author.image.update', $targetAuthor), authorImagePayload([
+            postJson(route('author.image.update', $targetAuthor), imagePayload([
                 'image' => UploadedFile::fake()->create('document.pdf'),
             ]))
                 ->assertUnprocessable()
@@ -141,7 +141,7 @@ describe('AuthorImageController -> update', function () {
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            postJson(route('author.image.update', $targetAuthor), authorImagePayload([
+            postJson(route('author.image.update', $targetAuthor), imagePayload([
                 'image' => UploadedFile::fake()->create('author.jpg')->size(2049),
             ]))
                 ->assertUnprocessable()
@@ -153,7 +153,7 @@ describe('AuthorImageController -> update', function () {
             $targetAuthor = Author::factory()->create();
             Sanctum::actingAs($editor);
 
-            postJson(route('author.image.update', $targetAuthor), authorImagePayload([
+            postJson(route('author.image.update', $targetAuthor), imagePayload([
                 'image' => UploadedFile::fake()->image("author.$ext"),
             ]))
                 ->assertOk()
@@ -167,7 +167,7 @@ describe('AuthorImageController -> update', function () {
             $editor = User::factory()->editor()->create();
             Sanctum::actingAs($editor);
 
-            postJson(route('author.image.update', 999), authorImagePayload())
+            postJson(route('author.image.update', 999), imagePayload())
                 ->assertNotFound();
         });
     });
@@ -185,7 +185,7 @@ describe('AuthorImageController -> update', function () {
 
             Cache::tags(['author'])->put('authors', 'test_value', config('cache.ttl.authors'));
             expect(Cache::tags(['author'])->get('authors'))->toBe('test_value');
-            postJson(route('author.image.update', $targetAuthor), authorImagePayload())
+            postJson(route('author.image.update', $targetAuthor), imagePayload())
                 ->assertOk();
             expect(Cache::tags(['author'])->get('authors'))->toBeNull();
         });

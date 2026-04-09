@@ -10,7 +10,7 @@ use function Pest\Laravel\deleteJson;
 
 uses(RefreshDatabase::class);
 
-describe('AuthorController -> destroy', function () {
+describe('AuthorImageController -> destroy', function () {
     beforeEach(function () {
         $this->seed(RolesAndPermissionsSeeder::class);
         Storage::fake('authors');

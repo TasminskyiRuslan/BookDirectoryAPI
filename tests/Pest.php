@@ -96,10 +96,10 @@ function authorPayload(array $overrides = []): array
  * @param array $overrides
  * @return array
  */
-function authorImagePayload(array $overrides = []): array
+function imagePayload(array $overrides = []): array
 {
     return array_merge([
-        'image'     => UploadedFile::fake()->image('author.jpg'),
+        'image'     => UploadedFile::fake()->image('avatar.jpg'),
         '_method' => 'PUT',
     ], $overrides);
 }
