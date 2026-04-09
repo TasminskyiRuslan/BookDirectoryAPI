@@ -162,6 +162,14 @@ describe('AuthorImageController -> update', function () {
             expect($targetAuthor->image_path)->not->toBeNull();
             Storage::disk('authors')->assertExists($targetAuthor->image_path);
         })->with(['jpg', 'jpeg', 'png']);
+
+        it('fails if the author does not exist', function () {
+            $editor = User::factory()->editor()->create();
+            Sanctum::actingAs($editor);
+
+            postJson(route('author.image.update', 999), authorImagePayload())
+                ->assertNotFound();
+        });
     });
 
     /*

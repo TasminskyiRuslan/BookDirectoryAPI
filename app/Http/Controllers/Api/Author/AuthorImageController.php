@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Author;
 
+use App\Actions\Author\DeleteAuthorImageAction;
 use App\Actions\Author\UpdateAuthorImageAction;
 use App\Data\Author\Requests\UpdateAuthorImageData;
 use App\Http\Controllers\Controller;
@@ -9,6 +10,7 @@ use App\Http\Resources\Author\AuthorResource;
 use App\Models\Author;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use OpenApi\Attributes as OA;
 use Throwable;
@@ -89,10 +91,16 @@ class AuthorImageController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified author image.
+     *
+     * @param Author $author
+     * @param DeleteAuthorImageAction $deleteAuthorImageAction
+     * @return Response
      */
-    public function destroy(string $id)
+    public function destroy(Author $author, DeleteAuthorImageAction $deleteAuthorImageAction): Response
     {
-        //
+        $this->authorize('update', $author);
+        $deleteAuthorImageAction->handle($author);
+        return response()->noContent();
     }
 }

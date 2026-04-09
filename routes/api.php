@@ -89,6 +89,10 @@ Route::prefix('authors')->group(function () {
     // Update author image action
     Route::put('/{author}/image', [AuthorImageController::class, 'update'])
         ->name('author.image.update');
+
+    // Delete author image action
+    Route::delete('/{author}/image', [AuthorImageController::class, 'destroy'])
+        ->name('author.image.destroy');
 });
 
 /*
