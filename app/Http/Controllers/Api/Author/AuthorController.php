@@ -276,7 +276,7 @@ class AuthorController extends Controller
     #[OA\Delete(
         path: '/authors/{author}',
         description: 'Remove the specified author.',
-        summary: 'Remove author',
+        summary: 'Remove an author',
         security: [['sanctum' => []]],
         tags: ['Author'],
         parameters: [

@@ -89,7 +89,39 @@ class AuthorImageController extends Controller
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
-
+    #[OA\Delete(
+        path: '/authors/{author}/image',
+        description: 'Remove the specified author image.',
+        summary: 'Remove an author image',
+        security: [['sanctum' => []]],
+        tags: ['Author'],
+        parameters: [
+            new OA\Parameter(
+                name: 'author',
+                description: 'Author identifier (slug)',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'string',
+                    example: 'shevchenko-taras-grigorievich'
+                ),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NO_CONTENT,
+                description: 'Author image deleted successfully.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NOT_FOUND,
+                description: 'Author not found.'
+            )
+        ]
+    )]
     /**
      * Remove the specified author image.
      *

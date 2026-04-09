@@ -283,7 +283,7 @@ class BookController extends Controller
     #[OA\Delete(
         path: '/books/{book}',
         description: 'Remove the specified book.',
-        summary: 'Remove book',
+        summary: 'Remove a book',
         security: [['sanctum' => []]],
         tags: ['Book'],
         parameters: [

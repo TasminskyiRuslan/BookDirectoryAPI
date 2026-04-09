@@ -335,7 +335,7 @@
                 "tags": [
                     "Author"
                 ],
-                "summary": "Remove author",
+                "summary": "Remove an author",
                 "description": "Remove the specified author.",
                 "operationId": "d6b7c065f13e949ca9072d148ba8dbf6",
                 "parameters": [
@@ -483,6 +483,42 @@
                     },
                     "422": {
                         "description": "Validation error."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Author"
+                ],
+                "summary": "Remove an author image",
+                "description": "Remove the specified author image.",
+                "operationId": "d9c6002342c97a352763c7e22d544e5f",
+                "parameters": [
+                    {
+                        "name": "author",
+                        "in": "path",
+                        "description": "Author identifier (slug)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "shevchenko-taras-grigorievich"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Author image deleted successfully."
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "404": {
+                        "description": "Author not found."
                     }
                 },
                 "security": [
@@ -684,7 +720,7 @@
                 "tags": [
                     "Book"
                 ],
-                "summary": "Remove book",
+                "summary": "Remove a book",
                 "description": "Remove the specified book.",
                 "operationId": "9eda054341169792f0183f7fbe5ff89c",
                 "parameters": [
