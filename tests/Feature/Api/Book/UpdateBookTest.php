@@ -62,7 +62,7 @@ describe('BookController -> update', function () {
 
             patchJson(route('book.update', $targetBook), $data)
                 ->assertOk()
-                ->assertJsonStructure(['data' => bookJsonStructure(true)]);
+                ->assertJsonStructure(['data' => bookJsonStructure(true, true)]);
 
             $this->assertDatabaseHas('books', [
                 'id' => $targetBook->id,
@@ -80,7 +80,7 @@ describe('BookController -> update', function () {
 
             patchJson(route('book.update', $targetBook), $data)
                 ->assertOk()
-                ->assertJsonStructure(['data' => bookJsonStructure(true)]);
+                ->assertJsonStructure(['data' => bookJsonStructure(true, true)]);
 
             $this->assertDatabaseHas('books', [
                 'id' => $targetBook->id,
@@ -103,7 +103,7 @@ describe('BookController -> update', function () {
 
             patchJson(route('book.update', $targetBook), $data)
                 ->assertOk()
-                ->assertJsonStructure(['data' => bookJsonStructure(true)]);
+                ->assertJsonStructure(['data' => bookJsonStructure(true, true)]);
 
             $this->assertDatabaseHas('books', [
                 'id' => $targetBook->id,

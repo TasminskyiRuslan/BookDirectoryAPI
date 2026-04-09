@@ -18,7 +18,10 @@ class BookListQuery
     public function get(): LengthAwarePaginator
     {
         return QueryBuilder::for(Book::class)
-            ->allowedIncludes('authors')
+            ->allowedIncludes([
+                AllowedInclude::count('authors_count', 'authors'),
+                'authors',
+            ])
             ->allowedFilters([
                 AllowedFilter::callback('search', function ($query, $value) {
                     $query->where(function ($q) use ($value) {

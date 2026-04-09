@@ -63,12 +63,12 @@ class BookController extends Controller
             ),
             new OA\Parameter(
                 name: 'include',
-                description: 'Include related authors.',
+                description: 'Relations to include.',
                 in: 'query',
                 required: false,
                 schema: new OA\Schema(
                     type: 'string',
-                    enum: ['authors']
+                    example: 'authors_count,authors'
                 ),
             ),
         ],
@@ -127,7 +127,7 @@ class BookController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/BookFullResponse'
+                            ref: '#/components/schemas/BookResponse'
                         )
                     ]
                 )
@@ -154,7 +154,7 @@ class BookController extends Controller
     {
          $this->authorize('create', Book::class);
          $book = $createBookAction->handle($bookData);
-         return BookResource::make($book->loadMissing('authors'))
+         return BookResource::make($book->loadCount('authors')->loadMissing('authors'))
              ->response()
              ->setStatusCode(SymfonyResponse::HTTP_CREATED);
     }
@@ -184,7 +184,7 @@ class BookController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/BookFullResponse'
+                            ref: '#/components/schemas/BookResponse'
                         )
                     ]
                 )
@@ -208,7 +208,7 @@ class BookController extends Controller
     public function show(Book $book): JsonResponse
     {
         $this->authorize('view', $book);
-        return BookResource::make($book->loadMissing('authors'))
+        return BookResource::make($book->loadCount('authors')->loadMissing('authors'))
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
@@ -243,7 +243,7 @@ class BookController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/BookFullResponse'
+                            ref: '#/components/schemas/BookResponse'
                         )
                     ]
                 )
@@ -275,7 +275,7 @@ class BookController extends Controller
     {
         $this->authorize('update', $book);
         $book = $updateBookAction->handle($bookData, $book);
-        return BookResource::make($book->loadMissing('authors'))
+        return BookResource::make($book->loadCount('authors')->loadMissing('authors'))
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }

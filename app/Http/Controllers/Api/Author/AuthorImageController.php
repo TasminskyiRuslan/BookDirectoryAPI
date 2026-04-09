@@ -52,7 +52,7 @@ class AuthorImageController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/AuthorFullResponse'
+                            ref: '#/components/schemas/AuthorResponse'
                         )
                     ]
                 )
@@ -84,7 +84,7 @@ class AuthorImageController extends Controller
     {
         $this->authorize('update', $author);
         $author = $updateAuthorImageAction->handle($authorImageData, $author);
-        return AuthorResource::make($author->loadMissing('books'))
+        return AuthorResource::make($author->loadCount('books')->loadMissing('books'))
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }

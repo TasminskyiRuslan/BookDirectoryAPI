@@ -101,6 +101,18 @@ describe('BookController -> index', function () {
                 ->assertJsonFragment(['id' => $book1->id]);
         });
 
+        it('includes authors_count by using the include query parameter', function () {
+            Book::factory()->count(7)->create();
+
+            getJson(route('book.index', ['include' => 'authors_count']))
+                ->assertOk()
+                ->assertJsonStructure([
+                    'data' => [
+                        '*' => bookJsonStructure(true),
+                    ]
+                ]);
+        });
+
         it('includes authors by using the include query parameter', function () {
             Book::factory()->count(7)->create();
 
@@ -108,7 +120,19 @@ describe('BookController -> index', function () {
                 ->assertOk()
                 ->assertJsonStructure([
                     'data' => [
-                        '*' => bookJsonStructure(true),
+                        '*' => bookJsonStructure(false, true),
+                    ]
+                ]);
+        });
+
+        it('includes authors_count and authors by using the include query parameter', function () {
+            Book::factory()->count(7)->create();
+
+            getJson(route('book.index', ['include' => 'authors_count,authors']))
+                ->assertOk()
+                ->assertJsonStructure([
+                    'data' => [
+                        '*' => bookJsonStructure(true, true),
                     ]
                 ]);
         });

@@ -55,7 +55,7 @@ describe('BookImageController -> update', function () {
 
             postJson(route('book.image.update', $targetBook), imagePayload())
                 ->assertOk()
-                ->assertJsonStructure(['data' => bookJsonStructure(true)]);
+                ->assertJsonStructure(['data' => bookJsonStructure(true, true)]);
 
             $targetBook->refresh();
             expect($targetBook->image_path)->not()->toBeNull();
@@ -69,7 +69,7 @@ describe('BookImageController -> update', function () {
 
             postJson(route('book.image.update', $targetBook), imagePayload())
                 ->assertOk()
-                ->assertJsonStructure(['data' => bookJsonStructure(true)]);
+                ->assertJsonStructure(['data' => bookJsonStructure(true, true)]);
 
             $targetBook->refresh();
             expect($targetBook->image_path)->not()->toBeNull();
@@ -88,7 +88,7 @@ describe('BookImageController -> update', function () {
 
             postJson(route('book.image.update', $targetBook), imagePayload())
                 ->assertOk()
-                ->assertJsonStructure(['data' => bookJsonStructure(true)]);
+                ->assertJsonStructure(['data' => bookJsonStructure(true, true)]);
 
             $targetBook->refresh();
             expect($targetBook->image_path)->not()->toBeNull();
@@ -157,7 +157,7 @@ describe('BookImageController -> update', function () {
                 'image' => UploadedFile::fake()->image("book.$ext"),
             ]))
                 ->assertOk()
-                ->assertJsonStructure(['data' => bookJsonStructure(true)]);
+                ->assertJsonStructure(['data' => bookJsonStructure(true, true)]);
             $targetBook->refresh();
             expect($targetBook->image_path)->not->toBeNull();
             Storage::disk('books')->assertExists($targetBook->image_path);

@@ -155,10 +155,11 @@ function authJsonStructure(): array {
 /**
  * Get the expected JSON structure for an author object.
  *
+ * @param bool $withBooksCount
  * @param bool $withBooks
  * @return array
  */
-function authorJsonStructure(bool $withBooks = false): array {
+function authorJsonStructure(bool $withBooksCount = false, bool $withBooks = false): array {
     $base = [
         'id',
         'last_name',
@@ -168,27 +169,27 @@ function authorJsonStructure(bool $withBooks = false): array {
         'birth_date',
         'death_date',
         'biography',
-        'image_url'
+        'image_url',
     ];
-
-    if ($withBooks) {
-        array_merge($base, [
-            'books' => [
-                '*' => bookJsonStructure(),
-            ]
-        ]);
+    if ($withBooksCount) {
+        $base[] = 'books_count';
     }
-
+    if ($withBooks) {
+        $base['books'] = [
+            '*' => bookJsonStructure(),
+        ];
+    }
     return $base;
 }
 
 /**
  * Get the expected JSON structure for a book object.
  *
+ * @param bool $withAuthorsCount
  * @param bool $withAuthors
  * @return array
  */
-function bookJsonStructure(bool $withAuthors = false): array {
+function bookJsonStructure(bool $withAuthorsCount = false, bool $withAuthors = false): array {
     $base = [
         'id',
         'title',
@@ -197,14 +198,14 @@ function bookJsonStructure(bool $withAuthors = false): array {
         'image_url',
         'publication_date'
     ];
-    if ($withAuthors) {
-        array_merge($base, [
-            'authors' => [
-                '*' => authorJsonStructure(),
-            ]
-        ]);
+    if ($withAuthorsCount) {
+        $base[] = 'authors_count';
     }
-
+    if ($withAuthors) {
+        $base['authors'] = [
+            '*' => authorJsonStructure(),
+        ];
+    }
     return $base;
 }
 

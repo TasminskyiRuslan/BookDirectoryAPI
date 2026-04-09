@@ -54,7 +54,7 @@ describe('BookController -> store', function () {
 
             postJson(route('book.store'), $data)
                 ->assertCreated()
-                ->assertJsonStructure(['data' => bookJsonStructure(true)]);
+                ->assertJsonStructure(['data' => bookJsonStructure(true, true)]);
             $this->assertDatabaseHas('books', [
                 'title' => $data['title'],
                 'description' => $data['description'],
@@ -69,7 +69,7 @@ describe('BookController -> store', function () {
 
             postJson(route('book.store'), $data)
                 ->assertCreated()
-                ->assertJsonStructure(['data' => bookJsonStructure(true)]);
+                ->assertJsonStructure(['data' => bookJsonStructure(true, true)]);
             $this->assertDatabaseHas('books', [
                 'title' => $data['title'],
                 'description' => $data['description'],
@@ -89,7 +89,7 @@ describe('BookController -> store', function () {
 
             postJson(route('book.store'), $data)
                 ->assertCreated()
-                ->assertJsonStructure(['data' => bookJsonStructure(true)]);
+                ->assertJsonStructure(['data' => bookJsonStructure(true, true)]);
             $this->assertDatabaseHas('books', [
                 'title' => $data['title'],
                 'description' => $data['description'],

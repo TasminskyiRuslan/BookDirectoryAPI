@@ -68,7 +68,7 @@ describe('AuthorBooksController -> update', function () {
 
             putJson(route('author.books.update', $targetAuthor), ['book_ids' => $bookIds])
                 ->assertOk()
-                ->assertJsonStructure(['data' => authorJsonStructure(true)])
+                ->assertJsonStructure(['data' => authorJsonStructure(true, true)])
                 ->assertJsonPath('data.books.*.id', $bookIds);
 
             foreach ($bookIds as $bookId) {
@@ -88,7 +88,7 @@ describe('AuthorBooksController -> update', function () {
 
             putJson(route('author.books.update', $targetAuthor), ['book_ids' => $bookIds])
                 ->assertOk()
-                ->assertJsonStructure(['data' => authorJsonStructure(true)])
+                ->assertJsonStructure(['data' => authorJsonStructure(true, true)])
                 ->assertJsonPath('data.books.*.id', $bookIds);
 
             foreach ($bookIds as $bookId) {
@@ -113,7 +113,7 @@ describe('AuthorBooksController -> update', function () {
 
             putJson(route('author.books.update', $targetAuthor), ['book_ids' => $bookIds])
                 ->assertOk()
-                ->assertJsonStructure(['data' => authorJsonStructure(true)])
+                ->assertJsonStructure(['data' => authorJsonStructure(true, true)])
                 ->assertJsonPath('data.books.*.id', $bookIds);
 
             foreach ($bookIds as $bookId) {

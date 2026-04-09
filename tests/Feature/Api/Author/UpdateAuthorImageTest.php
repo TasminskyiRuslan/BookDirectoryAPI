@@ -55,7 +55,7 @@ describe('AuthorImageController -> update', function () {
 
             postJson(route('author.image.update', $targetAuthor), imagePayload())
                 ->assertOk()
-                ->assertJsonStructure(['data' => authorJsonStructure(true)]);
+                ->assertJsonStructure(['data' => authorJsonStructure(true, true)]);
 
             $targetAuthor->refresh();
             expect($targetAuthor->image_path)->not()->toBeNull();
@@ -69,7 +69,7 @@ describe('AuthorImageController -> update', function () {
 
             postJson(route('author.image.update', $targetAuthor), imagePayload())
                 ->assertOk()
-                ->assertJsonStructure(['data' => authorJsonStructure(true)]);
+                ->assertJsonStructure(['data' => authorJsonStructure(true, true)]);
 
             $targetAuthor->refresh();
             expect($targetAuthor->image_path)->not()->toBeNull();
@@ -88,7 +88,7 @@ describe('AuthorImageController -> update', function () {
 
             postJson(route('author.image.update', $targetAuthor), imagePayload())
                 ->assertOk()
-                ->assertJsonStructure(['data' => authorJsonStructure(true)]);
+                ->assertJsonStructure(['data' => authorJsonStructure(true, true)]);
 
             $targetAuthor->refresh();
             expect($targetAuthor->image_path)->not()->toBeNull();
@@ -157,7 +157,7 @@ describe('AuthorImageController -> update', function () {
                 'image' => UploadedFile::fake()->image("author.$ext"),
             ]))
                 ->assertOk()
-                ->assertJsonStructure(['data' => authorJsonStructure(true)]);
+                ->assertJsonStructure(['data' => authorJsonStructure(true, true)]);
             $targetAuthor->refresh();
             expect($targetAuthor->image_path)->not->toBeNull();
             Storage::disk('authors')->assertExists($targetAuthor->image_path);

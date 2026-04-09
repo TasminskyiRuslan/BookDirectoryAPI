@@ -52,7 +52,7 @@ class BookImageController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/BookFullResponse'
+                            ref: '#/components/schemas/BookResponse'
                         )
                     ]
                 )
@@ -84,7 +84,7 @@ class BookImageController extends Controller
     {
         $this->authorize('update', $book);
         $book = $updateBookImageAction->handle($bookImageData, $book);
-        return BookResource::make($book->loadMissing('authors'))
+        return BookResource::make($book->loadCount('authors')->loadMissing('authors'))
             ->response()
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }

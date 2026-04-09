@@ -54,7 +54,7 @@ describe('AuthorController -> store', function () {
 
             postJson(route('author.store'), $data)
                 ->assertCreated()
-                ->assertJsonStructure(['data' => authorJsonStructure(true)]);
+                ->assertJsonStructure(['data' => authorJsonStructure(true, true)]);
             $this->assertDatabaseHas('authors', [
                 'last_name' => $data['last_name'],
                 'first_name' => $data['first_name'],
@@ -69,7 +69,7 @@ describe('AuthorController -> store', function () {
 
             postJson(route('author.store'), $data)
                 ->assertCreated()
-                ->assertJsonStructure(['data' => authorJsonStructure(true)]);
+                ->assertJsonStructure(['data' => authorJsonStructure(true, true)]);
             $this->assertDatabaseHas('authors', [
                 'last_name' => $data['last_name'],
                 'first_name' => $data['first_name'],
@@ -89,7 +89,7 @@ describe('AuthorController -> store', function () {
 
             postJson(route('author.store'), $data)
                 ->assertCreated()
-                ->assertJsonStructure(['data' => authorJsonStructure(true)]);
+                ->assertJsonStructure(['data' => authorJsonStructure(true, true)]);
             $this->assertDatabaseHas('authors', [
                 'last_name' => $data['last_name'],
                 'first_name' => $data['first_name'],
