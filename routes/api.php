@@ -125,4 +125,8 @@ Route::prefix('books')->group(function () {
     // Update author image action
     Route::put('/{book}/image', [BookImageController::class, 'update'])
         ->name('book.image.update');
+
+    // Delete book image action
+    Route::delete('/{book}/image', [BookImageController::class, 'destroy'])
+        ->name('book.image.destroy');
 });

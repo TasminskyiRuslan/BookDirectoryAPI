@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Book;
 
+use App\Actions\Book\DeleteBookImageAction;
 use App\Actions\Book\UpdateBookImageAction;
 use App\Data\Book\Requests\UpdateBookImageData;
 use App\Http\Controllers\Controller;
@@ -9,6 +10,7 @@ use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use OpenApi\Attributes as OA;
 use Throwable;
@@ -88,10 +90,16 @@ class BookImageController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified book image.
+     *
+     * @param Book $book
+     * @param DeleteBookImageAction $deleteBookImageAction
+     * @return Response
      */
-    public function destroy(string $id)
+    public function destroy(Book $book, DeleteBookImageAction $deleteBookImageAction): Response
     {
-        //
+        $this->authorize('update', $book);
+        $deleteBookImageAction->handle($book);
+        return response()->noContent();
     }
 }
