@@ -875,6 +875,42 @@
                         "sanctum": []
                     }
                 ]
+            },
+            "delete": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Remove a book image",
+                "description": "Remove the specified book image.",
+                "operationId": "9e2aefbdc0e95cf8557be7ccdbae92d9",
+                "parameters": [
+                    {
+                        "name": "book",
+                        "in": "path",
+                        "description": "Book identifier (slug)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "the-tragical-history-of-hamlet-prince-of-denmark"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Book image deleted successfully."
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "404": {
+                        "description": "Book not found."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/users/{user}/role": {

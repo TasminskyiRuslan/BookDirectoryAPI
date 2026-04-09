@@ -89,6 +89,39 @@ class BookImageController extends Controller
             ->setStatusCode(SymfonyResponse::HTTP_OK);
     }
 
+    #[OA\Delete(
+        path: '/books/{book}/image',
+        description: 'Remove the specified book image.',
+        summary: 'Remove a book image',
+        security: [['sanctum' => []]],
+        tags: ['Book'],
+        parameters: [
+            new OA\Parameter(
+                name: 'book',
+                description: 'Book identifier (slug)',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'string',
+                    example: 'the-tragical-history-of-hamlet-prince-of-denmark'
+                ),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NO_CONTENT,
+                description: 'Book image deleted successfully.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NOT_FOUND,
+                description: 'Book not found.'
+            )
+        ]
+    )]
     /**
      * Remove the specified book image.
      *
