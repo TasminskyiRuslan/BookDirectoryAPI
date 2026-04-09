@@ -10,12 +10,65 @@ use App\Models\Book;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use OpenApi\Attributes as OA;
 use Throwable;
 
 class BookImageController extends Controller
 {
     use AuthorizesRequests;
 
+    #[OA\Post(
+        path: '/books/{book}/image',
+        description: 'Update the specified book image.',
+        summary: 'Update a book image',
+        security: [['sanctum' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\MediaType(
+                mediaType: 'multipart/form-data',
+                schema: new OA\Schema(ref: '#/components/schemas/UpdateBookImageRequest')
+            )
+        ),
+        tags: ['Book'],
+        parameters: [
+            new OA\Parameter(
+                name: 'book',
+                description: 'Book identifier (slug)',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'string',
+                    example: 'the-tragical-history-of-hamlet-prince-of-denmark'
+                ),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: SymfonyResponse::HTTP_OK,
+                description: 'Book image updated successfully.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/BookFullResponse'
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNAUTHORIZED,
+                description: 'User does not have permissions.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_NOT_FOUND,
+                description: 'Book not found.'
+            ),
+            new OA\Response(
+                response: SymfonyResponse::HTTP_UNPROCESSABLE_ENTITY,
+                description: 'Validation error.'
+            ),
+        ]
+    )]
     /**
      * Update the specified book image.
      *

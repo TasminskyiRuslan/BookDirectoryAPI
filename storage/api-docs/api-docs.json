@@ -814,6 +814,69 @@
                 ]
             }
         },
+        "/books/{book}/image": {
+            "post": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Update a book image",
+                "description": "Update the specified book image.",
+                "operationId": "b3ec4379454140c8e0f5ad6a40b82e77",
+                "parameters": [
+                    {
+                        "name": "book",
+                        "in": "path",
+                        "description": "Book identifier (slug)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "the-tragical-history-of-hamlet-prince-of-denmark"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBookImageRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Book image updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/BookFullResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "404": {
+                        "description": "Book not found."
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/users/{user}/role": {
             "put": {
                 "tags": [
@@ -1510,6 +1573,30 @@
                         "format": "date",
                         "example": "1603-01-01",
                         "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateBookImageRequest": {
+                "title": "Update Book Image Request",
+                "description": "Request payload for updating a book image.",
+                "required": [
+                    "image",
+                    "_method"
+                ],
+                "properties": {
+                    "image": {
+                        "description": "Image of the book.",
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "_method": {
+                        "description": "Method spoofing to treat POST as PUT.",
+                        "type": "string",
+                        "example": "PUT",
+                        "enum": [
+                            "PUT"
+                        ]
                     }
                 },
                 "type": "object"
