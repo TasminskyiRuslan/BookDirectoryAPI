@@ -9,7 +9,7 @@ use function Pest\Laravel\putJson;
 
 uses(RefreshDatabase::class);
 
-describe('UpdateUserRoleController', function () {
+describe('UserRoleController -> update', function () {
     beforeEach(function () {
         $this->seed(RolesAndPermissionsSeeder::class);
     });

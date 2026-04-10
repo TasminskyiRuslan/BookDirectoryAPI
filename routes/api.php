@@ -8,9 +8,10 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Author\AuthorBooksController;
 use App\Http\Controllers\Api\Author\AuthorController;
 use App\Http\Controllers\Api\Author\AuthorImageController;
+use App\Http\Controllers\Api\Book\BookAuthorsController;
 use App\Http\Controllers\Api\Book\BookController;
 use App\Http\Controllers\Api\Book\BookImageController;
-use App\Http\Controllers\Api\User\UpdateUserRoleController;
+use App\Http\Controllers\Api\User\UserRoleController;
 use App\Http\Controllers\Api\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,7 +59,7 @@ Route::prefix('users')->middleware('auth:sanctum')->group(function () {
         ->name('user.destroy');
 
     // Update user role action
-    Route::put('/{user}/role', UpdateUserRoleController::class)
+    Route::put('/{user}/role', [UserRoleController::class, 'update'])
         ->name('user.role.update');
 });
 
@@ -134,4 +135,8 @@ Route::prefix('books')->group(function () {
     // Delete book image action
     Route::delete('/{book}/image', [BookImageController::class, 'destroy'])
         ->name('book.image.destroy');
+
+    // Update book authors action
+    Route::put('/{book}/authors', [BookAuthorsController::class, 'update'])
+        ->name('book.authors.update');
 });

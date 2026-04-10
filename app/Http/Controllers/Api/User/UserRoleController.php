@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use OpenApi\Attributes as OA;
 use Throwable;
 
-class UpdateUserRoleController extends Controller
+class UserRoleController extends Controller
 {
     use AuthorizesRequests;
 
@@ -75,7 +75,7 @@ class UpdateUserRoleController extends Controller
      * @return JsonResponse
      * @throws Throwable
      */
-    public function __invoke(UpdateUserRoleData $userRoleData, User $user, UpdateUserRoleAction $updateUserRoleAction): JsonResponse
+    public function update(UpdateUserRoleData $userRoleData, User $user, UpdateUserRoleAction $updateUserRoleAction): JsonResponse
     {
         $this->authorize('update-role', $user);
         $user = $updateUserRoleAction->handle($userRoleData, $user);
