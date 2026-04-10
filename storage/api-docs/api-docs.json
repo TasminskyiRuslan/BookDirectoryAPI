@@ -267,7 +267,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "example": "books,books_count"
+                            "example": "books_count,books"
                         }
                     }
                 ],
@@ -650,7 +650,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "example": "authors,authors_count"
+                            "example": "authors_count,authors"
                         }
                     }
                 ],

@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Data\Author\Requests;
+namespace App\Data\Book\Requests;
 
 use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 
-class UpdateAuthorBooksData extends Data
+class UpdateBookAuthorsData extends Data
 {
     /**
-     * @param array $bookIds
+     * @param array $authorIds
      */
     public function __construct(
-        #[MapName('book_ids')]
-        public array $bookIds
+        #[MapName('author_ids')]
+        public array $authorIds
     ) {}
 
     /**
@@ -25,8 +25,8 @@ class UpdateAuthorBooksData extends Data
     public static function rules(ValidationContext $context): array
     {
         return [
-            'book_ids' => ['required', 'array', 'min:1'],
-            'book_ids.*' => ['required', 'integer', 'exists:books,id'],
+            'author_ids' => ['required', 'array', 'min:1'],
+            'author_ids.*' => ['required', 'integer', 'exists:authors,id'],
         ];
     }
 }

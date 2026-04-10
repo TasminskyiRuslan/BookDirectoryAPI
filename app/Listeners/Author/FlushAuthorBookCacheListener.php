@@ -2,18 +2,18 @@
 
 namespace App\Listeners\Author;
 
-use App\Events\Author\AuthorBooksSyncedEvent;
+use App\Events\Author\AuthorBookRelationsSyncedEvent;
 use Illuminate\Support\Facades\Cache;
 
-class FlushAuthorCacheListener
+class FlushAuthorBookCacheListener
 {
     /**
      * Handle the event.
      *
-     * @param AuthorBooksSyncedEvent $event
+     * @param AuthorBookRelationsSyncedEvent $event
      * @return void
      */
-    public function handle(AuthorBooksSyncedEvent $event): void
+    public function handle(AuthorBookRelationsSyncedEvent $event): void
     {
         Cache::tags(['author', 'book'])->flush();
     }

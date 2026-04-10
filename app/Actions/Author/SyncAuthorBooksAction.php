@@ -3,7 +3,7 @@
 namespace App\Actions\Author;
 
 use App\Data\Author\Requests\UpdateAuthorBooksData;
-use App\Events\Author\AuthorBooksSyncedEvent;
+use App\Events\Author\AuthorBookRelationsSyncedEvent;
 use App\Models\Author;
 
 class SyncAuthorBooksAction
@@ -18,7 +18,7 @@ class SyncAuthorBooksAction
     public function handle(UpdateAuthorBooksData $authorBooksData, Author $author): Author
     {
         $author->books()->sync($authorBooksData->bookIds);
-        event(new AuthorBooksSyncedEvent($author));
+        event(new AuthorBookRelationsSyncedEvent());
         return $author;
     }
 }
