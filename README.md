@@ -1,59 +1,148 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Book Directory API 📚
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Book Directory API** is a high-performance RESTful service built with Laravel 12 for managing a comprehensive library of books and authors. It features advanced filtering, caching strategies, and a robust Role-Based Access Control (RBAC) system.
 
-## About Laravel
+-----
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🛠 Tech Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* **Framework:** Laravel 12
+* **Language:** PHP 8.4+
+* **Database:** MySQL 8.0+ (Relational data)
+* **Cache & Queue:** Redis (Cache tags & background processing)
+* **API Docs:** L5-Swagger (OpenAPI 3.0)
+* **Key Packages:**
+    * `spatie/laravel-data`: For Type-safe DTOs and Resource transformations.
+    * `spatie/laravel-query-builder`: For declarative filtering and sorting.
+    * `spatie/laravel-permission`: For granular RBAC management.
+    * `laravel/sanctum`: For secure API token authentication.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-----
 
-## Learning Laravel
+## 🐳 Prerequisites
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Ensure you have installed:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* Docker & Docker Compose
+* Git
 
-## Laravel Sponsors
+-----
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Installation & Setup
 
-### Premium Partners
+### 1\. Clone the repository
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+git clone git@github.com:TasminskyiRuslan/BookDirectoryAPI.git
+cd BookDirectoryAPI
+```
 
-## Contributing
+### 2\. Configure environment
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+cp .env.example .env
 
-## Code of Conduct
+# Sync your local user ID with Docker to avoid permission issues
+echo "UID=$(id -u)" >> .env
+echo "GID=$(id -g)" >> .env
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3\. Start containers
 
-## Security Vulnerabilities
+```bash
+docker compose up -d --build
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 4\. Install dependencies
 
-## License
+```bash
+docker compose exec app composer install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 5\. Setup application
+
+```bash
+docker compose exec app php artisan key:generate
+docker compose exec app php artisan migrate --seed
+docker compose exec app php artisan db:seed --class=DevSeeder # Optional: Seed demo data
+docker compose exec app php artisan storage:link
+```
+
+### 5\. Generate Documentation
+
+```bash
+docker compose exec app php artisan l5-swagger:generate
+```
+
+-----
+
+## 📚 API Documentation
+
+Once the project is running, you can access the interactive Swagger UI to explore all endpoints, request bodies, and response schemas.
+
+👉 **[View API Documentation](http://localhost:8080/api/documentation)**
+
+-----
+
+## ✨ Key Features
+
+### 🔐 Security & RBAC
+
+The system implements strict **Role-Based Access Control** via `spatie/laravel-permission`:
+
+* **Guest:** Public read-only access.
+* **Viewer:** Authenticated read-only access.
+* **Editor:** Can manage content (Books/Authors) but not users.
+* **Admin:** Full administrative control over content and partial over users.
+* **SuperAdmin:** Full administrative control over content and users.
+
+### ⚡ Performance & Caching
+
+* **Redis-Powered:** Full response caching for index endpoints.
+* **Tagging System:** Uses Cache Tags (`books`, `authors`) for granular invalidation.
+* **Smart Invalidation:** Any mutation (Create/Update/Delete) automatically flushes the relevant tags via Model Observers and changes in relationships (e.g., attaching an author to a book) are captured via Custom Events and Listeners, ensuring that any update to the many-to-many links flushes both books and authors cache tags instantly.
+
+### 🖼 Advanced Image Handling
+
+* **UUID Renaming:** Uses `ramsey/uuid` to ensure unique, collision-free filenames.
+* **Orphan Prevention:** Automatically deletes old physical files from storage when an image is updated or a model is deleted.
+
+-----
+
+## 📊 Database Design
+
+### Core Entities
+
+* **User:** Registered users.
+* **Author:** Created authors.
+* **Book:** Created books.
+
+### Relationships
+
+* **Author** `belongsToMany` **Book**
+* **Book** `belongsToMany` **Author**
+
+-----
+
+## 📂 Project Structure
+
+```text
+app/
+├── Actions/            # Business logic classes
+├── Data/               # Spatie Data objects (DTOs + Validation Rules)
+├── Http/
+│   └── Controllers/    # Handles API requests and returns responses
+├── Models/             # Eloquent models
+├── Observers/          # Automated cache invalidation triggers
+└── Swagger/            # Virtual schemas for OpenAPI documentation
+
+database/
+├── migrations/         # Table structures
+└── seeders/            # Initial RBAC setup and demo data
+```
+
+-----
+
+## 📄 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/license/MIT).

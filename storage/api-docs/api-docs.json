@@ -589,6 +589,69 @@
                 ]
             }
         },
+        "/books/{book}/authors": {
+            "put": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Update a book authors",
+                "description": "Update the specified book authors.",
+                "operationId": "ab7f201aee402900c8b9b875f7030fc8",
+                "parameters": [
+                    {
+                        "name": "book",
+                        "in": "path",
+                        "description": "Book identifier (slug)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "the-tragical-history-of-hamlet-prince-of-denmark"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBookAuthorsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Book authors updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/BookResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "404": {
+                        "description": "Book not found."
+                    },
+                    "422": {
+                        "description": "Validation error."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/books": {
             "get": {
                 "tags": [
@@ -972,69 +1035,6 @@
                 ]
             }
         },
-        "/users/{user}/role": {
-            "put": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Update user role",
-                "description": "Update the role of the specified user.",
-                "operationId": "4850dab8bab4efcf811ea32bd7ac050d",
-                "parameters": [
-                    {
-                        "name": "user",
-                        "in": "path",
-                        "description": "User identifier (id)",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateUserRoleRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "User details retrieved successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/UserResponse"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "User does not have permissions."
-                    },
-                    "404": {
-                        "description": "User not found."
-                    },
-                    "422": {
-                        "description": "Validation error."
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
         "/users": {
             "get": {
                 "tags": [
@@ -1195,6 +1195,69 @@
                     },
                     "404": {
                         "description": "User not found."
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/{user}/role": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user role",
+                "description": "Update the role of the specified user.",
+                "operationId": "4d67b946e638df793a31e9452f38a21e",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "User identifier (id)",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRoleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User details retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User does not have permissions."
+                    },
+                    "404": {
+                        "description": "User not found."
+                    },
+                    "422": {
+                        "description": "Validation error."
                     }
                 },
                 "security": [
@@ -1615,6 +1678,28 @@
                         "format": "date",
                         "example": "1603-01-01",
                         "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateBookAuthorsRequest": {
+                "title": "Update Book Authors Request",
+                "description": "Request payload for updating a book authors.",
+                "required": [
+                    "author_ids"
+                ],
+                "properties": {
+                    "author_ids": {
+                        "description": "Authors of the book.",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "example": [
+                            1,
+                            2,
+                            3
+                        ]
                     }
                 },
                 "type": "object"
